@@ -1833,7 +1833,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _aimSensitivityReducer: 2
   _aimFOV: 40
-  _aimSpeedReducer: 0.7
   _timeToAim: 0.5
   _target: {fileID: 1989430316}
   _currentWeapon: {fileID: 101102193}
