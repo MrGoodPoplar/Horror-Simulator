@@ -2,19 +2,21 @@ using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
 public class FirstPersonController : MonoBehaviour
 {
+    public static FirstPersonController instance { get; private set; }
+    
     public bool canSprint { get; set; } = true;
     public bool canMove { get; set; } = true;
     public bool canJump { get; set; } = true;
     public bool canCrouch { get; set; } = true;
-    public float cameraFOV
-    {
-        get => _playerCamera.fieldOfView;
-        set => _playerCamera.fieldOfView = value;
-    }
+    
+    public PlayerInput playerInput { get; private set; }
+    public float velocity => Mathf.Clamp01(_characterController.velocity.magnitude / _sprintSpeed);
+    public float currentSpeed => _characterController.velocity.magnitude;
 
     [Header("Movement Settings")]
     [SerializeField] private float _walkSpeed = 3.0f;
@@ -35,11 +37,11 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private Vector3 _crouchingCenter = new (0, 0.5f, 0);
     [SerializeField] private Vector3 _standingCenter = new (0, 0, 0);
 
-    [Header("Constraints")]
-    [SerializeField] private Camera _playerCamera;
+    [field: Header("Constraints")]
+    [field: SerializeField] public Camera playerCamera { get; private set; }
     
     private CharacterController _characterController;
-    private PlayerInput _playerInput;
+    private RigidBodyPush _rigidBodyPush;
     
     private Vector2 _currentInput;
     private Vector3 _moveDirection;
@@ -52,10 +54,20 @@ public class FirstPersonController : MonoBehaviour
 
     private void Awake()
     {
-        _characterController = GetComponent<CharacterController>();
-        _playerInput = GetComponent<PlayerInput>();
+        if (!instance)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
         
-        _playerInput.OnJump += OnJump;
+        _characterController = GetComponent<CharacterController>();
+        _rigidBodyPush = GetComponent<RigidBodyPush>();
+        playerInput = GetComponent<PlayerInput>();
+        
+        playerInput.OnJump += OnJump;
 
         _stepOffset = _characterController.stepOffset;
         _standingHeight = _characterController.height;
@@ -66,7 +78,7 @@ public class FirstPersonController : MonoBehaviour
 
     private void OnDestroy()
     {
-        _playerInput.OnJump -= OnJump;
+        playerInput.OnJump -= OnJump;
     }
 
     private void Update()
@@ -81,7 +93,7 @@ public class FirstPersonController : MonoBehaviour
         }
     }
 
-    private float GetMovementSpeed()
+    public float GetMovementSpeed()
     {
         float speed = _walkSpeed;
         
@@ -89,7 +101,7 @@ public class FirstPersonController : MonoBehaviour
         {
             speed = _crouchSpeed;
         }
-        else if (canSprint && _playerInput.isSprinting)
+        else if (canSprint && playerInput.isSprinting)
         {
             speed = _sprintSpeed;
         }
@@ -99,7 +111,7 @@ public class FirstPersonController : MonoBehaviour
     
     private void HandleWalking()
     {
-        _currentInput = _playerInput.move.normalized * GetMovementSpeed();
+        _currentInput = playerInput.move.normalized * GetMovementSpeed();
         
         _moveDirection = new Vector3(
             transform.right.x * _currentInput.x + transform.forward.x * _currentInput.y,
@@ -118,7 +130,7 @@ public class FirstPersonController : MonoBehaviour
     
     private async void HandleCrouching()
     {
-        bool crouchStateChanged = _playerInput.isCrouching != _isCrouching;
+        bool crouchStateChanged = playerInput.isCrouching != _isCrouching;
         bool cannotStandUp = _isCrouching && IsHittingCeiling(_standingHeight - _crouchingHeight);
 
         if (_isCrouchingTransition || !crouchStateChanged || cannotStandUp)
@@ -126,7 +138,7 @@ public class FirstPersonController : MonoBehaviour
 
         _isCrouchingTransition = true;
 
-        bool isCrouching = canCrouch && _playerInput.isCrouching && _characterController.isGrounded;
+        bool isCrouching = canCrouch && playerInput.isCrouching && _characterController.isGrounded;
         float elapsedTime = 0f;
         float targetHeight = isCrouching ? _crouchingHeight : _standingHeight;
         Vector3 targetCenter = isCrouching ? _crouchingCenter : _standingCenter;
@@ -149,16 +161,16 @@ public class FirstPersonController : MonoBehaviour
     
     private void HandleMouseLook()
     {
-        _rotationX -= _playerInput.look.y * sensitivity;
+        _rotationX -= playerInput.look.y * sensitivity;
         _rotationX = Mathf.Clamp(_rotationX, -_lookLimit, _lookLimit);
         
-        _playerCamera.transform.localRotation = Quaternion.Euler(_rotationX, 0, 0);
-        transform.rotation *= Quaternion.Euler(0, _playerInput.look.x * sensitivity, 0);
+        playerCamera.transform.localRotation = Quaternion.Euler(_rotationX, 0, 0);
+        transform.rotation *= Quaternion.Euler(0, playerInput.look.x * sensitivity, 0);
     }
     
     private void ApplyFinalMovements()
     {
-        if (!_characterController.isGrounded)
+        if (!_characterController.isGrounded || _rigidBodyPush.isHittingPushable)
         {
             _moveDirection.y -= _gravity * Time.deltaTime;
             _characterController.stepOffset = 0;

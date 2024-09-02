@@ -46,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: befeec2e6508be9418b6111b6a14a4ff,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: befeec2e6508be9418b6111b6a14a4ff,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -603,7 +608,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <aimPosition>k__BackingField: {x: 0, y: 0, z: 0}
   <aimRotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
+  <recoil>k__BackingField: {x: -10, y: 10, z: 1}
   _fireDelay: 0.3
-  _bulletSpeed: 140
+  _bulletSpeed: 50
+  _flightDistance: 300
   _bulletSpawn: {fileID: 5181397836112528444}
   _bullet: {fileID: 93227763873828207, guid: c2891d340ae12cb458ddc9670c9e406e, type: 3}

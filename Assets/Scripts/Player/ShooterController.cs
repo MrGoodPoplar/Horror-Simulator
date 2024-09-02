@@ -2,11 +2,15 @@ using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
-[RequireComponent(typeof(PlayerInput), typeof(FirstPersonController))]
+[RequireComponent(typeof(FirstPersonController))]
 public class ShooterController : MonoBehaviour
 {
+    public static ShooterController instance { get; private set; }
+    
     public bool canAim { get; set; } = true;
+    public bool isAiming { get; private set; }
     
     [Header("Aim Settings")]
     [SerializeField, Range(0, 10)] private float _aimSensitivityReducer = 2f;
@@ -16,8 +20,10 @@ public class ShooterController : MonoBehaviour
     [Header("Constraints")]
     [SerializeField] private Transform _target;
 
+    [FormerlySerializedAs("_recoil")] [SerializeField] private CameraRecoil _cameraRecoil;
+    [FormerlySerializedAs("_weaponSway")] [SerializeField] private WeaponMovement _weaponMovement;
+
     private bool _isAimingTransition;
-    private bool _isAiming;
     private float _defaultFOV;
     private float _defaultSensitivity;
     private PlayerInput _playerInput;
@@ -26,18 +32,27 @@ public class ShooterController : MonoBehaviour
     
     private void Awake()
     {
-        _firstPersonController = GetComponent<FirstPersonController>();
-        _playerInput = GetComponent<PlayerInput>();
+        if (!instance)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
         
-        _playerInput.OnFire += OnFire;
+        _firstPersonController = GetComponent<FirstPersonController>();
+        _playerInput = _firstPersonController.playerInput;
+        
+        _playerInput.OnFire += OnFirePerformed;
 
-        _defaultFOV = _firstPersonController.cameraFOV;
+        _defaultFOV = _firstPersonController.playerCamera.fieldOfView;
         _defaultSensitivity = _firstPersonController.sensitivity;
     }
 
     private void OnDestroy()
     {
-        _playerInput.OnFire -= OnFire;
+        _playerInput.OnFire -= OnFirePerformed;
     }
 
     private void Update()
@@ -50,13 +65,13 @@ public class ShooterController : MonoBehaviour
 
     private void OnAiming()
     {
-        _currentWeapon.transform.localPosition = _isAiming ? _currentWeapon.aimPosition : Vector3.zero;
-        _currentWeapon.transform.localRotation = _isAiming ? _currentWeapon.aimRotation : Quaternion.identity;
+        _currentWeapon.transform.localPosition = isAiming ? _currentWeapon.aimPosition : Vector3.zero;
+        _currentWeapon.transform.localRotation = isAiming ? _currentWeapon.aimRotation : Quaternion.identity;
     }
     
     private async void HandleAiming()
     {
-        bool aimStateChanged = _isAiming != _playerInput.isAiming;
+        bool aimStateChanged = isAiming != _playerInput.isAiming;
 
         if (_isAimingTransition || !aimStateChanged)
             return;
@@ -68,14 +83,14 @@ public class ShooterController : MonoBehaviour
         Quaternion targetRotation = _playerInput.isAiming ? _currentWeapon.aimRotation : Quaternion.identity;
         
         _isAimingTransition = true;
-        _isAiming = !_isAiming;
+        isAiming = !isAiming;
         
         while (elapsedTime < _timeToAim)
         {
             float t = elapsedTime / _timeToAim;
             elapsedTime += Time.deltaTime;
 
-            _firstPersonController.cameraFOV = Mathf.Lerp(_firstPersonController.cameraFOV, targetFov, t);
+            _firstPersonController.playerCamera.fieldOfView = Mathf.Lerp(_firstPersonController.playerCamera.fieldOfView, targetFov, t);
             _firstPersonController.sensitivity = Mathf.Lerp(_firstPersonController.sensitivity, targetSensitivity, t);
             _currentWeapon.transform.localPosition = Vector3.Lerp(_currentWeapon.transform.localPosition, targetPosition, t);
             _currentWeapon.transform.localRotation = Quaternion.Lerp(_currentWeapon.transform.localRotation, targetRotation, t);
@@ -87,8 +102,12 @@ public class ShooterController : MonoBehaviour
 
     }
 
-    private void OnFire()
+    private void OnFirePerformed()
     {
-        _currentWeapon.Fire(_target.position);
+        if (_currentWeapon.Fire(_target.position))
+        {
+            _cameraRecoil?.RecoilFire(_currentWeapon.recoil);
+            _weaponMovement?.ApplyRecoil(Vector3.back * _currentWeapon.recoilForce, _currentWeapon.recoildSpeed, _currentWeapon.recoilDuration);
+        }
     }
 }
