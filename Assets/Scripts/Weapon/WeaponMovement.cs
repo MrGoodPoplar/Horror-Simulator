@@ -14,6 +14,9 @@ public class WeaponMovement : MonoBehaviour
     [SerializeField, Range(0, 1)] private float _aimBobAmount = 0.02f;
     [SerializeField] private float _aimBobSpeed = 0.5f;
 
+    [Header("Recoil Settings")]
+    [SerializeField, Range(0, 1)] private float _aimRecoilReducer = 0.7f;
+    
     private Quaternion _initialRotation;
     private Vector3 _initialPosition;
     private PlayerInput _playerInput;
@@ -23,7 +26,7 @@ public class WeaponMovement : MonoBehaviour
     private float _recoilTimer;
     private float _recoilSpeed = 0;
     private float _recoilDuration = 0;
-    private Vector3 _recoilOffset;
+    private float _recoilForce = 0;
 
     private void Start()
     {
@@ -78,19 +81,18 @@ public class WeaponMovement : MonoBehaviour
         if (_recoilTimer > 0)
         {
             _recoilTimer -= Time.deltaTime;
-            Vector3 targetPosition = _initialPosition + _recoilOffset;
-            transform.localPosition = Vector3.Lerp(transform.localPosition, targetPosition, Time.deltaTime * _recoilSpeed);
+            float recoilForce = ShooterController.instance.isAiming ? _recoilForce * _aimRecoilReducer : _recoilForce;
+            Vector3 targetPosition = _initialPosition + Vector3.back * recoilForce;
             
-            if (_recoilTimer <= 0)
-                _recoilOffset = Vector3.zero;
+            transform.localPosition = Vector3.Lerp(transform.localPosition, targetPosition, Time.deltaTime * _recoilSpeed);
         }
     }
 
-    public void ApplyRecoil(Vector3 recoilDirection, float recoilSpeed, float recoilDuration)
+    public void ApplyRecoil(float recoilForce, float recoilSpeed, float recoilDuration)
     {
         _recoilSpeed = recoilSpeed;
         _recoilDuration = recoilDuration;
-        _recoilOffset = recoilDirection;
+        _recoilForce = recoilForce;
         _recoilTimer = _recoilDuration;
     }
 }

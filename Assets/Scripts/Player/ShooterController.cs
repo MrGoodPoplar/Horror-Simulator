@@ -20,8 +20,8 @@ public class ShooterController : MonoBehaviour
     [Header("Constraints")]
     [SerializeField] private Transform _target;
 
-    [FormerlySerializedAs("_recoil")] [SerializeField] private CameraRecoil _cameraRecoil;
-    [FormerlySerializedAs("_weaponSway")] [SerializeField] private WeaponMovement _weaponMovement;
+    [FormerlySerializedAs("_cameraMovement")] [SerializeField] private CameraRecoil _cameraRecoil;
+    [SerializeField] private WeaponMovement _weaponMovement;
 
     private bool _isAimingTransition;
     private float _defaultFOV;
@@ -106,8 +106,8 @@ public class ShooterController : MonoBehaviour
     {
         if (_currentWeapon.Fire(_target.position))
         {
-            _cameraRecoil?.RecoilFire(_currentWeapon.recoil);
-            _weaponMovement?.ApplyRecoil(Vector3.back * _currentWeapon.recoilForce, _currentWeapon.recoildSpeed, _currentWeapon.recoilDuration);
+            _cameraRecoil?.RecoilFire(_currentWeapon.recoil, _currentWeapon.recoilForce, _currentWeapon.recoildSpeed);
+            _weaponMovement?.ApplyRecoil(_currentWeapon.recoilForce, _currentWeapon.recoildSpeed, _currentWeapon.recoilDuration);
         }
     }
 }
