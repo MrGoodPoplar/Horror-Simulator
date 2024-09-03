@@ -3186,7 +3186,7 @@ CharacterController:
   m_Height: 2
   m_Radius: 0.4
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0.4
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
@@ -3517,7 +3517,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _swayAmount: 0.3
   _swaySpeed: 5
-  _aimSwayAmount: 0.15
+  _aimSwayAmount: 0.025
   _aimSwaySpeed: 7.5
   _bobAmount: 0.01
   _bobSpeed: 10
@@ -3986,20 +3986,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2717229963701440363, guid: a0db881418e593e4eb23d2871d41b506,
-        type: 3}
-      propertyPath: <recoilForce>k__BackingField
-      value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2717229963701440363, guid: a0db881418e593e4eb23d2871d41b506,
-        type: 3}
-      propertyPath: <recoildSpeed>k__BackingField
-      value: 0.7
-      objectReference: {fileID: 0}
     - target: {fileID: 3372880397999312697, guid: a0db881418e593e4eb23d2871d41b506,
         type: 3}
       propertyPath: m_Name
       value: german_130
+      objectReference: {fileID: 0}
+    - target: {fileID: 7138687600433159978, guid: a0db881418e593e4eb23d2871d41b506,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

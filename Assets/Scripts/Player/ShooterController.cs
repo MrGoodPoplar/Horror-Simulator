@@ -8,8 +8,14 @@ using UnityEngine.Serialization;
 public class ShooterController : MonoBehaviour
 {
     public static ShooterController instance { get; private set; }
+
+    public event Action OnFire;
+    public event Action OnReload;
     
     public bool canAim { get; set; } = true;
+    public bool canFire { get; set; } = true;
+    public bool canReload { get; set; } = true;
+
     public bool isAiming { get; private set; }
     
     [Header("Aim Settings")]
@@ -45,6 +51,7 @@ public class ShooterController : MonoBehaviour
         _playerInput = _firstPersonController.playerInput;
         
         _playerInput.OnFire += OnFirePerformed;
+        _playerInput.OnReload += OnReloadPerfomed;
 
         _defaultFOV = _firstPersonController.playerCamera.fieldOfView;
         _defaultSensitivity = _firstPersonController.sensitivity;
@@ -53,14 +60,12 @@ public class ShooterController : MonoBehaviour
     private void OnDestroy()
     {
         _playerInput.OnFire -= OnFirePerformed;
+        _playerInput.OnReload -= OnReloadPerfomed;
     }
 
     private void Update()
     {
-        if (canAim)
-        {
-            HandleAiming();
-        }
+        HandleAiming();
     }
 
     private void OnAiming()
@@ -71,16 +76,17 @@ public class ShooterController : MonoBehaviour
     
     private async void HandleAiming()
     {
-        bool aimStateChanged = isAiming != _playerInput.isAiming;
+        bool aimStateChanged = isAiming != _playerInput.isAiming || isAiming && !canAim;
 
         if (_isAimingTransition || !aimStateChanged)
             return;
-        
+
+        bool aim = _playerInput.isAiming && canAim;
         float elapsedTime = 0f;
-        float targetFov = _playerInput.isAiming ? _aimFOV : _defaultFOV;
-        float targetSensitivity = _playerInput.isAiming ? _defaultSensitivity / _aimSensitivityReducer : _defaultSensitivity;
-        Vector3 targetPosition = _playerInput.isAiming ? _currentWeapon.aimPosition : Vector3.zero;
-        Quaternion targetRotation = _playerInput.isAiming ? _currentWeapon.aimRotation : Quaternion.identity;
+        float targetFov = aim ? _aimFOV : _defaultFOV;
+        float targetSensitivity = aim ? _defaultSensitivity / _aimSensitivityReducer : _defaultSensitivity;
+        Vector3 targetPosition = aim ? _currentWeapon.aimPosition : Vector3.zero;
+        Quaternion targetRotation = aim ? _currentWeapon.aimRotation : Quaternion.identity;
         
         _isAimingTransition = true;
         isAiming = !isAiming;
@@ -104,10 +110,18 @@ public class ShooterController : MonoBehaviour
 
     private void OnFirePerformed()
     {
-        if (_currentWeapon.Fire(_target.position))
+        if (canFire && _currentWeapon.Fire(_target.position))
         {
             _cameraRecoil?.RecoilFire(_currentWeapon.recoil, _currentWeapon.recoilForce, _currentWeapon.recoildSpeed);
             _weaponMovement?.ApplyRecoil(_currentWeapon.recoilForce, _currentWeapon.recoildSpeed, _currentWeapon.recoilDuration);
+            
+            OnFire?.Invoke();
         }
+    }
+    
+    private void OnReloadPerfomed()
+    {
+        if (canReload && _currentWeapon.bulletsInClip != _currentWeapon.clipSize)
+            OnReload?.Invoke();
     }
 }
