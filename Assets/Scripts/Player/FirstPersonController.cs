@@ -13,6 +13,7 @@ public class FirstPersonController : MonoBehaviour
     public bool canMove { get; set; } = true;
     public bool canJump { get; set; } = true;
     public bool canCrouch { get; set; } = true;
+    public bool canStepOffset { get; set; } = true;
     
     public PlayerInput playerInput { get; private set; }
     public float velocity => Mathf.Clamp01(_characterController.velocity.magnitude / _sprintSpeed);
@@ -41,7 +42,6 @@ public class FirstPersonController : MonoBehaviour
     [field: SerializeField] public Camera playerCamera { get; private set; }
     
     private CharacterController _characterController;
-    private RigidBodyPush _rigidBodyPush;
     
     private Vector2 _currentInput;
     private Vector3 _moveDirection;
@@ -64,7 +64,6 @@ public class FirstPersonController : MonoBehaviour
         }
         
         _characterController = GetComponent<CharacterController>();
-        _rigidBodyPush = GetComponent<RigidBodyPush>();
         playerInput = GetComponent<PlayerInput>();
         
         playerInput.OnJump += OnJump;
@@ -74,6 +73,9 @@ public class FirstPersonController : MonoBehaviour
         
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        if (!canStepOffset)
+            _characterController.stepOffset = 0;
     }
 
     private void OnDestroy()
@@ -170,14 +172,14 @@ public class FirstPersonController : MonoBehaviour
     
     private void ApplyFinalMovements()
     {
-        if (!_characterController.isGrounded || _rigidBodyPush.isHittingPushable)
+        if (!_characterController.isGrounded)
         {
             _moveDirection.y -= _gravity * Time.deltaTime;
             _characterController.stepOffset = 0;
         }
         else
         {
-            _characterController.stepOffset = _stepOffset;
+            _characterController.stepOffset = canStepOffset ? _stepOffset : 0;
         }
 
         _characterController.Move(_moveDirection * Time.deltaTime);

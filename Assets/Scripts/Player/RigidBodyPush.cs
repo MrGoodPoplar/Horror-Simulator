@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class RigidBodyPush : MonoBehaviour
 {
-	public bool isHittingPushable { get; private set; }
-	
 	[field: SerializeField] public LayerMask pushLayers { get; set; }
     [field: SerializeField] public bool canPush { get; set; }
     [field: SerializeField, Range(0, 5)] public float strength { get; set; } = 1.0f;
@@ -16,11 +14,7 @@ public class RigidBodyPush : MonoBehaviour
 	    if (canPush)
 	    {
 		    PushRigidBodies(hit);
-		    isHittingPushable = IsInPushLayers(hit.gameObject.layer);
-	    }
-	    else
-	    {
-		    isHittingPushable = false;
+		    FirstPersonController.instance.canStepOffset = !IsInPushLayers(hit.gameObject.layer);
 	    }
     }
     
