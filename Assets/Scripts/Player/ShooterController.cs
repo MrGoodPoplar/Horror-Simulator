@@ -24,9 +24,8 @@ public class ShooterController : MonoBehaviour
     [SerializeField] private float _timeToAim = 0.1f;
 
     [Header("Constraints")]
-    [SerializeField] private Transform _target;
-
-    [FormerlySerializedAs("_cameraMovement")] [SerializeField] private CameraRecoil _cameraRecoil;
+    [SerializeField] private HitPointer _hitPointer;
+    [SerializeField] private CameraRecoil _cameraRecoil;
     [SerializeField] private WeaponMovement _weaponMovement;
 
     private bool _isAimingTransition;
@@ -110,7 +109,7 @@ public class ShooterController : MonoBehaviour
 
     private void OnFirePerformed()
     {
-        if (canFire && _currentWeapon.Fire(_target.position))
+        if (canFire && _currentWeapon.Fire(_hitPointer.transform.position))
         {
             _cameraRecoil?.RecoilFire(_currentWeapon.recoil, _currentWeapon.recoilForce, _currentWeapon.recoildSpeed);
             _weaponMovement?.ApplyRecoil(_currentWeapon.recoilForce, _currentWeapon.recoildSpeed, _currentWeapon.recoilDuration);

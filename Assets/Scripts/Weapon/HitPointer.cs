@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AimPointer : MonoBehaviour
+public class HitPointer : MonoBehaviour
 {
     [SerializeField] private LayerMask _hitLayers;
     [SerializeField] private Camera _camera;
