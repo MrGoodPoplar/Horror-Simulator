@@ -14,7 +14,7 @@ public class WeaponMovement : MonoBehaviour
     [SerializeField, Range(0, 1)] private float _aimBobAmount = 0.02f;
     [SerializeField] private float _aimBobSpeed = 0.5f;
 
-    [Header("Recoil Settings")]
+    [Header("Aim Settings")]
     [SerializeField, Range(0, 1)] private float _aimRecoilReducer = 0.7f;
     
     private Quaternion _initialRotation;

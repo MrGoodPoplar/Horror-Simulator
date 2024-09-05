@@ -14,6 +14,9 @@ public class CameraBreathing : MonoBehaviour
     [SerializeField] private Vector2 _dyspneicAmplitude = new(2.0f, 1.0f);
     [SerializeField] private float _dyspneicDuration = 3f;
 
+    [Header("Aim Settings")]
+    [SerializeField, Range(0, 1)] private float _aimBreathingReducer = 0.6f;
+    
     [Header("Transition Settings")]
     [SerializeField] private float _transitionDuration = 0.5f;
 
@@ -56,17 +59,20 @@ public class CameraBreathing : MonoBehaviour
 
     private float GetTargetSpeed()
     {
-        return canBreath
-            ? _isDyspneic ? _dyspneicSpeed : _speed
-            : 0;
-        
+        if (!canBreath)
+            return 0;
+
+        float speed = _isDyspneic ? _dyspneicSpeed : _speed;
+        return speed * (ShooterController.instance.isAiming ? _aimBreathingReducer : 1);
     }
 
     private Vector2 GetTargetAmplitude()
     {
-        return canBreath
-            ? _isDyspneic ? _dyspneicAmplitude : _amplitude
-            : Vector2.zero;
+        if (!canBreath)
+            return Vector2.zero;
+
+        Vector2 amplitude = _isDyspneic ? _dyspneicAmplitude : _amplitude;
+        return amplitude * (ShooterController.instance.isAiming ? _aimBreathingReducer : 1);
     }
     
     private void HandleBreathing()

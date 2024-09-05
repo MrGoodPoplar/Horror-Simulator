@@ -3685,6 +3685,7 @@ MonoBehaviour:
   _dyspneicSpeed: 3
   _dyspneicAmplitude: {x: 2, y: 1.25}
   _dyspneicDuration: 3
+  _aimBreathingReducer: 0.6
   _transitionDuration: 0.5
 --- !u!1001 &2088547227
 PrefabInstance:
@@ -4000,11 +4001,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: german_130
-      objectReference: {fileID: 0}
-    - target: {fileID: 7138687600433159978, guid: a0db881418e593e4eb23d2871d41b506,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
