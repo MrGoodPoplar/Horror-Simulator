@@ -8,6 +8,8 @@ using UnityEngine.Serialization;
 public class FirstPersonController : MonoBehaviour
 {
     public static FirstPersonController instance { get; private set; }
+
+    public event Action OnExhausted;
     
     public bool canSprint { get; set; } = true;
     public bool canMove { get; set; } = true;
@@ -38,6 +40,12 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private Vector3 _crouchingCenter = new (0, 0.5f, 0);
     [SerializeField] private Vector3 _standingCenter = new (0, 0, 0);
 
+    [Header("Stamina Settings")]
+    [SerializeField] private float _staminaDuration = 15.0f;
+    [SerializeField] private float _staminaRecoverySpeed = 1.5f;
+    [SerializeField, Range(0, 1)] private float _minStaminaForSprint = 0.3f;
+    [SerializeField, Range(0, 1)] private float _minPenaltyStaminaForSprint = 0.5f;
+
     [field: Header("Constraints")]
     [field: SerializeField] public Camera playerCamera { get; private set; }
     
@@ -47,10 +55,13 @@ public class FirstPersonController : MonoBehaviour
     private Vector3 _moveDirection;
 
     private float _rotationX;
+    private bool _isSprinting;
     private bool _isCrouching;
     private bool _isCrouchingTransition;
+    private bool _isStaminaPenalty;
     private float _standingHeight;
     private float _stepOffset;
+    private float _currentStamina;
 
     private void Awake()
     {
@@ -70,6 +81,7 @@ public class FirstPersonController : MonoBehaviour
 
         _stepOffset = _characterController.stepOffset;
         _standingHeight = _characterController.height;
+        _currentStamina = _staminaDuration;
         
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -95,25 +107,53 @@ public class FirstPersonController : MonoBehaviour
         }
     }
 
-    public float GetMovementSpeed()
+    public float CalculateMovementSpeed()
     {
-        float speed = _walkSpeed;
+        float speed = _isCrouching ? _crouchSpeed : _walkSpeed;
+        float minStaminaForSprint = _isStaminaPenalty ? _minPenaltyStaminaForSprint : _minStaminaForSprint;
         
-        if (_isCrouching)
+        if (canSprint && playerInput.isSprinting && (GetStaminaPercentage() > minStaminaForSprint || _isSprinting))
         {
-            speed = _crouchSpeed;
-        }
-        else if (canSprint && playerInput.isSprinting)
-        {
+            SetStamina(_currentStamina - Time.deltaTime);
             speed = _sprintSpeed;
+            _isSprinting = _currentStamina > 0;
+            _isStaminaPenalty = false;
+
+            if (!_isSprinting)
+            {
+                _isStaminaPenalty = true;
+                OnExhausted?.Invoke();
+            }
         }
-        
+        else
+        {
+            _isSprinting = false;
+            
+            if (_currentStamina < _staminaDuration)
+            {
+                SetStamina(_currentStamina + Time.deltaTime * _staminaRecoverySpeed);
+            }
+        }
+
         return speed;
+    }
+
+
+    public float GetStaminaPercentage()
+    {
+        return _currentStamina > 0
+            ? _currentStamina / _staminaDuration
+            : 0;
+    }
+
+    private void SetStamina(float value)
+    {
+        _currentStamina = Mathf.Clamp(value, 0, _staminaDuration);
     }
     
     private void HandleWalking()
     {
-        _currentInput = playerInput.move.normalized * GetMovementSpeed();
+        _currentInput = playerInput.move.normalized * CalculateMovementSpeed();
         
         _moveDirection = new Vector3(
             transform.right.x * _currentInput.x + transform.forward.x * _currentInput.y,

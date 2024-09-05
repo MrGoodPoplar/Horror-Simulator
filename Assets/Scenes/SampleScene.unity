@@ -3163,6 +3163,10 @@ MonoBehaviour:
   _timeToCrouch: 0.15
   _crouchingCenter: {x: 0, y: 0.3, z: 0}
   _standingCenter: {x: 0, y: 0, z: 0}
+  _staminaDuration: 20
+  _staminaRecoverySpeed: 1.25
+  _minStaminaForSprint: 0.3
+  _minPenaltyStaminaForSprint: 0.55
   <playerCamera>k__BackingField: {fileID: 330585545}
 --- !u!143 &1902487654
 CharacterController:
@@ -3675,7 +3679,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _amplitude: {x: 0.5, y: 0.25}
-  _frequency: 1
+  _speed: 1
+  _dyspneicCooldown: 25
+  _dyspneicSpeed: 3
+  _dyspneicAmplitude: {x: 2, y: 1.25}
+  _dyspneicDuration: 7
+  _transitionDuration: 0.5
 --- !u!1001 &2088547227
 PrefabInstance:
   m_ObjectHideFlags: 0
