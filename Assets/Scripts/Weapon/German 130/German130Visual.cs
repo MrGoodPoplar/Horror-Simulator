@@ -128,7 +128,7 @@ public class German130Visual : MonoBehaviour
         ToggleWeaponInteraction(false);
         
         _currentChamberIndex = 0;
-        RotateCylinder(_currentChamberIndex);
+        RotateCylinder(_currentChamberIndex, false);
 
         int bulletsToReload = _german130.clipSize - _german130.bulletsInClip;
         _animator.SetTrigger(GetReloadAnimationTrigger(bulletsToReload));
@@ -138,7 +138,7 @@ public class German130Visual : MonoBehaviour
         _isReloadAnimationPlaying = true;
     }
 
-    private async void RotateCylinder(int chamberIndex)
+    private async void RotateCylinder(int chamberIndex, bool canReloadAfter = true)
     {
         if (_isCylinderRotating)
             return;
@@ -162,7 +162,7 @@ public class German130Visual : MonoBehaviour
 
         _cylinder.localRotation = targetRotation;
         _isCylinderRotating = false;
-        _shooterController.canReload = true;
+        _shooterController.canReload = canReloadAfter;
     }
     
     bool AnimatorIsPlaying()

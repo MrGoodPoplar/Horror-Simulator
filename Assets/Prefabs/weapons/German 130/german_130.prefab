@@ -892,8 +892,8 @@ MonoBehaviour:
   <recoildSpeed>k__BackingField: 0.7
   <recoilDuration>k__BackingField: 0.2
   _bulletSpeed: 130
-  _flightDistance: 200
-  _accuracyDeviation: {x: 1, y: 1}
+  _flightDistance: 65
+  _accuracyDeviation: {x: 0.4, y: 0.4}
   _bulletSpawn: {fileID: 5181397836112528444}
   _bullet: {fileID: 93227763873828207, guid: c2891d340ae12cb458ddc9670c9e406e, type: 3}
 --- !u!114 &1005982092262914977
