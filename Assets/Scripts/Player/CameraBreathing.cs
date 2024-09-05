@@ -4,6 +4,7 @@ using UnityEngine;
 public class CameraBreathing : MonoBehaviour
 {
     [Header("Breathing Settings")]
+    [SerializeField] public bool canBreath = true;
     [SerializeField] private Vector2 _amplitude = new(1.0f, 0.5f);
     [SerializeField, Range(0, 5)] private float _speed = 1.0f;
 
@@ -50,22 +51,43 @@ public class CameraBreathing : MonoBehaviour
 
     private void Update()
     {
-        float targetSpeed = _isDyspneic ? _dyspneicSpeed : _speed;
-        Vector2 targetAmplitude = _isDyspneic ? _dyspneicAmplitude : _amplitude;
+        HandleBreathing();
+    }
 
+    private float GetTargetSpeed()
+    {
+        return canBreath
+            ? _isDyspneic ? _dyspneicSpeed : _speed
+            : 0;
+        
+    }
+
+    private Vector2 GetTargetAmplitude()
+    {
+        return canBreath
+            ? _isDyspneic ? _dyspneicAmplitude : _amplitude
+            : Vector2.zero;
+    }
+    
+    private void HandleBreathing()
+    {
         if (_transitionTimer < _transitionDuration)
         {
             _transitionTimer += Time.deltaTime;
-            _transitionProgress = Mathf.Clamp01(_transitionTimer / _transitionDuration); // Calculate progress (0 to 1)
+            _transitionProgress = Mathf.Clamp01(_transitionTimer / _transitionDuration);
         }
 
-        _currentSpeed = Mathf.Lerp(_transitionStartSpeed, targetSpeed, _transitionProgress);
-        _currentAmplitude = Vector2.Lerp(_transitionStartAmplitude, targetAmplitude, _transitionProgress);
+        _currentSpeed = Mathf.Lerp(_transitionStartSpeed, GetTargetSpeed(), _transitionProgress);
+        _currentAmplitude = Vector2.Lerp(_transitionStartAmplitude, GetTargetAmplitude(), _transitionProgress);
         _currentPhase += Time.deltaTime * _currentSpeed;
 
         Vector3 breathingEffect = GetBreathingEffect(_currentPhase);
         transform.localRotation = Quaternion.Euler(_initialRotation + breathingEffect);
 
+    }
+
+    private void HandleDyspneic()
+    {
         if (_isDyspneic && Time.time > _lastDyspneicTime + _dyspneicDuration)
         {
             _isDyspneic = false;

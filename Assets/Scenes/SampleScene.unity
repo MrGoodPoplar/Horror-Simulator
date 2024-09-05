@@ -3678,12 +3678,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4070b65c8c51fc748881013f3aa23fe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canBreath: 1
   _amplitude: {x: 0.5, y: 0.25}
   _speed: 1
-  _dyspneicCooldown: 25
+  _dyspneicCooldown: 15
   _dyspneicSpeed: 3
   _dyspneicAmplitude: {x: 2, y: 1.25}
-  _dyspneicDuration: 7
+  _dyspneicDuration: 3
   _transitionDuration: 0.5
 --- !u!1001 &2088547227
 PrefabInstance:
