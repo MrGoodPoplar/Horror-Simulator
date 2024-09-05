@@ -55,6 +55,7 @@ public class CameraBreathing : MonoBehaviour
     private void Update()
     {
         HandleBreathing();
+        HandleDyspneic();
     }
 
     private float GetTargetSpeed()
@@ -89,7 +90,6 @@ public class CameraBreathing : MonoBehaviour
 
         Vector3 breathingEffect = GetBreathingEffect(_currentPhase);
         transform.localRotation = Quaternion.Euler(_initialRotation + breathingEffect);
-
     }
 
     private void HandleDyspneic()

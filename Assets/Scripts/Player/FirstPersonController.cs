@@ -18,6 +18,7 @@ public class FirstPersonController : MonoBehaviour
     public bool canStepOffset { get; set; } = true;
     
     public PlayerInput playerInput { get; private set; }
+    public bool isGrounded => _characterController.isGrounded;
     public float velocity => Mathf.Clamp01(_characterController.velocity.magnitude / _sprintSpeed);
     public float currentSpeed => _characterController.velocity.magnitude;
 
@@ -180,7 +181,7 @@ public class FirstPersonController : MonoBehaviour
 
         _isCrouchingTransition = true;
 
-        bool isCrouching = canCrouch && playerInput.isCrouching && _characterController.isGrounded;
+        bool isCrouching = canCrouch && playerInput.isCrouching && isGrounded;
         float elapsedTime = 0f;
         float targetHeight = isCrouching ? _crouchingHeight : _standingHeight;
         Vector3 targetCenter = isCrouching ? _crouchingCenter : _standingCenter;
@@ -212,7 +213,7 @@ public class FirstPersonController : MonoBehaviour
     
     private void ApplyFinalMovements()
     {
-        if (!_characterController.isGrounded)
+        if (!isGrounded)
         {
             _moveDirection.y -= _gravity * Time.deltaTime;
             _characterController.stepOffset = 0;
@@ -227,7 +228,7 @@ public class FirstPersonController : MonoBehaviour
     
     private void OnJump()
     {
-        if (canJump && _characterController.isGrounded)
+        if (canJump && isGrounded)
         {
             _moveDirection.y = _jumpForce;
         }
