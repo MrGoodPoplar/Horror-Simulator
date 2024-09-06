@@ -182,7 +182,7 @@ ModelImporter:
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
-        intParameter: 2
+        intParameter: 1
         messageOptions: 0
       - time: 0.549849
         functionName: AddBulletToClip
@@ -190,6 +190,13 @@ ModelImporter:
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
+        messageOptions: 0
+      - time: 0.57272726
+        functionName: ShowBullets
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 2
         messageOptions: 0
       - time: 0.86874485
         functionName: AddBulletToClip
@@ -239,7 +246,7 @@ ModelImporter:
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
-        intParameter: 3
+        intParameter: 1
         messageOptions: 0
       - time: 0.41993958
         functionName: AddBulletToClip
@@ -248,12 +255,26 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.44545457
+        functionName: ShowBullets
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 2
+        messageOptions: 0
       - time: 0.6602856
         functionName: AddBulletToClip
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
+        messageOptions: 0
+      - time: 0.6848668
+        functionName: ShowBullets
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 3
         messageOptions: 0
       - time: 0.8954546
         functionName: AddBulletToClip
@@ -303,7 +324,7 @@ ModelImporter:
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
-        intParameter: 4
+        intParameter: 1
         messageOptions: 0
       - time: 0.34441087
         functionName: AddBulletToClip
@@ -312,6 +333,13 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.37272725
+        functionName: ShowBullets
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 2
+        messageOptions: 0
       - time: 0.52433395
         functionName: AddBulletToClip
         data: 
@@ -319,12 +347,26 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.55
+        functionName: ShowBullets
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 3
+        messageOptions: 0
       - time: 0.72324914
         functionName: AddBulletToClip
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
+        messageOptions: 0
+      - time: 0.7545455
+        functionName: ShowBullets
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 4
         messageOptions: 0
       - time: 0.91818184
         functionName: AddBulletToClip
@@ -374,7 +416,7 @@ ModelImporter:
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
-        intParameter: 5
+        intParameter: 1
         messageOptions: 0
       - time: 0.28494918
         functionName: AddBulletToClip
@@ -383,12 +425,26 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.3090909
+        functionName: ShowBullets
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 2
+        messageOptions: 0
       - time: 0.45
         functionName: AddBulletToClip
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
+        messageOptions: 0
+      - time: 0.48181817
+        functionName: ShowBullets
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 3
         messageOptions: 0
       - time: 0.6090909
         functionName: AddBulletToClip
@@ -397,12 +453,26 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.6363636
+        functionName: ShowBullets
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 4
+        messageOptions: 0
       - time: 0.77272725
         functionName: AddBulletToClip
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
+        messageOptions: 0
+      - time: 0.8
+        functionName: ShowBullets
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 5
         messageOptions: 0
       - time: 0.9318182
         functionName: AddBulletToClip
@@ -452,7 +522,7 @@ ModelImporter:
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
-        intParameter: 6
+        intParameter: 1
         messageOptions: 0
       - time: 0.24545455
         functionName: AddBulletToClip
@@ -461,12 +531,26 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.2651332
+        functionName: ShowBullets
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 2
+        messageOptions: 0
       - time: 0.38636363
         functionName: AddBulletToClip
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
+        messageOptions: 0
+      - time: 0.4090909
+        functionName: ShowBullets
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 3
         messageOptions: 0
       - time: 0.52727276
         functionName: AddBulletToClip
@@ -475,12 +559,26 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.55
+        functionName: ShowBullets
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 4
+        messageOptions: 0
       - time: 0.6636363
         functionName: AddBulletToClip
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
+        messageOptions: 0
+      - time: 0.68633616
+        functionName: ShowBullets
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 5
         messageOptions: 0
       - time: 0.80454546
         functionName: AddBulletToClip
@@ -489,6 +587,13 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.82882446
+        functionName: ShowBullets
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 6
+        messageOptions: 0
       - time: 0.940909
         functionName: AddBulletToClip
         data: 
@@ -496,6 +601,35 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: german_130_reload_end
+      takeName: german_130_reload_end
+      internalID: 1395424082897629426
+      firstFrame: 0
+      lastFrame: 10
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

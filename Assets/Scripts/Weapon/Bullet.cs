@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.Pool;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Bullet : MonoBehaviour
 {
+    private IObjectPool<Bullet> _bulletPool;
     private Rigidbody _rb;
     private Vector3 _startPosition;
     private float _destroyDistance;
@@ -18,8 +20,13 @@ public class Bullet : MonoBehaviour
         
         if (distanceTraveled >= _destroyDistance)
         {
-            Destroy(gameObject);
+            _bulletPool.Release(this);
         }
+    }
+
+    public void SetBulletPool(IObjectPool<Bullet> bulletPool)
+    {
+        _bulletPool = bulletPool;
     }
     
     public void StartProjectile(float speed, float destroyDistance)
@@ -31,6 +38,6 @@ public class Bullet : MonoBehaviour
     
     private void OnCollisionEnter(Collision collision)
     {
-        Destroy(gameObject);
+        _bulletPool.Release(this);
     }
 }
