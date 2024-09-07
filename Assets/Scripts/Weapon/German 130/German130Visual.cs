@@ -197,6 +197,7 @@ public class German130Visual : MonoBehaviour
 
     private async void OnReloadPerformed()
     {
+        _reloadingInterrupted = false;
         ToggleWeaponInteraction(false);
         RotateCylinder(_currentChamberIndex = 0, false);
         
