@@ -16,7 +16,7 @@ public class German130Visual : MonoBehaviour
     [SerializeField] private float _transitionDuration = 0.26f;
     
     [Header("Cylinder Settings")]
-    [SerializeField] private Transform _cylinder;
+    [SerializeField] private Transform _cylinderRotationConstraint;
     [SerializeField] private float _cylinderRotationDuration = 0.3f;
     
     [Header("Bullet Pool Settings")]
@@ -38,7 +38,7 @@ public class German130Visual : MonoBehaviour
     private string _currentReloadAnimationState;
     private bool _isReloadAnimationPlaying;
     private bool _isCylinderRotating;
-    private int _shellsInside;
+    private int _emptyShellsInside;
     private bool _reloadingInterrupted;
     
     private IObjectPool<BulletShell> _bulletShellPool;
@@ -61,7 +61,7 @@ public class German130Visual : MonoBehaviour
         
         _firstPersonController.playerInput.OnFire += OnInputFirePerformed;
 
-        _shellsInside = _german130.bulletsInClip;
+        _emptyShellsInside = _german130.bulletsInClip;
         HideBullets(_german130.clipSize - _german130.bulletsInClip);
     }
     
@@ -115,7 +115,6 @@ public class German130Visual : MonoBehaviour
     
     private void AddBulletToClip() // Animation Event
     {
-        _shellsInside++;
         _german130.SetBulletsInClip(_german130.bulletsInClip + 1);
 
         if (_reloadingInterrupted)
@@ -124,7 +123,7 @@ public class German130Visual : MonoBehaviour
             _animator.SetTrigger(FORCE_STOP_RELOAD);
         }
     }
-
+    
     private void DropShells(int count) // Animation Event
     {
         German130Bullet[] bullets = _bullets.Take(count).ToArray();
@@ -133,18 +132,37 @@ public class German130Visual : MonoBehaviour
         {
             bullet.Hide();
 
-            if (_shellsInside - 1 >= 0)
+            if (_emptyShellsInside - 1 >= 0)
             {
                 _bulletShell = _bulletShellPool.Get();
                 _bulletShell.transform.position = bullet.transform.position;
                 _bulletShell.transform.rotation = Quaternion.identity;;
                 _bulletShell.Drop(_bulletShellLifeSpan);
                 
-                _shellsInside --;
+                _emptyShellsInside --;
             }
         }
     }
 
+    private void ReverseBulletsActive(int count)
+    {
+        
+        for (int i = _bullets.Length - 1; i >= 0; i--)
+        {
+            German130Bullet bullet = _bullets[i];
+
+            if (count > 0)
+            {
+                bullet.Show();
+                count--;
+            }
+            else
+            {
+                bullet.Hide();
+            }
+        }
+    }
+    
     private void ShowBullets(int count) // Animation Event
     {
         German130Bullet[] bullets = _bullets.Take(count).ToArray();
@@ -172,6 +190,7 @@ public class German130Visual : MonoBehaviour
     
     private void OnFirePerformed()
     {
+        _emptyShellsInside++;
         _currentChamberIndex = (_currentChamberIndex + 1) % 6;
         RotateCylinder(_currentChamberIndex);
     }
@@ -179,19 +198,48 @@ public class German130Visual : MonoBehaviour
     private async void OnReloadPerformed()
     {
         ToggleWeaponInteraction(false);
+        RotateCylinder(_currentChamberIndex = 0, false);
         
-        _currentChamberIndex = 0;
-        RotateCylinder(_currentChamberIndex, false);
-
         int bulletsToReload = _german130.clipSize - _german130.bulletsInClip;
-        
         _animator.SetTrigger(GetReloadAnimationTrigger(bulletsToReload));
+        
         await Task.Delay((int)(_transitionDuration * 1000));
+
+        SmoothBulletsReverse();
         
         _currentReloadAnimationState = _animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
         _isReloadAnimationPlaying = true;
     }
 
+    private void SmoothBulletsReverse()
+    {
+        if (_german130.bulletsInClip > 0)
+        {
+            RotateByFullTurns(1, _cylinderRotationDuration / 2);
+            ReverseBulletsActive(_german130.bulletsInClip);
+        }
+    }
+
+    private async void RotateByFullTurns(float fullTurns, float duration)
+    {
+        float totalRotation = fullTurns * 360f;
+        float elapsedTime = 0f;
+        float startRotationY = _cylinderRotationConstraint.localRotation.eulerAngles.y;
+        float targetRotationY = startRotationY + totalRotation;
+
+        while (elapsedTime < duration)
+        {
+            float t = elapsedTime / duration;
+            float currentRotationY = Mathf.Lerp(startRotationY, targetRotationY, t);
+            _cylinderRotationConstraint.localRotation = Quaternion.Euler(0f, currentRotationY, 0f);
+            elapsedTime += Time.deltaTime;
+            await Task.Yield();
+        }
+
+        _cylinderRotationConstraint.localRotation = Quaternion.Euler(0f, targetRotationY, 0f);
+    }
+
+    
     private async void RotateCylinder(int chamberIndex, bool canReloadAfter = true)
     {
         if (_isCylinderRotating)
@@ -202,29 +250,30 @@ public class German130Visual : MonoBehaviour
 
         int angle = 360 / _german130.clipSize;
         float targetAngle = -(chamberIndex * angle);
-        Quaternion initialRotation = _cylinder.localRotation;
+        Quaternion initialRotation = _cylinderRotationConstraint.localRotation;
         Quaternion targetRotation = Quaternion.Euler(0f, targetAngle, 0f);
-        
+
         float elapsedTime = 0f;
-        
+
         while (elapsedTime < _cylinderRotationDuration)
         {
             elapsedTime += Time.deltaTime;
-            _cylinder.localRotation = Quaternion.Lerp(initialRotation, targetRotation, elapsedTime / _cylinderRotationDuration);
+            _cylinderRotationConstraint.localRotation = Quaternion.Lerp(initialRotation, targetRotation, elapsedTime / _cylinderRotationDuration);
             await Task.Yield();
         }
 
-        _cylinder.localRotation = targetRotation;
+        _cylinderRotationConstraint.localRotation = targetRotation;
         _isCylinderRotating = false;
         _shooterController.canReload = canReloadAfter;
     }
+
     
-    bool AnimatorIsPlaying()
+    private bool AnimatorIsPlaying()
     {
         return _animator.GetCurrentAnimatorStateInfo(0).length > _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
     }
     
-    bool AnimatorIsPlaying(string stateName)
+    private bool AnimatorIsPlaying(string stateName)
     {
         return AnimatorIsPlaying() && _animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
     }
