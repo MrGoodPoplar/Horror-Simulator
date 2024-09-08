@@ -17,7 +17,7 @@ public class InteractionPromptUI : MonoBehaviour
     [SerializeField] private InteractController _interactController;
     
     private Vector3 _originalScale;
-    private Vector3 _position;
+    private Transform _interactableTransform;
     
     private void Start()
     {
@@ -39,7 +39,10 @@ public class InteractionPromptUI : MonoBehaviour
 
     private void Update()
     {
-        _promptUI.position = _position;
+        if (_interactableTransform)
+        {
+            _promptUI.position = _interactableTransform.position;
+        }
     }
 
     private void LateUpdate()
@@ -55,10 +58,10 @@ public class InteractionPromptUI : MonoBehaviour
     
     private void OnInteractHover(object sender, InteractController.InteractEventArgs e)
     {
-        _position = e.interactable.position;
+        _interactableTransform = e.interactable.transform;
         _promptText.text = e.interactable.GetInteractionPrompt();
         
-        _promptUI.position = _position;
+        _promptUI.position = _interactableTransform.position;
         _promptUI.gameObject.SetActive(true);
     }
     

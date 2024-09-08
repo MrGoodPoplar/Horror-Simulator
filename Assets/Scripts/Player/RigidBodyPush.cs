@@ -3,42 +3,43 @@ using UnityEngine;
 
 public class RigidBodyPush : MonoBehaviour
 {
-	[field: SerializeField] public LayerMask pushLayers { get; set; }
+    [field: SerializeField] public LayerMask pushLayers { get; set; }
     [field: SerializeField] public bool canPush { get; set; }
     [field: SerializeField, Range(0, 5)] public float strength { get; set; } = 1.0f;
 
     [SerializeField, Range(-1, 0)] private float _ignoreHeightThreshold = -0.1f;
-    
+
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-	    if (canPush)
-	    {
-		    PushRigidBodies(hit);
-		    FirstPersonController.instance.canStepOffset = !IsInPushLayers(hit.gameObject.layer);
-	    }
+        if (canPush)
+        {
+            bool isPushed = PushRigidBodies(hit);
+
+            FirstPersonController.instance.canStepOffset = !isPushed;
+        }
     }
-    
+
     private bool IsInPushLayers(int layer)
     {
-	    return ((1 << layer) & pushLayers) != 0;
+        return ((1 << layer) & pushLayers) != 0;
     }
-    
-    private void PushRigidBodies(ControllerColliderHit hit)
+
+    private bool PushRigidBodies(ControllerColliderHit hit)
     {
-	    Rigidbody body = hit.collider.attachedRigidbody;
-	    
-    	if (body == null || body.isKinematic)
-		    return;
+        Rigidbody body = hit.collider.attachedRigidbody;
 
-    	var bodyLayerMask = 1 << body.gameObject.layer;
-	    
-    	if ((bodyLayerMask & pushLayers.value) == 0)
-		    return;
+        if (body == null || body.isKinematic)
+            return false;
 
-    	if (hit.moveDirection.y < _ignoreHeightThreshold)
-		    return;
+        if (!IsInPushLayers(body.gameObject.layer))
+            return false;
 
-    	Vector3 pushDir = new Vector3(hit.moveDirection.x, 0.0f, hit.moveDirection.z);
-    	body.AddForce(pushDir * strength, ForceMode.Impulse);
+        if (hit.moveDirection.y < _ignoreHeightThreshold)
+            return false;
+
+        Vector3 pushDir = new Vector3(hit.moveDirection.x, 0.0f, hit.moveDirection.z);
+        body.AddForceAtPosition(pushDir * strength, hit.point, ForceMode.Impulse);
+
+        return true;
     }
 }

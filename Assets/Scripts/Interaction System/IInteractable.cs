@@ -3,7 +3,7 @@ using UnityEngine;
 
 public interface IInteractable
 {
-    public Vector3 position { get; }
+    public Transform transform { get; }
     
     public string GetInteractionPrompt();
     public bool Interact(InteractController interactController);

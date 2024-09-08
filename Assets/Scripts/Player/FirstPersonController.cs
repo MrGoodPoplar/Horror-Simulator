@@ -20,7 +20,6 @@ public class FirstPersonController : MonoBehaviour
     public PlayerInput playerInput { get; private set; }
     public bool isGrounded => _characterController.isGrounded;
     public float velocity => Mathf.Clamp01(_characterController.velocity.magnitude / _sprintSpeed);
-    public float currentSpeed => _characterController.velocity.magnitude;
 
     [Header("Movement Settings")]
     [SerializeField] private float _walkSpeed = 3.0f;
@@ -84,8 +83,8 @@ public class FirstPersonController : MonoBehaviour
         _standingHeight = _characterController.height;
         _currentStamina = _staminaDuration;
         
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
 
         if (!canStepOffset)
             _characterController.stepOffset = 0;
@@ -113,7 +112,7 @@ public class FirstPersonController : MonoBehaviour
         float speed = _isCrouching ? _crouchSpeed : _walkSpeed;
         float minStaminaForSprint = _isStaminaPenalty ? _minPenaltyStaminaForSprint : _minStaminaForSprint;
         
-        if (canSprint && playerInput.isSprinting && (GetStaminaPercentage() > minStaminaForSprint || _isSprinting))
+        if (canSprint && !_isCrouching && playerInput.isSprinting && (GetStaminaPercentage() > minStaminaForSprint || _isSprinting))
         {
             SetStamina(_currentStamina - Time.deltaTime);
             speed = _sprintSpeed;

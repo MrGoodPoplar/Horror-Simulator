@@ -14,6 +14,7 @@ public class PlayerInput : MonoBehaviour
     public event Action OnFire;
     public event Action OnReload;
     public event Action OnInteract;
+    public event Action OnClick; 
     
     private PlayerInputActions _playerInputActions;
     
@@ -28,6 +29,8 @@ public class PlayerInput : MonoBehaviour
         _playerInputActions.Player.Fire.performed += OnFirePerformed;
         _playerInputActions.Player.Reload.performed += OnReloadPerformed;
         _playerInputActions.Player.Interact.performed += OnInteractPerformed;
+        _playerInputActions.Player.Click.performed += OnClickPerformed;
+        
         _playerInputActions.Enable();
     }
 
@@ -37,6 +40,8 @@ public class PlayerInput : MonoBehaviour
         _playerInputActions.Player.Jump.performed -= OnFirePerformed;
         _playerInputActions.Player.Reload.performed -= OnReloadPerformed;
         _playerInputActions.Player.Interact.performed -= OnInteractPerformed;
+        _playerInputActions.Player.Click.performed += OnClickPerformed;
+        
         _playerInputActions.Disable();
     }
 
@@ -73,5 +78,10 @@ public class PlayerInput : MonoBehaviour
     private void OnInteractPerformed(InputAction.CallbackContext obj)
     {
         OnInteract?.Invoke();
+    }
+    
+    private void OnClickPerformed(InputAction.CallbackContext obj)
+    {
+        OnClick?.Invoke();
     }
 }
