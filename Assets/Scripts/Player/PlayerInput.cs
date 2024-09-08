@@ -14,7 +14,8 @@ public class PlayerInput : MonoBehaviour
     public event Action OnFire;
     public event Action OnReload;
     public event Action OnInteract;
-    public event Action OnClick; 
+    public event Action OnClick;
+    public event Action OnRotate;
     
     private PlayerInputActions _playerInputActions;
     
@@ -30,6 +31,7 @@ public class PlayerInput : MonoBehaviour
         _playerInputActions.Player.Reload.performed += OnReloadPerformed;
         _playerInputActions.Player.Interact.performed += OnInteractPerformed;
         _playerInputActions.Player.Click.performed += OnClickPerformed;
+        _playerInputActions.Player.Rotate.performed += OnRotatePerformed;
         
         _playerInputActions.Enable();
     }
@@ -40,11 +42,12 @@ public class PlayerInput : MonoBehaviour
         _playerInputActions.Player.Jump.performed -= OnFirePerformed;
         _playerInputActions.Player.Reload.performed -= OnReloadPerformed;
         _playerInputActions.Player.Interact.performed -= OnInteractPerformed;
-        _playerInputActions.Player.Click.performed += OnClickPerformed;
-        
+        _playerInputActions.Player.Click.performed -= OnClickPerformed;
+        _playerInputActions.Player.Rotate.performed -= OnRotatePerformed;
+
         _playerInputActions.Disable();
     }
-
+    
     private void OnDestroy()
     {
         OnDisable();
@@ -83,5 +86,10 @@ public class PlayerInput : MonoBehaviour
     private void OnClickPerformed(InputAction.CallbackContext obj)
     {
         OnClick?.Invoke();
+    }
+    
+    private void OnRotatePerformed(InputAction.CallbackContext obj)
+    {
+        OnRotate?.Invoke();
     }
 }
