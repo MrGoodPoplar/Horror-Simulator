@@ -301,3 +301,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _quantityText: {fileID: 4892561630858411978}
+  _quantityBackground: {fileID: 2986296400428724921}

@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public class InventoryItem : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _quantityText;
-    
+    [SerializeField] private Image _quantityBackground;
+
     public Vector2Int gridPosition { get; set; }
     public InventoryItemSO inventoryItemSO { get; private set; }
     public bool rotated { get; private set; }
@@ -15,6 +16,8 @@ public class InventoryItem : MonoBehaviour
     private RectTransform _rectTransform;
     private Vector2 _defaultPivot;
     private Vector3 _defaultScale;
+
+    private Vector3 _defaultQuantityAnchoredPosition;
 
     public RectTransform GetRectTransform()
     {
@@ -24,6 +27,7 @@ public class InventoryItem : MonoBehaviour
         _rectTransform = GetComponent<RectTransform>();
         _defaultPivot = _rectTransform.pivot;
         _defaultScale = _rectTransform.localScale;
+        _defaultQuantityAnchoredPosition = _quantityBackground.rectTransform.anchoredPosition;
         
         return _rectTransform;
     }
@@ -59,7 +63,7 @@ public class InventoryItem : MonoBehaviour
     {
         this.inventoryItemSO = inventoryItemSO;
         
-        _quantityText.gameObject.SetActive(inventoryItemSO.countable);
+        _quantityBackground.gameObject.SetActive(inventoryItemSO.countable);
 
         GetComponent<Image>().sprite = inventoryItemSO.icon;
 
@@ -81,11 +85,14 @@ public class InventoryItem : MonoBehaviour
         rectTransform.position += (Vector3)(oldPivotOffset - newPivotOffset);
     }
 
-    public void Rotate()
+    public void Rotate(Vector2Int tileSize)
     {
         rotated = !rotated;
-        
-        _rectTransform.rotation = Quaternion.Euler(0, 0, rotated ? 90.0f : 0);
+        _rectTransform.rotation = Quaternion.Euler(0, 0, rotated ?  90.0f : 0);
+        _quantityBackground.rectTransform.localRotation = Quaternion.Euler(0, 0, rotated ? -90.0f : 0);
+        _quantityBackground.rectTransform.anchoredPosition = rotated
+            ? Vector3.left * tileSize.x * inventoryItemSO.size.x
+            : _defaultQuantityAnchoredPosition;
     }
 
     public Vector2Int GetActualSize()

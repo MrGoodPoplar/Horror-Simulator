@@ -80,14 +80,14 @@ public class ItemGrid : MonoBehaviour
         );
     }
 
-    public bool CanPlaceItem(InventoryItem inventoryItem, Vector2Int position)
+    public bool CanPlaceItem(Vector2Int itemSize, Vector2Int position)
     {
-        if (!IsItemInsideBoundary(position, inventoryItem.GetActualSize()))
+        if (!IsItemInsideBoundary(position, itemSize))
             return false;
-
-        InventoryItem dummyItem = null;
         
-        if (IsOverlapping(position, inventoryItem.GetActualSize(), ref dummyItem))
+        InventoryItem dummy = null;
+        
+        if (IsOverlapping(position, itemSize, ref dummy))
             return false;
 
         return true;
@@ -159,6 +159,25 @@ public class ItemGrid : MonoBehaviour
         
         return false;
     }
+    
+    private bool IsOverlapping(Vector2Int position, Vector2Int size)
+    {
+        for (int x = 0; x < size.x; x++)
+        {
+            for (int y = 0; y < size.y; y++)
+            {
+                InventoryItem inventoryItem = GetItem(new Vector2Int(position.x + x, position.y + y));
+            
+                if (inventoryItem != null)
+                {
+                    return true;
+                }
+            }
+        }
+    
+        return false;
+    }
+
 
     public InventoryItem GetItem(Vector2Int position)
     {
@@ -166,5 +185,23 @@ public class ItemGrid : MonoBehaviour
             return null;
 
         return _inventoryItemSlot[position.x, position.y];
+    }
+
+    public Vector2Int? FindFreeSlotForItem(Vector2Int itemSize)
+    {
+        for (int y = 0; y <= _size.y - itemSize.y; y++)
+        {
+            for (int x = 0; x <= _size.x - itemSize.x; x++)
+            {
+                Vector2Int slotPosition = new Vector2Int(x, y);
+            
+                if (!IsOverlapping(slotPosition, itemSize))
+                {
+                    return slotPosition;
+                }
+            }
+        }
+
+        return null;
     }
 }

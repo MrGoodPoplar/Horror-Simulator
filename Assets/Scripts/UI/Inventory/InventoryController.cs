@@ -3,18 +3,18 @@ using UnityEngine;
 
 public class InventoryController : MonoBehaviour
 {
-    public ItemGrid itemGrid { get; set; }
-
     [Header("Constraints")]
     [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private List<InventoryItemSO> _inventoryItemSOs;
     [SerializeField] private InventoryItem _inventoryItemPrefab;
     [SerializeField] private InventoryItemHighlight _itemHighlight;
 
+    private ItemGrid _itemGrid;
     private InventoryItem _selectedItem;
     private InventoryItem _overlappedItem;
 
     private Vector2Int _positionOnGrid;
+    private Vector2Int _tileSize;
     private bool _itemRotationUpdated;
 
     private void Start()
@@ -31,16 +31,38 @@ public class InventoryController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && itemGrid)
+        if (Input.GetKeyDown(KeyCode.Q) && _itemGrid)
         {
+            // Instantiate a new inventory item
             InventoryItem inventoryItem = Instantiate(_inventoryItemPrefab);
-            inventoryItem.Set(_inventoryItemSOs[Random.Range(0, _inventoryItemSOs.Count)], itemGrid);
-            itemGrid.PlaceItem(inventoryItem, new (Random.Range(0, 8), Random.Range(0, 8)), ref _overlappedItem);
-            inventoryItem.GetRectTransform().SetAsLastSibling();
+            inventoryItem.Set(_inventoryItemSOs[Random.Range(0, _inventoryItemSOs.Count)], _itemGrid);
+
+            Vector2Int? freeSlot = _itemGrid.FindFreeSlotForItem(inventoryItem.inventoryItemSO.size);
+
+            if (freeSlot.HasValue)
+            {
+                _itemGrid.PlaceItem(inventoryItem, freeSlot.Value, ref _overlappedItem);
+                inventoryItem.GetRectTransform().SetAsLastSibling();
+            }
+            else
+            {
+                Debug.Log("No free slot available for the item.");
+                Destroy(inventoryItem.gameObject);
+            }
         }
         
         HandleItemHighlight();
         HandleItemDrag();
+    }
+
+    public void SetItemGrid(ItemGrid newItemGrid)
+    {
+        _itemGrid = newItemGrid;
+
+        if (_itemGrid)
+        {
+            _tileSize = _itemGrid.tileSize;
+        }
     }
 
     private void HandleItemDrag()
@@ -53,7 +75,7 @@ public class InventoryController : MonoBehaviour
 
     private void HandleItemHighlight()
     {
-        if (!itemGrid)
+        if (!_itemGrid)
         {
             _itemHighlight.Hide();
             return;
@@ -69,7 +91,7 @@ public class InventoryController : MonoBehaviour
         
         if (!_selectedItem)
         {
-            InventoryItem itemToHighlight = itemGrid.GetItem(_positionOnGrid);
+            InventoryItem itemToHighlight = _itemGrid.GetItem(_positionOnGrid);
 
             if (itemToHighlight)
             {
@@ -88,12 +110,12 @@ public class InventoryController : MonoBehaviour
         }
         else
         {
-            _itemHighlight.SetColor(itemGrid.CanPlaceItem(_selectedItem, _positionOnGrid)
+            _itemHighlight.SetColor(_itemGrid.CanPlaceItem(_selectedItem.GetActualSize(), _positionOnGrid)
                 ? _itemHighlight.allowedColor
                 : _itemHighlight.forbiddenColor);
             
             ToggleItemHighlight(
-                itemGrid.IsItemInsideBoundary(_positionOnGrid, _selectedItem.GetActualSize()),
+                _itemGrid.IsItemInsideBoundary(_positionOnGrid, _selectedItem.GetActualSize()),
                 _selectedItem.GetActualSize(),
                 _positionOnGrid
             );
@@ -105,9 +127,9 @@ public class InventoryController : MonoBehaviour
         if (toggle)
         {
             _itemHighlight.Show();
-            _itemHighlight.SetParent(itemGrid, true);
-            _itemHighlight.SetSize(highlightSize, itemGrid.tileSize);
-            _itemHighlight.SetPosition(itemGrid, position);
+            _itemHighlight.SetParent(_itemGrid, true);
+            _itemHighlight.SetSize(highlightSize, _itemGrid.tileSize);
+            _itemHighlight.SetPosition(_itemGrid, position);
         }
         else
         {
@@ -117,7 +139,7 @@ public class InventoryController : MonoBehaviour
     
     private void OnClickPerformed()
     {
-        if (!itemGrid)
+        if (!_itemGrid)
             return;
         
         Vector2Int positionOnGrid = GetTileGridPosition();
@@ -134,19 +156,19 @@ public class InventoryController : MonoBehaviour
         
         if (_selectedItem)
         {
-            pointerPosition.x -= (_selectedItem.GetActualSize().x - 1) * (float)itemGrid.tileSize.x / 2;
-            pointerPosition.x -= (_selectedItem.GetActualSize().y - 1) * (float)itemGrid.tileSize.y / 2;
+            pointerPosition.x -= (_selectedItem.GetActualSize().x - 1) * (float)_itemGrid.tileSize.x / 2;
+            pointerPosition.x -= (_selectedItem.GetActualSize().y - 1) * (float)_itemGrid.tileSize.y / 2;
         }
         
-        return itemGrid.GetTileGridPosition(pointerPosition);
+        return _itemGrid.GetTileGridPosition(pointerPosition);
     }
 
     private void PlaceItem(Vector2Int positionOnGrid)
     {
-        if (itemGrid.CanPlaceItem(_selectedItem, positionOnGrid))
+        if (_itemGrid.CanPlaceItem(_selectedItem.GetActualSize(), positionOnGrid))
             _selectedItem.SetPivotToDefault();
         
-        if (itemGrid.PlaceItem(_selectedItem, positionOnGrid, ref _overlappedItem))
+        if (_itemGrid.PlaceItem(_selectedItem, positionOnGrid, ref _overlappedItem))
         {
             _selectedItem = null;
 
@@ -163,7 +185,7 @@ public class InventoryController : MonoBehaviour
 
     private void PickUpItem(Vector2Int positionOnGrid)
     {
-        _selectedItem = itemGrid.PickUpItem(positionOnGrid);
+        _selectedItem = _itemGrid.PickUpItem(positionOnGrid);
         
         _selectedItem?.GetRectTransform().SetAsLastSibling();
         _selectedItem?.SetPivotCenter();
@@ -175,6 +197,6 @@ public class InventoryController : MonoBehaviour
             return;
 
         _itemRotationUpdated = true;
-        _selectedItem.Rotate();
+        _selectedItem.Rotate(_tileSize);
     }
 }
