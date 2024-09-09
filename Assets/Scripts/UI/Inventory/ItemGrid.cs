@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(RectTransform))]
 public class ItemGrid : MonoBehaviour
@@ -7,6 +8,10 @@ public class ItemGrid : MonoBehaviour
     [field: SerializeField] public Vector2Int tileSize { get; private set; } = new (16, 16);
     [SerializeField] private Vector2Int _size = new (8, 8);
     [SerializeField] private Vector2 _scale = new(1, 1);
+    
+    [Header("Background Settings")]
+    [SerializeField] private RectTransform _backgroundPrefab;
+    [SerializeField] private Vector2 _backgroundScale = new(1.25f, 1.25f);
     
     [Header("Constraints")]
     [SerializeField] private PlayerInput _playerInput;
@@ -35,6 +40,23 @@ public class ItemGrid : MonoBehaviour
 
         _rectTransform.localScale = new (_scale.x, _scale.y);
         _rectTransform.sizeDelta = new(tileSize.x * _size.x, tileSize.y * _size.y);
+
+        if (_backgroundPrefab)
+            SetBackground(_backgroundPrefab);
+    }
+
+    private void SetBackground(RectTransform backgroundPrefab)
+    {
+        RectTransform background = Instantiate(backgroundPrefab, transform.parent);
+        background.SetAsFirstSibling();
+        background.localScale = new (_backgroundScale.x, _backgroundScale.y);
+        background.sizeDelta = new(tileSize.x * _size.x, tileSize.y * _size.y);
+        
+        Vector2 gridSize = new Vector2(_size.x * tileSize.x * _scale.x, _size.y * tileSize.y * _scale.y);
+        Vector2 backgroundSize = new Vector2(_size.x * tileSize.x * _backgroundScale.x, _size.y * tileSize.y * _backgroundScale.y);
+        Vector2 sizeDifference = backgroundSize - gridSize;
+        
+        background.localPosition = new(-sizeDifference.x / 2, sizeDifference.y / 2);
     }
     
     public Vector2Int GetTileGridPosition(Vector2 mousePosition)
@@ -60,8 +82,14 @@ public class ItemGrid : MonoBehaviour
         }
 
         if (overlappedItem)
+        {
+            if (!overlappedItem.IsFullQuantity() && inventoryItem.inventoryItemSO.IsSame(overlappedItem.inventoryItemSO))
+                return false;
+            
             SetInventoryItemSlot(overlappedItem, overlappedItem.gridPosition, false);
-        
+        }
+
+        inventoryItem.SetPivotToDefault();
         inventoryItem.SetParent(_rectTransform);
         
         SetInventoryItemSlot(inventoryItem, position, true);
@@ -89,6 +117,7 @@ public class ItemGrid : MonoBehaviour
         
         if (IsOverlapping(position, itemSize, ref dummy))
             return false;
+        
 
         return true;
     }

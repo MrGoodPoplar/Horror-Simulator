@@ -29,15 +29,18 @@ public class InteractController : MonoBehaviour
 
     private readonly Collider[] _colliders = new Collider[3];
     private IInteractable _interactable;
+    private PlayerInput _playerInput;
 
     private void Start()
     {
-        FirstPersonController.instance.playerInput.OnInteract += OnInteractPerformed;
+        _playerInput = Player.instance.playerInput;
+        
+        _playerInput.OnInteract += OnInteractPerformed;
     }
 
     private void OnDestroy()
     {
-        FirstPersonController.instance.playerInput.OnInteract -= OnInteractPerformed;
+        _playerInput.OnInteract -= OnInteractPerformed;
     }
 
     private void Update()

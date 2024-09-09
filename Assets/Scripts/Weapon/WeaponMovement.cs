@@ -26,8 +26,10 @@ public class WeaponMovement : MonoBehaviour
     private Quaternion _initialRotation;
     private Vector3 _initialPosition;
     private PlayerInput _playerInput;
+    
     private FirstPersonController _firstPersonController;
-
+    private ShooterController _shooterController;
+    
     private float _timer;
     private float _recoilTimer;
     private float _recoilSpeed = 0;
@@ -37,10 +39,11 @@ public class WeaponMovement : MonoBehaviour
 
     private void Start()
     {
+        _shooterController = Player.instance.shooterController;
+        _firstPersonController = Player.instance.firstPersonController;
+        
         _initialPosition = transform.localPosition;
         _initialRotation = transform.localRotation;
-
-        _firstPersonController = FirstPersonController.instance;
         _playerInput = _firstPersonController.playerInput;
     }
 
@@ -58,8 +61,8 @@ public class WeaponMovement : MonoBehaviour
     private void HandleSway()
     {
         Vector2 lookInput = _playerInput.look;
-        float swayAmount = ShooterController.instance.isAiming ? _aimSwayAmount : _swayAmount;
-        float swaySpeed = ShooterController.instance.isAiming ? _aimSwaySpeed : _swaySpeed;
+        float swayAmount = _shooterController.isAiming ? _aimSwayAmount : _swayAmount;
+        float swaySpeed = _shooterController.isAiming ? _aimSwaySpeed : _swaySpeed;
 
         float swayX = lookInput.x * swayAmount;
         float swayY = lookInput.y * swayAmount;
@@ -70,8 +73,8 @@ public class WeaponMovement : MonoBehaviour
 
     private void HandleBobbing()
     {
-        float bobAmount = ShooterController.instance.isAiming ? _aimBobAmount : _bobAmount;
-        float bobSpeed = ShooterController.instance.isAiming ? _aimBobSpeed : _bobSpeed;
+        float bobAmount = _shooterController.isAiming ? _aimBobAmount : _bobAmount;
+        float bobSpeed = _shooterController.isAiming ? _aimBobSpeed : _bobSpeed;
 
         if (_playerInput.move.magnitude > 0)
         {
@@ -92,7 +95,7 @@ public class WeaponMovement : MonoBehaviour
         if (_recoilTimer > 0)
         {
             _recoilTimer -= Time.deltaTime;
-            float recoilForce = ShooterController.instance.isAiming ? _recoilForce * _aimRecoilReducer : _recoilForce;
+            float recoilForce = _shooterController.isAiming ? _recoilForce * _aimRecoilReducer : _recoilForce;
             Vector3 targetPosition = _initialPosition + Vector3.back * recoilForce;
 
             transform.localPosition = Vector3.Lerp(transform.localPosition, targetPosition, Time.deltaTime * _recoilSpeed);
@@ -109,7 +112,7 @@ public class WeaponMovement : MonoBehaviour
                 _timer = 0;
             }
 
-            float aimReducer = ShooterController.instance.isAiming ? _aimJumpReducer : 1f;
+            float aimReducer = _shooterController.isAiming ? _aimJumpReducer : 1f;
             float jumpSwayAmount = _jumpSwayAmount * aimReducer;
             float jumpSwaySpeed = _jumpSwaySpeed * aimReducer;
             float jumpSwayHorizontal = _jumpSwayHorizontal * aimReducer;

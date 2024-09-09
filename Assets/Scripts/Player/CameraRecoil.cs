@@ -18,7 +18,7 @@ public class CameraRecoil : MonoBehaviour
 
     private void Start()
     {
-        _shooterController = ShooterController.instance;
+        _shooterController = Player.instance.shooterController;
     }
 
     private void Update()

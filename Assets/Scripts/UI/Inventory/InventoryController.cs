@@ -35,7 +35,8 @@ public class InventoryController : MonoBehaviour
         {
             // Instantiate a new inventory item
             InventoryItem inventoryItem = Instantiate(_inventoryItemPrefab);
-            inventoryItem.Set(_inventoryItemSOs[Random.Range(0, _inventoryItemSOs.Count)], _itemGrid);
+            InventoryItemSO randomInventoryItemSO = _inventoryItemSOs[Random.Range(0, _inventoryItemSOs.Count)];
+            inventoryItem.Set(randomInventoryItemSO, _itemGrid, Random.Range(1, randomInventoryItemSO.maxQuantity));
 
             Vector2Int? freeSlot = _itemGrid.FindFreeSlotForItem(inventoryItem.inventoryItemSO.size);
 
@@ -165,13 +166,10 @@ public class InventoryController : MonoBehaviour
 
     private void PlaceItem(Vector2Int positionOnGrid)
     {
-        if (_itemGrid.CanPlaceItem(_selectedItem.GetActualSize(), positionOnGrid))
-            _selectedItem.SetPivotToDefault();
-        
         if (_itemGrid.PlaceItem(_selectedItem, positionOnGrid, ref _overlappedItem))
         {
             _selectedItem = null;
-
+            
             if (_overlappedItem)
             {
                 _selectedItem = _overlappedItem;
@@ -180,6 +178,13 @@ public class InventoryController : MonoBehaviour
                 _selectedItem.GetRectTransform().SetAsLastSibling();
                 _selectedItem.SetPivotCenter();
             }
+        }
+        else if (_overlappedItem)
+        {
+            int leftover = _overlappedItem.AddQuantity(_selectedItem.quantity);
+            _selectedItem.SetQuantity(leftover);
+                
+            _overlappedItem = null;
         }
     }
 

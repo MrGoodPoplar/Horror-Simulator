@@ -53,8 +53,8 @@ public class German130Visual : MonoBehaviour
 
     private void Start()
     {
-        _shooterController = ShooterController.instance;
-        _firstPersonController = FirstPersonController.instance;
+        _shooterController = Player.instance.shooterController;
+        _firstPersonController = Player.instance.firstPersonController;
         
         _shooterController.OnReload += OnReloadPerformed;
         _shooterController.OnFire += OnFirePerformed;

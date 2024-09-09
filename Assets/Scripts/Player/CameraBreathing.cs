@@ -33,6 +33,7 @@ public class CameraBreathing : MonoBehaviour
     private float _transitionProgress;
 
     private FirstPersonController _firstPersonController;
+    private ShooterController _shooterController;
 
     private void Awake()
     {
@@ -42,8 +43,10 @@ public class CameraBreathing : MonoBehaviour
 
     private void Start()
     {
+        _firstPersonController = Player.instance.firstPersonController;
+        _shooterController = Player.instance.shooterController;
+
         _initialRotation = transform.localEulerAngles;
-        _firstPersonController = FirstPersonController.instance;
         _firstPersonController.OnExhausted += OnExhaustedPerformed;
     }
 
@@ -64,7 +67,7 @@ public class CameraBreathing : MonoBehaviour
             return 0;
 
         float speed = _isDyspneic ? _dyspneicSpeed : _speed;
-        return speed * (ShooterController.instance.isAiming ? _aimBreathingReducer : 1);
+        return speed * (_shooterController.isAiming ? _aimBreathingReducer : 1);
     }
 
     private Vector2 GetTargetAmplitude()
@@ -73,7 +76,7 @@ public class CameraBreathing : MonoBehaviour
             return Vector2.zero;
 
         Vector2 amplitude = _isDyspneic ? _dyspneicAmplitude : _amplitude;
-        return amplitude * (ShooterController.instance.isAiming ? _aimBreathingReducer : 1);
+        return amplitude * (_shooterController.isAiming ? _aimBreathingReducer : 1);
     }
     
     private void HandleBreathing()

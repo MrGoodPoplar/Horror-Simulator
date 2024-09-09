@@ -6,12 +6,17 @@ using UnityEngine.UI;
 [RequireComponent(typeof(RectTransform), typeof(Image))]
 public class InventoryItem : MonoBehaviour
 {
+    [Header("Quantity Settings")]
+    [SerializeField] private int _maxQuantityValueText = 99;
+    
+    [Header("Constraints")]
     [SerializeField] private TextMeshProUGUI _quantityText;
     [SerializeField] private Image _quantityBackground;
 
     public Vector2Int gridPosition { get; set; }
     public InventoryItemSO inventoryItemSO { get; private set; }
     public bool rotated { get; private set; }
+    public int quantity { get; private set; }
     
     private RectTransform _rectTransform;
     private Vector2 _defaultPivot;
@@ -59,11 +64,11 @@ public class InventoryItem : MonoBehaviour
             ));
     }
 
-    public void Set(InventoryItemSO inventoryItemSO, ItemGrid itemGrid)
+    public void Set(InventoryItemSO inventoryItemSO, ItemGrid itemGrid, int quantity = 1)
     {
         this.inventoryItemSO = inventoryItemSO;
         
-        _quantityBackground.gameObject.SetActive(inventoryItemSO.countable);
+        _quantityBackground.gameObject.SetActive(inventoryItemSO.isCountable);
 
         GetComponent<Image>().sprite = inventoryItemSO.icon;
 
@@ -71,6 +76,43 @@ public class InventoryItem : MonoBehaviour
             GetActualSize().x * itemGrid.tileSize.x,
             GetActualSize().y * itemGrid.tileSize.y
         );
+
+        SetQuantity(quantity);
+    }
+
+    public int AddQuantity(int value)
+    {
+        return SetQuantity(quantity + value);
+    }
+    
+    public int SetQuantity(int newQuantity)
+    {
+        if (newQuantity < 0)
+            throw new ArgumentOutOfRangeException(nameof(newQuantity), "Inventory item quantity cannot be less than zero!");
+
+        if (newQuantity == 0)
+            Destroy(gameObject);
+        
+        int maxCapacity = inventoryItemSO.maxQuantity;
+
+        if (newQuantity <= maxCapacity)
+        {
+            quantity = newQuantity;
+            UpdateQuantityText(quantity);
+            
+            return 0;
+        }
+
+        quantity = maxCapacity;
+        UpdateQuantityText(quantity);
+
+        return newQuantity - maxCapacity;
+    }
+
+    public void UpdateQuantityText(int value)
+    {
+        value = value > _maxQuantityValueText ? _maxQuantityValueText : value;
+        _quantityText.text = value.ToString();
     }
     
     private void SetPivot(Vector2 newPivot)
@@ -101,5 +143,10 @@ public class InventoryItem : MonoBehaviour
             rotated ? inventoryItemSO.size.y : inventoryItemSO.size.x,
             rotated ? inventoryItemSO.size.x : inventoryItemSO.size.y
         );
+    }
+
+    public bool IsFullQuantity()
+    {
+        return quantity == inventoryItemSO.maxQuantity;
     }
 }

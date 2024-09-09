@@ -15,7 +15,7 @@ public class RigidBodyPush : MonoBehaviour
         {
             bool isPushed = PushRigidBodies(hit);
 
-            FirstPersonController.instance.canStepOffset = !isPushed;
+            Player.instance.firstPersonController.canStepOffset = !isPushed;
         }
     }
 

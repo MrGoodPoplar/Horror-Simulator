@@ -5,13 +5,17 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(ItemGrid))]
 public class GridInteract : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] private InventoryController _inventoryController;
-
+    private InventoryController _inventoryController;
     private ItemGrid _itemGrid;
 
     private void Awake()
     {
         _itemGrid = GetComponent<ItemGrid>();
+    }
+
+    private void Start()
+    {
+        _inventoryController = Player.instance.inventoryController;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

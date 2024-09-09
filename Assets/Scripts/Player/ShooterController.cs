@@ -7,8 +7,6 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(FirstPersonController))]
 public class ShooterController : MonoBehaviour
 {
-    public static ShooterController instance { get; private set; }
-
     public event Action OnFire;
     public event Action OnReload;
     
@@ -37,15 +35,6 @@ public class ShooterController : MonoBehaviour
     
     private void Awake()
     {
-        if (!instance)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(this);
-        }
-        
         _firstPersonController = GetComponent<FirstPersonController>();
         _playerInput = _firstPersonController.playerInput;
         

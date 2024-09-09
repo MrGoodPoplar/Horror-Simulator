@@ -100,10 +100,10 @@ TextureImporter:
       name: German 130 Icon
       rect:
         serializedVersion: 2
-        x: 7
-        y: 188
-        width: 64
-        height: 62
+        x: 3
+        y: 220
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -111,7 +111,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 70b63556af43ad243b8c3f80a3ed8160
+      spriteID: 5c32d36d1e56b104ab9e9d186f717220
       internalID: 2007263036
       vertices: []
       indices: 
@@ -121,40 +121,19 @@ TextureImporter:
       name: German 130 Bullet Icon
       rect:
         serializedVersion: 2
-        x: 80
-        y: 223
-        width: 32
-        height: 32
+        x: 53
+        y: 226
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f4b89eb7dceede646975cf69afdfb4f8
+      spriteID: 9aeef5babd4aeef44adc4cacecb7d803
       internalID: -1002449638
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: German 130 Bullet Heap Icon
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 185
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4cf75c00e5d66c74b98b451623e18983
-      internalID: -169739177
       vertices: []
       indices: 
       edges: []
@@ -170,7 +149,6 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      German 130 Bullet Heap Icon: -169739177
       German 130 Bullet Icon: -1002449638
       German 130 Icon: 2007263036
   mipmapLimitGroupName: 

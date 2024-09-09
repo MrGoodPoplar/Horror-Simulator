@@ -7,8 +7,6 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
 public class FirstPersonController : MonoBehaviour
 {
-    public static FirstPersonController instance { get; private set; }
-
     public event Action OnExhausted;
     
     public bool canSprint { get; set; } = true;
@@ -65,15 +63,6 @@ public class FirstPersonController : MonoBehaviour
 
     private void Awake()
     {
-        if (!instance)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(this);
-        }
-        
         _characterController = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
         
@@ -82,9 +71,6 @@ public class FirstPersonController : MonoBehaviour
         _stepOffset = _characterController.stepOffset;
         _standingHeight = _characterController.height;
         _currentStamina = _staminaDuration;
-        
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
 
         if (!canStepOffset)
             _characterController.stepOffset = 0;

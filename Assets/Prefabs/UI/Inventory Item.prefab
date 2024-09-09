@@ -111,7 +111,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -0.75, y: 1}
-  m_SizeDelta: {x: -2.25, y: -1.5}
+  m_SizeDelta: {x: -2.25, y: -2.5}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &8610372579147049000
 CanvasRenderer:
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 12
+  m_text: 99
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d6854196e1ce86a4e9d1bfc0af74f075, type: 2}
   m_sharedMaterial: {fileID: -8402795843764482426, guid: d6854196e1ce86a4e9d1bfc0af74f075,
@@ -169,14 +169,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 5.2
+  m_fontSize: 4.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 1
-  m_fontSizeMax: 72
-  m_fontStyle: 2
-  m_HorizontalAlignment: 4
+  m_fontSizeMax: 18
+  m_fontStyle: 9
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -300,5 +300,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1f464fa25a0444fb908f5c8da57192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxQuantity: 99
   _quantityText: {fileID: 4892561630858411978}
   _quantityBackground: {fileID: 2986296400428724921}
