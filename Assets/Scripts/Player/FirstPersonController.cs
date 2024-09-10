@@ -18,6 +18,8 @@ public class FirstPersonController : MonoBehaviour
     public PlayerInput playerInput { get; private set; }
     public bool isGrounded => _characterController.isGrounded;
     public float velocity => Mathf.Clamp01(_characterController.velocity.magnitude / _sprintSpeed);
+    public float height => _characterController.height;
+    public Vector3 characterControllerCenter => _characterController.center;
 
     [Header("Movement Settings")]
     [SerializeField] private float _walkSpeed = 3.0f;

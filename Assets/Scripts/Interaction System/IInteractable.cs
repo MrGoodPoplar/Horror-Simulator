@@ -4,7 +4,7 @@ using UnityEngine;
 public interface IInteractable
 {
     public Transform transform { get; }
+    public InteractableVisualSO InteractableVisualSO { get; }
     
-    public string GetInteractionPrompt();
     public bool Interact(InteractController interactController);
 }

@@ -1,8 +1,7 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InteractionPromptUI : MonoBehaviour
 {
@@ -14,10 +13,12 @@ public class InteractionPromptUI : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private Transform _promptUI;
     [SerializeField] private TextMeshProUGUI _promptText;
+    [SerializeField] private Image _promptImage;
     [SerializeField] private InteractController _interactController;
     
     private Vector3 _originalScale;
     private Transform _interactableTransform;
+    private Transform _visualPrompt;
     
     private void Start()
     {
@@ -41,7 +42,7 @@ public class InteractionPromptUI : MonoBehaviour
     {
         if (_interactableTransform)
         {
-            _promptUI.position = _interactableTransform.position;
+            _visualPrompt.position = _interactableTransform.position;
         }
     }
 
@@ -59,15 +60,18 @@ public class InteractionPromptUI : MonoBehaviour
     private void OnInteractHover(object sender, InteractController.InteractEventArgs e)
     {
         _interactableTransform = e.interactable.transform;
-        _promptText.text = e.interactable.GetInteractionPrompt();
+        _promptText.text = e.interactable.InteractableVisualSO.text;
+
+        _visualPrompt?.gameObject.SetActive(false);
+        _visualPrompt = e.interactable.InteractableVisualSO.visualType == InteractableVisualSO.VisualType.Icon ? _promptImage.transform : _promptUI;
         
-        _promptUI.position = _interactableTransform.position;
-        _promptUI.gameObject.SetActive(true);
+        _visualPrompt.position = _interactableTransform.position;
+        _visualPrompt.gameObject.SetActive(true);
     }
     
     private void OnInteractUnhover(object sender, InteractController.InteractEventArgs e)
     {
-        _promptUI.gameObject.SetActive(false);
+        _visualPrompt.gameObject.SetActive(false);
     }
     
     private IEnumerator InteractEffectCoroutine()
@@ -77,21 +81,21 @@ public class InteractionPromptUI : MonoBehaviour
 
         while (elapsed < _clickDuration)
         {
-            _promptUI.transform.localScale = Vector3.Lerp(_originalScale, targetScale, elapsed / _clickDuration);
+            _visualPrompt.transform.localScale = Vector3.Lerp(_originalScale, targetScale, elapsed / _clickDuration);
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        _promptUI.transform.localScale = targetScale;
+        _visualPrompt.transform.localScale = targetScale;
 
         elapsed = 0f;
         while (elapsed < _clickDuration)
         {
-            _promptUI.transform.localScale = Vector3.Lerp(targetScale, _originalScale, elapsed / _clickDuration);
+            _visualPrompt.transform.localScale = Vector3.Lerp(targetScale, _originalScale, elapsed / _clickDuration);
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        _promptUI.transform.localScale = _originalScale;
+        _visualPrompt.transform.localScale = _originalScale;
     }
 }

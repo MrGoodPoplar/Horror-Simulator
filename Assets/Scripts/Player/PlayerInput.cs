@@ -16,6 +16,7 @@ public class PlayerInput : MonoBehaviour
     public event Action OnInteract;
     public event Action OnClick;
     public event Action OnRotate;
+    public event Action OnOpenHUD;
     
     private PlayerInputActions _playerInputActions;
     
@@ -32,6 +33,7 @@ public class PlayerInput : MonoBehaviour
         _playerInputActions.Player.Interact.performed += OnInteractPerformed;
         _playerInputActions.Player.Click.performed += OnClickPerformed;
         _playerInputActions.Player.Rotate.performed += OnRotatePerformed;
+        _playerInputActions.Player.OpenHUD.performed += OnOpenHUDPerfmormed;
         
         _playerInputActions.Enable();
     }
@@ -44,10 +46,11 @@ public class PlayerInput : MonoBehaviour
         _playerInputActions.Player.Interact.performed -= OnInteractPerformed;
         _playerInputActions.Player.Click.performed -= OnClickPerformed;
         _playerInputActions.Player.Rotate.performed -= OnRotatePerformed;
+        _playerInputActions.Player.OpenHUD.performed -= OnOpenHUDPerfmormed;
 
         _playerInputActions.Disable();
     }
-    
+
     private void OnDestroy()
     {
         OnDisable();
@@ -91,5 +94,10 @@ public class PlayerInput : MonoBehaviour
     private void OnRotatePerformed(InputAction.CallbackContext obj)
     {
         OnRotate?.Invoke();
+    }
+    
+    private void OnOpenHUDPerfmormed(InputAction.CallbackContext obj)
+    {
+        OnOpenHUD?.Invoke();
     }
 }

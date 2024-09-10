@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(RectTransform))]
 public class ItemGrid : MonoBehaviour
@@ -15,6 +15,7 @@ public class ItemGrid : MonoBehaviour
     
     [Header("Constraints")]
     [SerializeField] private PlayerInput _playerInput;
+    [SerializeField] private Transform _itemDragParent;
 
     public RectTransform rectTransform => _rectTransform;
     
@@ -87,6 +88,7 @@ public class ItemGrid : MonoBehaviour
                 return false;
             
             SetInventoryItemSlot(overlappedItem, overlappedItem.gridPosition, false);
+            overlappedItem.SetParent(_itemDragParent, _scale);
         }
 
         inventoryItem.SetPivotToDefault();
@@ -140,7 +142,7 @@ public class ItemGrid : MonoBehaviour
         if (inventoryItem)
         {
             SetInventoryItemSlot(inventoryItem, inventoryItem.gridPosition, false);
-            inventoryItem.SetParent(_rectTransform.parent, _scale);
+            inventoryItem.SetParent(_itemDragParent, _scale);
         }
 
         return inventoryItem;

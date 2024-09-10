@@ -9,6 +9,7 @@ public class InventoryItemSO : ScriptableObject
     [field: SerializeField] public int maxQuantity { get; private set; } = 1;
 
     public bool isCountable => maxQuantity > 1;
+    public bool isSymmetrical => size.x == size.y;
     
     public bool IsSame(InventoryItemSO inventoryItemSo)
     {

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ffa02e96590e94cb2931812f425457, type: 3}
   m_Name: German 130 Bullet
   m_EditorClassIdentifier: 
-  <itemName>k__BackingField: 
+  <itemName>k__BackingField: .357 magnum bullet
   <size>k__BackingField: {x: 1, y: 1}
   <icon>k__BackingField: {fileID: -1002449638, guid: a55a80415dc11084aadd8b7aab26a4cc,
     type: 3}

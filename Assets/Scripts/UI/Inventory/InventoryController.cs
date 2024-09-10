@@ -8,14 +8,15 @@ public class InventoryController : MonoBehaviour
     [SerializeField] private List<InventoryItemSO> _inventoryItemSOs;
     [SerializeField] private InventoryItem _inventoryItemPrefab;
     [SerializeField] private InventoryItemHighlight _itemHighlight;
-
+    [SerializeField] private ItemGrid _inventoryItemGrid;
+    
     private ItemGrid _itemGrid;
     private InventoryItem _selectedItem;
     private InventoryItem _overlappedItem;
 
     private Vector2Int _positionOnGrid;
     private Vector2Int _tileSize;
-    private bool _itemRotationUpdated;
+    private bool _itemStateUpdated;
 
     private void Start()
     {
@@ -56,6 +57,40 @@ public class InventoryController : MonoBehaviour
         HandleItemDrag();
     }
 
+    public bool AddItemToInventory(InventoryItemSO inventoryItemSO, int quantity)
+    {
+        while (quantity > 0)
+        {
+            int quantityToAdd = Mathf.Clamp(quantity, 1, inventoryItemSO.maxQuantity);
+            bool isInserted = InsertItemToInventory(inventoryItemSO, quantityToAdd);
+
+            if (!isInserted)
+                return false;
+
+            quantity -= quantityToAdd;
+        }
+
+        return true;
+    }
+
+    public bool InsertItemToInventory(InventoryItemSO inventoryItemSO, int quantity)
+    {
+        InventoryItem inventoryItem = Instantiate(_inventoryItemPrefab);
+        inventoryItem.Set(inventoryItemSO, _inventoryItemGrid, Mathf.Clamp(quantity, 1, inventoryItemSO.maxQuantity));
+
+        Vector2Int? freeSlot = _inventoryItemGrid.FindFreeSlotForItem(inventoryItem.inventoryItemSO.size);
+
+        if (freeSlot.HasValue)
+        {
+            _inventoryItemGrid.PlaceItem(inventoryItem, freeSlot.Value, ref _overlappedItem);
+            inventoryItem.GetRectTransform().SetAsLastSibling();
+            return true;
+        }
+        
+        Destroy(inventoryItem.gameObject);
+        return false;
+    }
+
     public void SetItemGrid(ItemGrid newItemGrid)
     {
         _itemGrid = newItemGrid;
@@ -79,16 +114,17 @@ public class InventoryController : MonoBehaviour
         if (!_itemGrid)
         {
             _itemHighlight.Hide();
+            _itemStateUpdated = true;
             return;
         }
         
         Vector2Int newPositionOnGrid = GetTileGridPosition();
 
-        if (_positionOnGrid == newPositionOnGrid && !_itemRotationUpdated)
+        if (_positionOnGrid == newPositionOnGrid && !_itemStateUpdated)
             return;
 
         _positionOnGrid = newPositionOnGrid;
-        _itemRotationUpdated = false;
+        _itemStateUpdated = false;
         
         if (!_selectedItem)
         {
@@ -169,7 +205,8 @@ public class InventoryController : MonoBehaviour
         if (_itemGrid.PlaceItem(_selectedItem, positionOnGrid, ref _overlappedItem))
         {
             _selectedItem = null;
-            
+            _itemStateUpdated = true;
+
             if (_overlappedItem)
             {
                 _selectedItem = _overlappedItem;
@@ -191,17 +228,21 @@ public class InventoryController : MonoBehaviour
     private void PickUpItem(Vector2Int positionOnGrid)
     {
         _selectedItem = _itemGrid.PickUpItem(positionOnGrid);
-        
-        _selectedItem?.GetRectTransform().SetAsLastSibling();
-        _selectedItem?.SetPivotCenter();
+
+        if (_selectedItem)
+        {
+            _itemStateUpdated = true;
+            _selectedItem.GetRectTransform().SetAsLastSibling();
+            _selectedItem.SetPivotCenter();
+        }
     }
     
     private void OnRotatePerformed()
     {
-        if (!_selectedItem)
+        if (!_selectedItem || _selectedItem.inventoryItemSO.isSymmetrical)
             return;
 
-        _itemRotationUpdated = true;
+        _itemStateUpdated = true;
         _selectedItem.Rotate(_tileSize);
     }
 }

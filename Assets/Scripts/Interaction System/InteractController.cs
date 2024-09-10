@@ -3,10 +3,19 @@ using UnityEngine;
 
 public class InteractController : MonoBehaviour
 {
+    [Header("Settings")]
+    [SerializeField, Range(0, 5)] private float _interactionRadius = 0.25f;
+    [SerializeField, Range(0, 5)] private float _interactDistance = 3.0f;
+    [SerializeField] private LayerMask _interactableMask;
+
+    [Header("Constraints")]
+    [SerializeField] private HitPointer _hitPointer;
+
     public event EventHandler<InteractEventArgs> OnInteract;
     public event EventHandler<InteractEventArgs> OnInteractHover;
     public event EventHandler<InteractEventArgs> OnInteractUnhover;
-
+    
+    #region InteractEventArgs Class
     public class InteractEventArgs : EventArgs
     {
         public IInteractable interactable { get; private set; }
@@ -16,17 +25,10 @@ public class InteractController : MonoBehaviour
             this.interactable = interactable;
         }
     }
+    #endregion
 
     public bool isInteractableInRange { get; private set; }
     
-    [Header("Settings")]
-    [SerializeField, Range(0, 5)] private float _interactionRadius = 0.25f;
-    [SerializeField, Range(0, 5)] private float _interactDistance = 2.0f;
-    [SerializeField] private LayerMask _interactableMask;
-
-    [Header("Constraints")]
-    [SerializeField] private HitPointer _hitPointer;
-
     private readonly Collider[] _colliders = new Collider[3];
     private IInteractable _interactable;
     private PlayerInput _playerInput;

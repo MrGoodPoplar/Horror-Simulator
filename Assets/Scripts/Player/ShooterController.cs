@@ -112,4 +112,11 @@ public class ShooterController : MonoBehaviour
         if (canReload && _currentWeapon.bulletsInClip != _currentWeapon.clipSize)
             OnReload?.Invoke();
     }
+    
+    public void ToggleWeaponInteraction(bool toggle)
+    {
+        canAim = toggle;
+        canReload = toggle;
+        canFire = toggle;
+    }
 }

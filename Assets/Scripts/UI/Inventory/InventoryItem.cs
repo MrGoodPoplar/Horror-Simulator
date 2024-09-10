@@ -28,7 +28,7 @@ public class InventoryItem : MonoBehaviour
     {
         if (_rectTransform)
             return _rectTransform;
-
+        
         _rectTransform = GetComponent<RectTransform>();
         _defaultPivot = _rectTransform.pivot;
         _defaultScale = _rectTransform.localScale;
@@ -71,7 +71,7 @@ public class InventoryItem : MonoBehaviour
         _quantityBackground.gameObject.SetActive(inventoryItemSO.isCountable);
 
         GetComponent<Image>().sprite = inventoryItemSO.icon;
-
+        
         GetRectTransform().sizeDelta = new(
             GetActualSize().x * itemGrid.tileSize.x,
             GetActualSize().y * itemGrid.tileSize.y

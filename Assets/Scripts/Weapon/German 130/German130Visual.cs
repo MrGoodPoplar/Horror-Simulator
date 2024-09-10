@@ -81,7 +81,7 @@ public class German130Visual : MonoBehaviour
         if (_isReloadAnimationPlaying && !AnimatorIsPlaying(_currentReloadAnimationState))
         {
             _isReloadAnimationPlaying = false;
-            ToggleWeaponInteraction(true);
+            _shooterController.ToggleWeaponInteraction(true);
         }
     }
     
@@ -198,7 +198,7 @@ public class German130Visual : MonoBehaviour
     private async void OnReloadPerformed()
     {
         _reloadingInterrupted = false;
-        ToggleWeaponInteraction(false);
+        _shooterController.ToggleWeaponInteraction(false);
         RotateCylinder(_currentChamberIndex = 0, false);
         
         int bulletsToReload = _german130.clipSize - _german130.bulletsInClip;
@@ -277,13 +277,6 @@ public class German130Visual : MonoBehaviour
     private bool AnimatorIsPlaying(string stateName)
     {
         return AnimatorIsPlaying() && _animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
-    }
-
-    private void ToggleWeaponInteraction(bool toggle)
-    {
-        _shooterController.canAim = toggle;
-        _shooterController.canReload = toggle;
-        _shooterController.canFire = toggle;
     }
     
     private void OnInputFirePerformed()

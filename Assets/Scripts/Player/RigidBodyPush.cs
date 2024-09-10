@@ -1,44 +1,49 @@
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(CapsuleCollider))]
 public class RigidBodyPush : MonoBehaviour
 {
-    [field: SerializeField] public LayerMask pushLayers { get; set; }
     [field: SerializeField] public bool canPush { get; set; }
     [field: SerializeField, Range(0, 5)] public float strength { get; set; } = 1.0f;
+    
+    private FirstPersonController _firstPersonController;
+    private CapsuleCollider _capsuleCollider;
+    
+    private void Awake()
+    {
+        _capsuleCollider = GetComponent<CapsuleCollider>();
+    }
 
-    [SerializeField, Range(-1, 0)] private float _ignoreHeightThreshold = -0.1f;
+    private void Start()
+    {
+        _firstPersonController = Player.instance.firstPersonController;
+    }
 
-    private void OnControllerColliderHit(ControllerColliderHit hit)
+    private void Update()
+    {
+        _capsuleCollider.height = _firstPersonController.height;
+        _capsuleCollider.center = _firstPersonController.characterControllerCenter;
+    }
+
+    private void OnTriggerEnter(Collider other)
     {
         if (canPush)
         {
-            bool isPushed = PushRigidBodies(hit);
-
-            Player.instance.firstPersonController.canStepOffset = !isPushed;
+            PushRigidBodies(other);
         }
     }
 
-    private bool IsInPushLayers(int layer)
+    private bool PushRigidBodies(Collider other)
     {
-        return ((1 << layer) & pushLayers) != 0;
-    }
-
-    private bool PushRigidBodies(ControllerColliderHit hit)
-    {
-        Rigidbody body = hit.collider.attachedRigidbody;
+        Rigidbody body = other.attachedRigidbody;
 
         if (body == null || body.isKinematic)
             return false;
+        
+        Vector3 pushDir = new Vector3(transform.forward.x, 0.0f, transform.forward.z).normalized;
 
-        if (!IsInPushLayers(body.gameObject.layer))
-            return false;
-
-        if (hit.moveDirection.y < _ignoreHeightThreshold)
-            return false;
-
-        Vector3 pushDir = new Vector3(hit.moveDirection.x, 0.0f, hit.moveDirection.z);
-        body.AddForceAtPosition(pushDir * strength, hit.point, ForceMode.Impulse);
+        body.AddForce(pushDir * strength, ForceMode.Impulse);
 
         return true;
     }
