@@ -1,10 +1,7 @@
-using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public static Player instance { get; private set; }
-
     [field: SerializeField] public FirstPersonController firstPersonController { get; private set; }
     [field: SerializeField] public ShooterController shooterController { get; private set; }
     [field: SerializeField] public InventoryController inventoryController { get; private set; }
@@ -13,7 +10,9 @@ public class Player : MonoBehaviour
     [Header("Constraints")]
     [SerializeField] private Transform _hud;
     
-    private bool _inventoryOpened;
+    public static Player instance { get; private set; }
+
+    public bool isHUDView { get; private set; }
     
     private void Awake()
     {
@@ -27,7 +26,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        ToggleHUDView(_inventoryOpened);
+        ToggleHUDView(isHUDView);
         
         playerInput.OnOpenHUD += OnOpenHUDPerformed;
     }
@@ -45,12 +44,12 @@ public class Player : MonoBehaviour
     
     private void OnOpenHUDPerformed()
     {
-        _inventoryOpened = !_inventoryOpened;
-        ToggleHUDView(_inventoryOpened);
+        isHUDView = !isHUDView;
+        ToggleHUDView(isHUDView);
         
         // TODO: move to separate class and probably just pause game in inventory
-        firstPersonController.canMove = !_inventoryOpened;
-        shooterController.ToggleWeaponInteraction(!_inventoryOpened);
+        firstPersonController.canMove = !isHUDView;
+        shooterController.ToggleWeaponInteraction(!isHUDView);
     }
 
     private void ToggleHUDView(bool toggle)

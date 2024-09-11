@@ -4,6 +4,9 @@ using UnityEngine.UI;
 [RequireComponent(typeof(RectTransform))]
 public class ItemGrid : MonoBehaviour
 {
+    [Header("Settings")]
+    [SerializeField] private bool _grabOnly;
+    
     [field: Header("Tile Settings")]
     [field: SerializeField] public Vector2Int tileSize { get; private set; } = new (16, 16);
     [SerializeField] private Vector2Int _size = new (8, 8);
@@ -71,6 +74,12 @@ public class ItemGrid : MonoBehaviour
         return _tileGridPosition;
     }
 
+    public bool PlaceItemAsGrabOnly(InventoryItem inventoryItem, Vector2Int position)
+    {
+        // TODO: implement
+        return true;
+    }
+    
     public bool PlaceItem(InventoryItem inventoryItem, Vector2Int position, ref InventoryItem overlappedItem)
     {
         if (!IsItemInsideBoundary(position, inventoryItem.GetActualSize()))
@@ -91,6 +100,7 @@ public class ItemGrid : MonoBehaviour
             overlappedItem.SetParent(_itemDragParent, _scale);
         }
 
+        // TODO: separate visual from this class
         inventoryItem.SetPivotToDefault();
         inventoryItem.SetParent(_rectTransform);
         

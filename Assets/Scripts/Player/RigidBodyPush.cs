@@ -40,10 +40,10 @@ public class RigidBodyPush : MonoBehaviour
 
         if (body == null || body.isKinematic)
             return false;
-        
-        Vector3 pushDir = new Vector3(transform.forward.x, 0.0f, transform.forward.z).normalized;
 
-        body.AddForce(pushDir * strength, ForceMode.Impulse);
+        Vector3 moveDirection = new Vector3(_firstPersonController.moveDirection.x, 0.0f, _firstPersonController.moveDirection.z).normalized;
+
+        body.AddForce(moveDirection * strength, ForceMode.Impulse);
 
         return true;
     }

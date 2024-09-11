@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -32,6 +33,7 @@ public class German130Visual : MonoBehaviour
     private Animator _animator;
     private ShooterController _shooterController;
     private FirstPersonController _firstPersonController;
+    private PlayerInput _playerInput;
     private Weapon _german130;
     
     private int _currentChamberIndex;
@@ -55,9 +57,11 @@ public class German130Visual : MonoBehaviour
     {
         _shooterController = Player.instance.shooterController;
         _firstPersonController = Player.instance.firstPersonController;
+        _playerInput = Player.instance.playerInput;
         
         _shooterController.OnReload += OnReloadPerformed;
         _shooterController.OnFire += OnFirePerformed;
+        _playerInput.OnOpenHUD += OnOpenHudPerformed;
         
         _firstPersonController.playerInput.OnFire += OnInputFirePerformed;
 
@@ -69,6 +73,7 @@ public class German130Visual : MonoBehaviour
     {
         _shooterController.OnReload -= OnReloadPerformed;
         _shooterController.OnFire -= OnFirePerformed;
+        _playerInput.OnOpenHUD -= OnOpenHudPerformed;
 
         _firstPersonController.playerInput.OnFire -= OnInputFirePerformed;
     }
@@ -81,7 +86,7 @@ public class German130Visual : MonoBehaviour
         if (_isReloadAnimationPlaying && !AnimatorIsPlaying(_currentReloadAnimationState))
         {
             _isReloadAnimationPlaying = false;
-            _shooterController.ToggleWeaponInteraction(true);
+            _shooterController.ToggleWeaponInteraction(!Player.instance.isHUDView);
         }
     }
     
@@ -192,19 +197,24 @@ public class German130Visual : MonoBehaviour
     {
         _emptyShellsInside++;
         _currentChamberIndex = (_currentChamberIndex + 1) % 6;
-        RotateCylinder(_currentChamberIndex);
+        RotateCylinder(_currentChamberIndex).Forget();;
     }
 
-    private async void OnReloadPerformed()
+    private void OnReloadPerformed()
+    {
+        Reload().Forget();;
+    }
+
+    private async UniTaskVoid Reload()
     {
         _reloadingInterrupted = false;
         _shooterController.ToggleWeaponInteraction(false);
-        RotateCylinder(_currentChamberIndex = 0, false);
+        RotateCylinder(_currentChamberIndex = 0, false).Forget();;
         
         int bulletsToReload = _german130.clipSize - _german130.bulletsInClip;
         _animator.SetTrigger(GetReloadAnimationTrigger(bulletsToReload));
         
-        await Task.Delay((int)(_transitionDuration * 1000));
+        await UniTask.WaitForSeconds(_transitionDuration);
 
         SmoothBulletsReverse();
         
@@ -216,12 +226,12 @@ public class German130Visual : MonoBehaviour
     {
         if (_german130.bulletsInClip > 0)
         {
-            RotateByFullTurns(1, _cylinderRotationDuration / 2);
+            RotateByFullTurns(1, _cylinderRotationDuration / 2).Forget();;
             ReverseBulletsActive(_german130.bulletsInClip);
         }
     }
 
-    private async void RotateByFullTurns(float fullTurns, float duration)
+    private async UniTaskVoid RotateByFullTurns(float fullTurns, float duration)
     {
         float totalRotation = fullTurns * 360f;
         float elapsedTime = 0f;
@@ -234,14 +244,14 @@ public class German130Visual : MonoBehaviour
             float currentRotationY = Mathf.Lerp(startRotationY, targetRotationY, t);
             _cylinderRotationConstraint.localRotation = Quaternion.Euler(0f, currentRotationY, 0f);
             elapsedTime += Time.deltaTime;
-            await Task.Yield();
+            await UniTask.Yield();
         }
 
         _cylinderRotationConstraint.localRotation = Quaternion.Euler(0f, targetRotationY, 0f);
     }
 
     
-    private async void RotateCylinder(int chamberIndex, bool canReloadAfter = true)
+    private async UniTaskVoid RotateCylinder(int chamberIndex, bool canReloadAfter = true)
     {
         if (_isCylinderRotating)
             return;
@@ -260,7 +270,7 @@ public class German130Visual : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
             _cylinderRotationConstraint.localRotation = Quaternion.Lerp(initialRotation, targetRotation, elapsedTime / _cylinderRotationDuration);
-            await Task.Yield();
+            await UniTask.Yield();
         }
 
         _cylinderRotationConstraint.localRotation = targetRotation;
@@ -280,6 +290,16 @@ public class German130Visual : MonoBehaviour
     }
     
     private void OnInputFirePerformed()
+    {
+        InterruptReloadAnimation();
+    }
+
+    private void OnOpenHudPerformed()
+    {
+        InterruptReloadAnimation();
+    }
+
+    private void InterruptReloadAnimation()
     {
         if (_isReloadAnimationPlaying)
             _reloadingInterrupted = true;

@@ -25,6 +25,7 @@ public class InteractionPromptUI : MonoBehaviour
         _originalScale = _promptUI.transform.localScale;
         
         _promptUI.gameObject.SetActive(false);
+        _promptImage.gameObject.SetActive(false);
         
         _interactController.OnInteract += OnInteractPerformed;
         _interactController.OnInteractHover += OnInteractHover;

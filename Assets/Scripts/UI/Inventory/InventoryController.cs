@@ -9,6 +9,7 @@ public class InventoryController : MonoBehaviour
     [SerializeField] private InventoryItem _inventoryItemPrefab;
     [SerializeField] private InventoryItemHighlight _itemHighlight;
     [SerializeField] private ItemGrid _inventoryItemGrid;
+    [SerializeField] private ItemGrid _tempInventoryItemGrid;
     
     private ItemGrid _itemGrid;
     private InventoryItem _selectedItem;
@@ -57,32 +58,37 @@ public class InventoryController : MonoBehaviour
         HandleItemDrag();
     }
 
-    public bool AddItemToInventory(InventoryItemSO inventoryItemSO, int quantity)
+    public bool AddItemToInventory(InventoryItemSO inventoryItemSO, int quantity, out int quantityLeftover, bool toTempInventory = false)
     {
         while (quantity > 0)
         {
             int quantityToAdd = Mathf.Clamp(quantity, 1, inventoryItemSO.maxQuantity);
-            bool isInserted = InsertItemToInventory(inventoryItemSO, quantityToAdd);
+            bool isInserted = InsertItemToInventory(inventoryItemSO, quantityToAdd, toTempInventory);
 
             if (!isInserted)
+            {
+                quantityLeftover = quantity;
                 return false;
+            }
 
             quantity -= quantityToAdd;
         }
 
+        quantityLeftover = 0;
         return true;
     }
 
-    public bool InsertItemToInventory(InventoryItemSO inventoryItemSO, int quantity)
+    public bool InsertItemToInventory(InventoryItemSO inventoryItemSO, int quantity, bool toTempInventory = false)
     {
+        ItemGrid itemGrid = toTempInventory ? _tempInventoryItemGrid : _inventoryItemGrid;
         InventoryItem inventoryItem = Instantiate(_inventoryItemPrefab);
-        inventoryItem.Set(inventoryItemSO, _inventoryItemGrid, Mathf.Clamp(quantity, 1, inventoryItemSO.maxQuantity));
+        inventoryItem.Set(inventoryItemSO, itemGrid, Mathf.Clamp(quantity, 1, inventoryItemSO.maxQuantity));
 
-        Vector2Int? freeSlot = _inventoryItemGrid.FindFreeSlotForItem(inventoryItem.inventoryItemSO.size);
+        Vector2Int? freeSlot = itemGrid.FindFreeSlotForItem(inventoryItem.inventoryItemSO.size);
 
         if (freeSlot.HasValue)
         {
-            _inventoryItemGrid.PlaceItem(inventoryItem, freeSlot.Value, ref _overlappedItem);
+            itemGrid.PlaceItem(inventoryItem, freeSlot.Value, ref _overlappedItem);
             inventoryItem.GetRectTransform().SetAsLastSibling();
             return true;
         }

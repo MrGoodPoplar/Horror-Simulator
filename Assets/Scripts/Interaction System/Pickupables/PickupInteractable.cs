@@ -4,10 +4,10 @@ public class PickupInteractable : MonoBehaviour, IInteractable
 {
     [Header("Settings")]
     [SerializeField] private string _pickupText;
-
     [SerializeField] private Vector2Int _quantityRange = new(1, 1);
     [SerializeField, Range(0, 1)] private float _maxQuantityChance = 0.2f;
     [SerializeField] private CalculationType _calculationType = CalculationType.Exponential;
+    [SerializeField] private bool _destroyOnGrab = false;
     
     enum CalculationType
     {
@@ -19,12 +19,23 @@ public class PickupInteractable : MonoBehaviour, IInteractable
     [field: SerializeField] public InteractableVisualSO InteractableVisualSO { get; private set; }
     [field: SerializeField] public InventoryItemSO inventoryItem { get; private set; }
 
+    private int _quantityLeftover;
+    
     public bool Interact(InteractController interactController)
     {
-        int quantity = GetQuantity();
-        bool result = Player.instance.inventoryController.AddItemToInventory(inventoryItem, quantity);
+        int quantity = _quantityLeftover == 0 ? GetQuantity() : _quantityLeftover;
+        bool result = Player.instance.inventoryController.AddItemToInventory(inventoryItem, quantity, out _quantityLeftover);
+
+        if (_quantityLeftover > 0)
+        {
+            Debug.Log($"Leftover {_quantityLeftover} Adding to temp...");
+            result = Player.instance.inventoryController.AddItemToInventory(inventoryItem, quantity, out _quantityLeftover, true);
+        }
         
-        Debug.Log($"Added {result} Quantity: {quantity}");
+        if (result && _destroyOnGrab)
+            Destroy(gameObject);
+        else if (result)
+            gameObject.SetActive(false);
         
         return true;
     }

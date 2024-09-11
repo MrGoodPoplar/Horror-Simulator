@@ -61,7 +61,7 @@ public class WeaponMovement : MonoBehaviour
     private void HandleSway()
     {
         Vector2 lookInput = _playerInput.look;
-        float swayAmount = _shooterController.isAiming ? _aimSwayAmount : _swayAmount;
+        float swayAmount = GetSwayAmount();
         float swaySpeed = _shooterController.isAiming ? _aimSwaySpeed : _swaySpeed;
 
         float swayX = lookInput.x * swayAmount;
@@ -69,6 +69,14 @@ public class WeaponMovement : MonoBehaviour
 
         Quaternion swayRotation = Quaternion.Euler(-swayY, swayX, 0);
         transform.localRotation = Quaternion.Lerp(transform.localRotation, _initialRotation * swayRotation, Time.deltaTime * swaySpeed);
+    }
+
+    private float GetSwayAmount()
+    {
+        if (!Player.instance.isHUDView)
+            return _shooterController.isAiming ? _aimSwayAmount : _swayAmount;
+
+        return 0;
     }
 
     private void HandleBobbing()

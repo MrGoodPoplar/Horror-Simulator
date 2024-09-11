@@ -179,7 +179,8 @@ MonoBehaviour:
   _inventoryItemPrefab: {fileID: 3112801314620027794, guid: 857db0276b193b542a5ea055138253a0,
     type: 3}
   _itemHighlight: {fileID: 1327131422}
-  _inventoryItemGrid: {fileID: 1812078130}
+  _inventoryItemGrid: {fileID: 1437946902}
+  _tempInventoryItemGrid: {fileID: 1812078130}
 --- !u!4 &101102190 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2703620437120701827, guid: a0db881418e593e4eb23d2871d41b506,
@@ -3643,7 +3644,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -708, y: 597}
+  m_AnchoredPosition: {x: -863, y: 818}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &1413501402 stripped
@@ -3757,7 +3758,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 128, y: 160}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1437946901
 MonoBehaviour:
@@ -3783,8 +3784,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e14e1fc1c091b38418ac60872e9535a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _grabOnly: 0
   <tileSize>k__BackingField: {x: 16, y: 16}
-  _size: {x: 4, y: 4}
+  _size: {x: 8, y: 10}
   _scale: {x: 3.5, y: 3.5}
   _backgroundPrefab: {fileID: 7190745660779952081, guid: 50200e76a5c7cf54ca4c341c2a9aaf01,
     type: 3}
@@ -4005,6 +4007,7 @@ MonoBehaviour:
   _quantityRange: {x: 4, y: 20}
   _maxQuantityChance: 0.2
   _calculationType: 1
+  _destroyOnGrab: 1
   <InteractableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
     type: 2}
   <inventoryItem>k__BackingField: {fileID: 11400000, guid: 4578cb31cc64eb445a72f8c18a533647,
@@ -4067,7 +4070,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1555906331}
   m_Layer: 5
-  m_Name: Inventory
+  m_Name: Temporary Inventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4090,7 +4093,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -456, y: 599}
+  m_AnchoredPosition: {x: -364, y: 818}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1581186316
@@ -4432,7 +4435,7 @@ GameObject:
   - component: {fileID: 1812078130}
   - component: {fileID: 1812078133}
   m_Layer: 5
-  m_Name: Inventory Item Grid
+  m_Name: Temporary Inventory Item Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4455,7 +4458,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 96, y: 192}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1812078130
 MonoBehaviour:
@@ -4469,8 +4472,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e14e1fc1c091b38418ac60872e9535a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _grabOnly: 0
   <tileSize>k__BackingField: {x: 16, y: 16}
-  _size: {x: 8, y: 6}
+  _size: {x: 6, y: 12}
   _scale: {x: 3.5, y: 3.5}
   _backgroundPrefab: {fileID: 7190745660779952081, guid: 50200e76a5c7cf54ca4c341c2a9aaf01,
     type: 3}

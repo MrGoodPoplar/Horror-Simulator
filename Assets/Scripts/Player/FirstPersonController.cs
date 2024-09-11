@@ -20,6 +20,7 @@ public class FirstPersonController : MonoBehaviour
     public float velocity => Mathf.Clamp01(_characterController.velocity.magnitude / _sprintSpeed);
     public float height => _characterController.height;
     public Vector3 characterControllerCenter => _characterController.center;
+    public Vector3 moveDirection => _moveDirection;
 
     [Header("Movement Settings")]
     [SerializeField] private float _walkSpeed = 3.0f;
@@ -90,9 +91,13 @@ public class FirstPersonController : MonoBehaviour
             HandleCrouching();
             HandleWalking();
             HandleMouseLook();
-            
-            ApplyFinalMovements();
         }
+        else
+        {
+            _moveDirection = Vector3.zero + Vector3.up * _moveDirection.y;
+        }
+        
+        ApplyFinalMovements();
     }
 
     public float CalculateMovementSpeed()
