@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 265b8cee8117bc742948898162defc76, type: 3}
-  m_Name: Grab
+  m_Name: Open Door
   m_EditorClassIdentifier: 
   <text>k__BackingField: Grab
-  <sprite>k__BackingField: {fileID: -33441350, guid: 4510835207a74d84b932e0f77f8b93e9,
+  <sprite>k__BackingField: {fileID: -1953799632, guid: 7572c17fd3d6cf94cbee35ec27a882b4,
     type: 3}
   <visualType>k__BackingField: 1

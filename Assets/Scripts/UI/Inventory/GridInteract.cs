@@ -1,30 +1,32 @@
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-[RequireComponent(typeof(ItemGrid))]
-public class GridInteract : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+namespace UI.Inventory
 {
-    private InventoryController _inventoryController;
-    private ItemGrid _itemGrid;
-
-    private void Awake()
+    [RequireComponent(typeof(ItemGrid))]
+    public class GridInteract : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        _itemGrid = GetComponent<ItemGrid>();
-    }
+        private InventoryController _inventoryController;
+        private ItemGrid _itemGrid;
 
-    private void Start()
-    {
-        _inventoryController = Player.instance.inventoryController;
-    }
+        private void Awake()
+        {
+            _itemGrid = GetComponent<ItemGrid>();
+        }
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        _inventoryController.SetItemGrid(_itemGrid);
-    }
+        private void Start()
+        {
+            _inventoryController = Player.instance.inventoryController;
+        }
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        _inventoryController.SetItemGrid(null);
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            _inventoryController.SetItemGrid(_itemGrid);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            _inventoryController.SetItemGrid(null);
+        }
     }
 }

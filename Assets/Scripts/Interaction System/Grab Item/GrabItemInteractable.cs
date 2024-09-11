@@ -1,41 +1,53 @@
+using System;
+using UI.Inventory;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class PickupInteractable : MonoBehaviour, IInteractable
+public class GrabItemInteractable : MonoBehaviour, IInteractable
 {
-    [Header("Settings")]
-    [SerializeField] private string _pickupText;
+    [field: Header("Settings")]
     [SerializeField] private Vector2Int _quantityRange = new(1, 1);
     [SerializeField, Range(0, 1)] private float _maxQuantityChance = 0.2f;
+    [SerializeField] private bool _destroyOnGrab;
     [SerializeField] private CalculationType _calculationType = CalculationType.Exponential;
-    [SerializeField] private bool _destroyOnGrab = false;
-    
-    enum CalculationType
-    {
-        Probabilistic,
-        Exponential
-    }
     
     [field: Header("Constraints")]
     [field: SerializeField] public InteractableVisualSO InteractableVisualSO { get; private set; }
     [field: SerializeField] public InventoryItemSO inventoryItem { get; private set; }
 
-    private int _quantityLeftover;
+    enum CalculationType
+    {
+        Probabilistic,
+        Exponential
+    }
+
+    public int quantity => _quantity;
     
+    public event Action OnInteract;
+    public event Action OnQuantitySet;
+    
+    private int _quantity;
+
+    private void Start()
+    {
+        _quantity = GetQuantity();
+    }
+
     public bool Interact(InteractController interactController)
     {
-        int quantity = _quantityLeftover == 0 ? GetQuantity() : _quantityLeftover;
-        bool result = Player.instance.inventoryController.AddItemToInventory(inventoryItem, quantity, out _quantityLeftover);
+        OnInteract?.Invoke();
+        
+        bool result = Player.instance.inventoryController.AddItemToInventory(inventoryItem, ref _quantity);
 
-        if (_quantityLeftover > 0)
+        if (_quantity > 0)
         {
-            Debug.Log($"Leftover {_quantityLeftover} Adding to temp...");
-            result = Player.instance.inventoryController.AddItemToInventory(inventoryItem, quantity, out _quantityLeftover, true);
+            result = Player.instance.inventoryController.AddItemToInventory(inventoryItem, ref _quantity, true);
         }
         
-        if (result && _destroyOnGrab)
-            Destroy(gameObject);
-        else if (result)
-            gameObject.SetActive(false);
+        // if (result && _destroyOnGrab)
+        //     Destroy(gameObject);
+        // else if (result)
+        //     gameObject.SetActive(false);
         
         return true;
     }

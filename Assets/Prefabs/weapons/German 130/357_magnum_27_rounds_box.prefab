@@ -2602,11 +2602,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19ff3e24ddbdfd84ba3a1a88eed9ea50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pickupText: Pick Up
-  _quantityRange: {x: 4, y: 20}
-  _maxQuantityChance: 0.2
-  _calculationType: 1
+  _quantityRange: {x: 4, y: 27}
+  _maxQuantityChance: 0.15
   _destroyOnGrab: 1
+  _calculationType: 1
   <InteractableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
     type: 2}
   <inventoryItem>k__BackingField: {fileID: 11400000, guid: 4578cb31cc64eb445a72f8c18a533647,

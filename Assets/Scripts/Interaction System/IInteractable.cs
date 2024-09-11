@@ -7,4 +7,6 @@ public interface IInteractable
     public InteractableVisualSO InteractableVisualSO { get; }
     
     public bool Interact(InteractController interactController);
+    
+    public Vector3 GetAnchorPosition() => transform.position;
 }

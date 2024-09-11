@@ -77,7 +77,7 @@ public class InteractController : MonoBehaviour
     
     private void OnInteractPerformed()
     {
-        if (_interactable != null)
+        if (_interactable != null && !Player.instance.isHUDView)
         {
             _interactable.Interact(this);
             OnInteract?.Invoke(null, new InteractEventArgs(_interactable));

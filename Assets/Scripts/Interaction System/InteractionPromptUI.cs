@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,7 +18,7 @@ public class InteractionPromptUI : MonoBehaviour
     [SerializeField] private InteractController _interactController;
     
     private Vector3 _originalScale;
-    private Transform _interactableTransform;
+    private IInteractable _currentInteractable;
     private Transform _visualPrompt;
     
     private void Start()
@@ -41,37 +42,44 @@ public class InteractionPromptUI : MonoBehaviour
 
     private void Update()
     {
-        if (_interactableTransform)
+        if (!_currentInteractable.IsUnityNull())
         {
-            _visualPrompt.position = _interactableTransform.position;
+            _visualPrompt.position = _currentInteractable.GetAnchorPosition();
         }
     }
 
     private void LateUpdate()
     {
-        Quaternion rotation = _camera.transform.rotation;
-        transform.LookAt(transform.position + rotation * Vector3.forward, rotation * Vector3.up);
+        if (_currentInteractable != null)
+        {
+            Quaternion rotation = _camera.transform.rotation;
+            transform.LookAt(transform.position + rotation * Vector3.forward, rotation * Vector3.up);
+        }
     }
     
     private void OnInteractPerformed(object sender, InteractController.InteractEventArgs e)
     {
-        StartCoroutine(InteractEffectCoroutine());
+        if (!Player.instance.isHUDView)
+            StartCoroutine(InteractEffectCoroutine());
     }
     
     private void OnInteractHover(object sender, InteractController.InteractEventArgs e)
     {
-        _interactableTransform = e.interactable.transform;
-        _promptText.text = e.interactable.InteractableVisualSO.text;
-
-        _visualPrompt?.gameObject.SetActive(false);
-        _visualPrompt = e.interactable.InteractableVisualSO.visualType == InteractableVisualSO.VisualType.Icon ? _promptImage.transform : _promptUI;
+        _currentInteractable = e.interactable;
         
-        _visualPrompt.position = _interactableTransform.position;
+        _promptText.text = _currentInteractable.InteractableVisualSO.text;
+        
+        _visualPrompt?.gameObject.SetActive(false);
+        _visualPrompt = _currentInteractable.InteractableVisualSO.visualType == InteractableVisualSO.VisualType.Icon ? _promptImage.transform : _promptUI;
+        _promptImage.sprite = _currentInteractable.InteractableVisualSO.sprite;
+        
+        _visualPrompt.position = _currentInteractable.GetAnchorPosition();
         _visualPrompt.gameObject.SetActive(true);
     }
     
     private void OnInteractUnhover(object sender, InteractController.InteractEventArgs e)
     {
+        _currentInteractable = null;
         _visualPrompt.gameObject.SetActive(false);
     }
     
