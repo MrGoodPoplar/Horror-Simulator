@@ -68,6 +68,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: soup_can_2
       objectReference: {fileID: 0}
+    - target: {fileID: 3537953600935071105, guid: ffb62205729d7084f8c4d87e7b66866a,
+        type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
