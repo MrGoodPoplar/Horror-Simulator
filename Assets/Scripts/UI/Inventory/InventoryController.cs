@@ -12,6 +12,7 @@ namespace UI.Inventory
         [SerializeField] private InventoryItemHighlight _itemHighlight;
         [SerializeField] private ItemGrid _inventoryItemGrid;
         [SerializeField] private ItemGrid _tempInventoryItemGrid;
+        [SerializeField] private Transform _itemDragParent;
     
         private ItemGrid _itemGrid;
         private InventoryItem _selectedItem;
@@ -25,19 +26,24 @@ namespace UI.Inventory
         {
             _playerInput.OnClick += OnClickPerformed;
             _playerInput.OnRotate += OnRotatePerformed;
+
+            _inventoryItemGrid.OnBeforePlaceItem += OnBeforePlaceItemPerformed;
+            _tempInventoryItemGrid.OnBeforePlaceItem += OnBeforePlaceItemPerformed;
         }
 
         private void OnDestroy()
         {
             _playerInput.OnClick -= OnClickPerformed;
             _playerInput.OnRotate -= OnRotatePerformed;
+            
+            _inventoryItemGrid.OnBeforePlaceItem -= OnBeforePlaceItemPerformed;
+            _tempInventoryItemGrid.OnBeforePlaceItem -= OnBeforePlaceItemPerformed;
         }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Q) && _itemGrid)
             {
-                // Instantiate a new inventory item
                 InventoryItem inventoryItem = Instantiate(_inventoryItemPrefab);
                 InventoryItemSO randomInventoryItemSO = _inventoryItemSOs[Random.Range(0, _inventoryItemSOs.Count)];
                 inventoryItem.Set(randomInventoryItemSO, _itemGrid, Random.Range(1, randomInventoryItemSO.maxQuantity));
@@ -100,12 +106,34 @@ namespace UI.Inventory
 
         public void SetItemGrid(ItemGrid newItemGrid)
         {
+            if (_itemGrid)
+                _itemGrid.OnBeforePlaceItem -= OnBeforePlaceItemPerformed;
+            
             _itemGrid = newItemGrid;
 
             if (_itemGrid)
             {
                 _tileSize = _itemGrid.tileSize;
+                _itemGrid.OnBeforePlaceItem += OnBeforePlaceItemPerformed;
             }
+        }
+
+        private void OnBeforePlaceItemPerformed(object sender, ItemGrid.InventoryItemEventArgs e)
+        {
+            if (sender is not ItemGrid)
+                return;
+            
+            ItemGrid itemGrid = sender as ItemGrid;
+            InventoryItem inventoryItem = e.inventoryItem;
+            
+            if (e.grabbed)
+            {
+                inventoryItem.SetParent(_itemDragParent, itemGrid.scale);
+                return;
+            }
+            
+            inventoryItem.SetPivotToDefault();
+            inventoryItem.SetParent(itemGrid.rectTransform);
         }
 
         private void HandleItemDrag()
@@ -196,14 +224,14 @@ namespace UI.Inventory
 
         private Vector2Int GetTileGridPosition()
         {
-            Vector2 pointerPosition = Input.mousePosition; // TODO: gamepad support
+            Vector2 pointerPosition = Input.mousePosition;
         
             if (_selectedItem)
             {
-                pointerPosition.x -= (_selectedItem.GetActualSize().x - 1) * (float)_itemGrid.tileSize.x / 2;
-                pointerPosition.x -= (_selectedItem.GetActualSize().y - 1) * (float)_itemGrid.tileSize.y / 2;
+                pointerPosition.x -= _selectedItem.GetActualSize().x * (float)_itemGrid.tileSize.x / 2;
+                pointerPosition.y += _selectedItem.GetActualSize().y * (float)_itemGrid.tileSize.y / 2;
             }
-        
+            
             return _itemGrid.GetTileGridPosition(pointerPosition);
         }
 

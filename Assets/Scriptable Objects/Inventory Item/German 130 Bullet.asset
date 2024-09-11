@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: German 130 Bullet
   m_EditorClassIdentifier: 
   <itemName>k__BackingField: .357 mag
+  <itemDescription>k__BackingField: 
   <size>k__BackingField: {x: 1, y: 1}
   <icon>k__BackingField: {fileID: -1002449638, guid: a55a80415dc11084aadd8b7aab26a4cc,
     type: 3}

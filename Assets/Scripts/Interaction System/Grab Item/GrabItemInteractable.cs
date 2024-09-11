@@ -1,57 +1,93 @@
 using System;
 using UI.Inventory;
 using UnityEngine;
+using UnityEngine.Localization;
 using Random = UnityEngine.Random;
 
 public class GrabItemInteractable : MonoBehaviour, IInteractable
 {
     [field: Header("Settings")]
-    [SerializeField] private Vector2Int _quantityRange = new(1, 1);
-    [SerializeField, Range(0, 1)] private float _maxQuantityChance = 0.2f;
-    [SerializeField] private bool _destroyOnGrab;
+    [field: SerializeField] public float holdDuration { get; protected set; }
+    [SerializeField] private bool _tempInventoryEnabled = true;
     [SerializeField] private CalculationType _calculationType = CalculationType.Exponential;
+    [SerializeField] private OnGrabType _onGrabType = OnGrabType.Deactivate;
     
+    [Header("Quantity Settings")]
+    [SerializeField, Range(0, 1)] private float _maxQuantityChance = 0.2f;
+    [SerializeField] private Vector2Int _quantityRange = new(1, 1);
+    
+    [Header("Message Settings")]
+    [SerializeField] private LocalizedString _unsuccessfulMessage;
+    [SerializeField] private LocalizedString _notEnoughSpaceMessage;
+
     [field: Header("Constraints")]
     [field: SerializeField] public InteractableVisualSO InteractableVisualSO { get; private set; }
     [field: SerializeField] public InventoryItemSO inventoryItem { get; private set; }
-
+    
+    #region Enums
     enum CalculationType
     {
         Probabilistic,
         Exponential
     }
 
+    enum OnGrabType
+    {
+        Destroy,
+        Deactivate,
+        Nothing
+    }
+    #endregion
+
     public int quantity => _quantity;
     
     public event Action OnInteract;
-    public event Action OnQuantitySet;
+    public event Action OnSet;
     
     private int _quantity;
+
+    protected virtual void Awake() { }
 
     private void Start()
     {
         _quantity = GetQuantity();
+        OnSet?.Invoke();
     }
 
-    public bool Interact(InteractController interactController)
+    public virtual InteractionResponse Interact(InteractController interactController)        // TODO: automatic stack with same items
     {
-        OnInteract?.Invoke();
-        
+        if (_quantity <= 0)
+            return new(_unsuccessfulMessage.GetLocalizedString(), false, true);
+            
         bool result = Player.instance.inventoryController.AddItemToInventory(inventoryItem, ref _quantity);
 
-        if (_quantity > 0)
-        {
+        if (_tempInventoryEnabled && _quantity > 0)
             result = Player.instance.inventoryController.AddItemToInventory(inventoryItem, ref _quantity, true);
-        }
+
+        if (result)
+            HandleSuccessfulInteraction();
+
+        OnInteract?.Invoke();
+
+        if (_quantity > 0)
+            return new(_notEnoughSpaceMessage.GetLocalizedString(), true, true);
         
-        // if (result && _destroyOnGrab)
-        //     Destroy(gameObject);
-        // else if (result)
-        //     gameObject.SetActive(false);
-        
-        return true;
+        return new(null, true);
     }
 
+    private void HandleSuccessfulInteraction()
+    {
+        switch (_onGrabType)
+        {
+            case OnGrabType.Destroy:
+                Destroy(gameObject);
+                break;
+            case OnGrabType.Deactivate:
+                gameObject.SetActive(false);
+                break;
+        }
+    }
+    
     private int GetQuantity()
     {
         switch (_calculationType)
@@ -67,10 +103,10 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
     
     private int GetProbabilisticQuantity()
     {
-        int totalQuantity = (int)_quantityRange.x;
+        int totalQuantity = _quantityRange.x;
         float chanceToRaiseQuantity = 1.0f - _maxQuantityChance;
 
-        for (int i = (int)_quantityRange.x; i < (int)_quantityRange.y; i++)
+        for (int i = _quantityRange.x; i < _quantityRange.y; i++)
         {
             if (Random.value > chanceToRaiseQuantity)
             {
@@ -88,8 +124,7 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
         float adjustedValue = Mathf.Pow(randomValue, maxQuantityChance);
 
         int rangeDelta = _quantityRange.y - _quantityRange.x;
-        int quantity = (int)(_quantityRange.x + adjustedValue * rangeDelta);
-
-        return quantity;
+        
+        return (int)(_quantityRange.x + adjustedValue * rangeDelta);
     }
 }

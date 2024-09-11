@@ -1,7 +1,8 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator), typeof(GrabItemInteractable))]
+[RequireComponent(typeof(Animator), typeof(OpenGrabItemInteractable))]
 public class Mag357AmmoBoxVisual : MonoBehaviour
 {
     private const string OPEN_COVER = "openCover";
@@ -10,44 +11,83 @@ public class Mag357AmmoBoxVisual : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private Vector2Int _generateAmmoGrid;
     [SerializeField] private Vector2 _generateAmmoOffset;
+    [SerializeField] private Vector3 _rotation;
 
     [Header("Constraints")]
     [SerializeField] private Transform _roundPrefab;
     [SerializeField] private Transform _generateAmmoPoint;
     
-    private GrabItemInteractable _grabItemInteractable;
+    private OpenGrabItemInteractable _openGrabItemInteractable;
     private Animator _animator;
+    private List<Transform> _rounds = new ();
     
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-        _grabItemInteractable = GetComponent<GrabItemInteractable>();
-    }
+        _openGrabItemInteractable = GetComponent<OpenGrabItemInteractable>();
 
-    private void Start()
-    {
-        _grabItemInteractable.OnInteract += OnInteractPerformed;
-        _grabItemInteractable.OnQuantitySet += OnQuantitySetPerfmored;
+        _openGrabItemInteractable.OnOpen += OnOpenPerformed;
+        _openGrabItemInteractable.OnInteract += OnInteractPerformed;
+        _openGrabItemInteractable.OnSet += OnSetPerformed;
     }
-
+    
     private void OnDestroy()
     {
-        _grabItemInteractable.OnInteract -= OnInteractPerformed;
-        _grabItemInteractable.OnQuantitySet -= OnQuantitySetPerfmored;
+        _openGrabItemInteractable.OnOpen -= OnOpenPerformed;
+        _openGrabItemInteractable.OnInteract -= OnInteractPerformed;
+        _openGrabItemInteractable.OnSet -= OnSetPerformed;
     }
 
-    private void OnQuantitySetPerfmored()
+    private void OnSetPerformed()
     {
-        GenerateAmmo(_grabItemInteractable.quantity);
+        GenerateAmmo(_openGrabItemInteractable.quantity);
     }
 
     private void OnInteractPerformed()
+    {
+        if (_rounds.Count > 0)
+        {
+            ClearAmmo(_rounds.Count - _openGrabItemInteractable.quantity);
+        }
+    }
+
+    private void OnOpenPerformed()
     {
         _animator.SetTrigger(OPEN_COVER);
     }
 
     private void GenerateAmmo(int quantity)
     {
+        int rows = _generateAmmoGrid.y;
+        int columns = _generateAmmoGrid.x;
         
+        int maxAmmo = rows * columns;
+        int ammoToGenerate = Mathf.Min(quantity, maxAmmo);
+        Vector3 startPosition = _generateAmmoPoint.position;
+
+        for (int i = 0; i < ammoToGenerate; i++)
+        {
+            int row = i / columns;
+            int col = i % columns;
+
+            Vector3 spawnPosition = startPosition + new Vector3(col * _generateAmmoOffset.x, 0, row * _generateAmmoOffset.y);
+            Transform addedRound = Instantiate(_roundPrefab, spawnPosition, Quaternion.Euler(_rotation), _generateAmmoPoint);
+            
+            _rounds.Add(addedRound);
+        }
+
+        _generateAmmoPoint.localRotation = transform.rotation;
+    }
+
+    private void ClearAmmo(int quantity)
+    {
+        int ammoToClear = Mathf.Clamp(quantity, 0, _rounds.Count);
+
+        for (int i = 0; i < ammoToClear; i++)
+        {
+            Destroy(_rounds[i].gameObject);
+        }
+
+        _rounds.RemoveRange(0, ammoToClear);
     }
 }

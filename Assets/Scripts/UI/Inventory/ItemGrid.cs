@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace UI.Inventory
@@ -19,8 +20,24 @@ namespace UI.Inventory
     
         [Header("Constraints")]
         [SerializeField] private PlayerInput _playerInput;
-        [SerializeField] private Transform _itemDragParent;
 
+        public event EventHandler<InventoryItemEventArgs> OnBeforePlaceItem;
+    
+        #region InventoryItemEventArgs Class
+        public class InventoryItemEventArgs : EventArgs
+        {
+            public InventoryItem inventoryItem { get; private set; }
+            public bool grabbed { get; private set; }
+        
+            public InventoryItemEventArgs(InventoryItem inventoryItem, bool grabbed = false)
+            {
+                this.inventoryItem = inventoryItem;
+                this.grabbed = grabbed;
+            }
+        }
+        #endregion
+
+        public Vector3 scale => _scale;
         public RectTransform rectTransform => _rectTransform;
     
         private RectTransform _rectTransform;
@@ -36,11 +53,6 @@ namespace UI.Inventory
 
         private void Start()
         {
-            Init();
-        }
-
-        private void Init()
-        {
             _inventoryItemSlot = new InventoryItem[_size.x, _size.y];
 
             _rectTransform.localScale = new (_scale.x, _scale.y);
@@ -48,6 +60,11 @@ namespace UI.Inventory
 
             if (_backgroundPrefab)
                 SetBackground(_backgroundPrefab);
+        }
+
+        private void OnDestroy()
+        {
+            OnBeforePlaceItem = null;
         }
 
         private void SetBackground(RectTransform backgroundPrefab)
@@ -98,14 +115,10 @@ namespace UI.Inventory
                     return false;
             
                 SetInventoryItemSlot(overlappedItem, overlappedItem.gridPosition, false);
-                // TODO: separate visual from this class
-                overlappedItem.SetParent(_itemDragParent, _scale);
+                OnBeforePlaceItem?.Invoke(this, new (overlappedItem, true));
             }
 
-            // TODO: separate visual from this class
-            inventoryItem.SetPivotToDefault();
-            inventoryItem.SetParent(_rectTransform);
-        
+            OnBeforePlaceItem?.Invoke(this, new (inventoryItem));
             SetInventoryItemSlot(inventoryItem, position, true);
 
             inventoryItem.gridPosition = position;
@@ -154,7 +167,7 @@ namespace UI.Inventory
             if (inventoryItem)
             {
                 SetInventoryItemSlot(inventoryItem, inventoryItem.gridPosition, false);
-                inventoryItem.SetParent(_itemDragParent, _scale);
+                OnBeforePlaceItem?.Invoke(this, new (inventoryItem, true));
             }
 
             return inventoryItem;

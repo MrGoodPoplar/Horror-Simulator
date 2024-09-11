@@ -14,6 +14,7 @@ public class PlayerInput : MonoBehaviour
     public event Action OnFire;
     public event Action OnReload;
     public event Action OnInteract;
+    public event Action OnInteractCanceled;
     public event Action OnClick;
     public event Action OnRotate;
     public event Action OnOpenHUD;
@@ -31,6 +32,7 @@ public class PlayerInput : MonoBehaviour
         _playerInputActions.Player.Fire.performed += OnFirePerformed;
         _playerInputActions.Player.Reload.performed += OnReloadPerformed;
         _playerInputActions.Player.Interact.performed += OnInteractPerformed;
+        _playerInputActions.Player.Interact.canceled += OnInteractCanceledPerfomed;
         _playerInputActions.Player.Click.performed += OnClickPerformed;
         _playerInputActions.Player.Rotate.performed += OnRotatePerformed;
         _playerInputActions.Player.OpenHUD.performed += OnOpenHUDPerfmormed;
@@ -44,6 +46,7 @@ public class PlayerInput : MonoBehaviour
         _playerInputActions.Player.Jump.performed -= OnFirePerformed;
         _playerInputActions.Player.Reload.performed -= OnReloadPerformed;
         _playerInputActions.Player.Interact.performed -= OnInteractPerformed;
+        _playerInputActions.Player.Interact.canceled += OnInteractCanceledPerfomed;
         _playerInputActions.Player.Click.performed -= OnClickPerformed;
         _playerInputActions.Player.Rotate.performed -= OnRotatePerformed;
         _playerInputActions.Player.OpenHUD.performed -= OnOpenHUDPerfmormed;
@@ -84,6 +87,11 @@ public class PlayerInput : MonoBehaviour
     private void OnInteractPerformed(InputAction.CallbackContext obj)
     {
         OnInteract?.Invoke();
+    }
+    
+    private void OnInteractCanceledPerfomed(InputAction.CallbackContext obj)
+    {
+        OnInteractCanceled?.Invoke();
     }
     
     private void OnClickPerformed(InputAction.CallbackContext obj)
