@@ -21,7 +21,7 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
     [SerializeField] private LocalizedString _notEnoughSpaceMessage;
 
     [field: Header("Constraints")]
-    [field: SerializeField] public InteractableVisualSO InteractableVisualSO { get; private set; }
+    [field: SerializeField] public InteractableVisualSO interactableVisualSO { get; protected set; }
     [field: SerializeField] public InventoryItemSO inventoryItem { get; private set; }
     
     #region Enums
@@ -54,7 +54,7 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
         OnSet?.Invoke();
     }
 
-    public virtual InteractionResponse Interact(InteractController interactController)        // TODO: automatic stack with same items
+    public virtual InteractionResponse Interact()        // TODO: automatic stack with same items
     {
         if (_quantity <= 0)
             return new(_unsuccessfulMessage.GetLocalizedString(), false, true);

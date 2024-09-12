@@ -4,10 +4,12 @@ using UnityEngine;
 public interface IInteractable
 {
     public Transform transform { get; }
-    public InteractableVisualSO InteractableVisualSO { get; }
+    public InteractableVisualSO interactableVisualSO { get; }
     public float holdDuration { get; }
+
+    public bool instant => holdDuration <= 0;
     
-    public InteractionResponse Interact(InteractController interactController);
+    public InteractionResponse Interact();
     
     public Vector3 GetAnchorPosition() => transform.position;
 }

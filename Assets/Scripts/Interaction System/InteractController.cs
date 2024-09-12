@@ -14,6 +14,7 @@ public class InteractController : MonoBehaviour
     [SerializeField] private HitPointer _hitPointer;
 
     public event EventHandler<InteractEventArgs> OnInteract;
+    public event EventHandler<InteractEventArgs> OnInteractCancelled;
     public event EventHandler<InteractEventArgs> OnInteractHover;
     public event EventHandler<InteractEventArgs> OnInteractUnhover;
     
@@ -21,10 +22,12 @@ public class InteractController : MonoBehaviour
     public class InteractEventArgs : EventArgs
     {
         public IInteractable interactable { get; private set; }
+        public bool updateVisual { get; private set; }
         
-        public InteractEventArgs(IInteractable interactable)
+        public InteractEventArgs(IInteractable interactable, bool updateVisual = false)
         {
             this.interactable = interactable;
+            this.updateVisual = updateVisual;
         }
     }
     #endregion
@@ -65,15 +68,13 @@ public class InteractController : MonoBehaviour
 
             return;
         }
-        
-        isInteractableInRange = Physics.OverlapSphereNonAlloc(_hitPointer.transform.position, _interactionRadius, _colliders,_interactableMask) > 0;
 
-        if (isInteractableInRange && _colliders[0].TryGetComponent(out IInteractable interactable))
+        if (TryGetClosestInteractable(out IInteractable closestInteractable))
         {
-            if (_interactable != interactable)
+            if (_interactable != closestInteractable)
             {
-                _interactable = interactable;
-                OnInteractHover?.Invoke(null, new InteractEventArgs(interactable));
+                _interactable = closestInteractable;
+                OnInteractHover?.Invoke(null, new InteractEventArgs(_interactable));
                 OnInteractCanceled();
             }
         }
@@ -83,6 +84,34 @@ public class InteractController : MonoBehaviour
             OnInteractCanceled();
             _interactable = null;
         }
+    }
+
+    private bool TryGetClosestInteractable(out IInteractable closestInteractable)
+    {
+        int colliderCount = Physics.OverlapSphereNonAlloc(_hitPointer.transform.position, _interactionRadius, _colliders, _interactableMask);
+        float closestDistance = Mathf.Infinity;
+        closestInteractable = null;
+    
+        isInteractableInRange = colliderCount > 0;
+
+        if (!isInteractableInRange)
+            return false;
+
+        for (int i = 0; i < colliderCount; i++)
+        {
+            if (_colliders[i].TryGetComponent(out IInteractable interactable))
+            {
+                float distance = Vector3.Distance(_hitPointer.transform.position, _colliders[i].transform.position);
+
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestInteractable = interactable;
+                }
+            }
+        }
+
+        return closestInteractable != null;
     }
     
     private void OnInteractPerformed()
@@ -94,19 +123,25 @@ public class InteractController : MonoBehaviour
             if (_holdCoroutine != null)
                 StopCoroutine(_holdCoroutine);
 
-            _holdCoroutine = StartCoroutine(HoldInteractionCoroutine(_interactable.holdDuration));
+            if (_interactable.instant)
+                Interact(_interactable);
+            else
+                _holdCoroutine = StartCoroutine(HoldInteractionCoroutine(_interactable.holdDuration));
         }
     }
 
     private void OnInteractCanceled()
     {
         _isHolding = false;
-
+        holdingProgress = 0f;
+        
         if (_holdCoroutine != null)
         {
             StopCoroutine(_holdCoroutine);
             _holdCoroutine = null;
         }
+        
+        OnInteractCancelled?.Invoke(this, new (_interactable));
     }
 
     private IEnumerator HoldInteractionCoroutine(float duration)
@@ -121,17 +156,20 @@ public class InteractController : MonoBehaviour
         }
 
         if (holdTime >= duration)
-        {
-            InteractionResponse response = _interactable.Interact(this);
-            if (!response.message.IsUnityNull())
-                Debug.Log($"{response.message} -> {response.result}");
-            
-            OnInteract?.Invoke(null, new InteractEventArgs(_interactable));
-        }
+            Interact(_interactable);
 
         _holdCoroutine = null;
     }
 
+    private void Interact(IInteractable interactable)
+    {
+        InteractionResponse response = interactable.Interact();
+        if (!response.message.IsUnityNull())
+            Debug.Log($"{response.message} -> {response.result}");
+            
+        OnInteract?.Invoke(null, new InteractEventArgs(interactable, response.updateVisual));
+    }
+    
     private void OnDrawGizmos()
     {
         Gizmos.color = new Color(1, 0, 0, 0.75f);

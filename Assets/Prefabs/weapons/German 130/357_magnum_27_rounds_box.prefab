@@ -292,9 +292,11 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <InteractableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
     type: 2}
   <inventoryItem>k__BackingField: {fileID: 11400000, guid: 4578cb31cc64eb445a72f8c18a533647,
+    type: 2}
+  <openInteractableVisualSO>k__BackingField: {fileID: 11400000, guid: af9beeb91967110499fe90c8b4c4b2a1,
     type: 2}
   references:
     version: 2

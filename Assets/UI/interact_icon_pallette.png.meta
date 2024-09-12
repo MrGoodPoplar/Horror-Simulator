@@ -105,7 +105,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -126,7 +126,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -134,6 +134,48 @@ TextureImporter:
       bones: []
       spriteID: 7276934bd2c39f84e983e2aa2234a0f0
       internalID: -32446750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[interact] Open Box'
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 91
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3be9305f64c42d04aa02e4beb48c46bb
+      internalID: 779982464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[interact] Circle'
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 55
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31f4a162dac5903419d78930aae8afdd
+      internalID: 1636686989
       vertices: []
       indices: 
       edges: []
@@ -150,6 +192,8 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       '[Interact] Grab': -32446750
+      '[interact] Circle': 1636686989
+      '[interact] Open Box': 779982464
       '[interact] Open Door': -1953799632
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
