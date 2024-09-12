@@ -153,7 +153,7 @@ namespace UI.Inventory
     
         public InventoryItem PickUpItem(Vector2Int positionOnGrid)
         {
-            InventoryItem inventoryItem = _inventoryItemSlot[positionOnGrid.x, positionOnGrid.y];
+            InventoryItem inventoryItem = GetItem(positionOnGrid);
         
             if (inventoryItem)
             {
