@@ -1,4 +1,5 @@
 using Unity.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace UI.Inventory
@@ -11,9 +12,9 @@ namespace UI.Inventory
         [field: SerializeField] public Vector2Int size { get; private set; }
         [field: SerializeField] public Sprite icon { get; private set; }
         [field: SerializeField] public int maxQuantity { get; private set; } = 1;
-    
-        public bool isCountable => maxQuantity > 1;
+        [field: SerializeField, HideInInspector] public string guid { get; set; }
+
+        public bool isStackable => maxQuantity > 1;
         public bool isSymmetrical => size.x == size.y;
-        public string guid { get; set; }
     }
 }

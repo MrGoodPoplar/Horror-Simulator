@@ -54,7 +54,7 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
         OnSet?.Invoke();
     }
 
-    public virtual InteractionResponse Interact()        // TODO: automatic stack with same items
+    public virtual InteractionResponse Interact()
     {
         if (_quantity <= 0)
             return new(_unsuccessfulMessage.GetLocalizedString(), false, true);

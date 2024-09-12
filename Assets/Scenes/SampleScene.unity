@@ -174,7 +174,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerInput: {fileID: 1902487657}
   _inventoryItemSOs:
-  - {fileID: 11400000, guid: 95e33fc5f2172594680da48a42ba4688, type: 2}
   - {fileID: 11400000, guid: 4578cb31cc64eb445a72f8c18a533647, type: 2}
   _inventoryItemPrefab: {fileID: 3112801314620027794, guid: 857db0276b193b542a5ea055138253a0,
     type: 3}
@@ -3471,7 +3470,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.52201253, g: 0.52201253, b: 0.52201253, a: 0.9411765}
+  m_Color: {r: 0.52201253, g: 0.52201253, b: 0.52201253, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4066,7 +4065,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.9411765}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

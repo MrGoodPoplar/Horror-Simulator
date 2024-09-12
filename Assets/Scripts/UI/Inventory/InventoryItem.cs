@@ -70,7 +70,7 @@ namespace UI.Inventory
         {
             this.inventoryItemSO = inventoryItemSO;
         
-            _quantityBackground.gameObject.SetActive(inventoryItemSO.isCountable);
+            _quantityBackground.gameObject.SetActive(inventoryItemSO.isStackable);
 
             GetComponent<Image>().sprite = inventoryItemSO.icon;
         
@@ -89,9 +89,6 @@ namespace UI.Inventory
     
         public int SetQuantity(int newQuantity)
         {
-            if (newQuantity < 0)
-                throw new ArgumentOutOfRangeException(nameof(newQuantity), "Inventory item quantity cannot be less than zero!");
-
             if (newQuantity == 0)
                 Destroy(gameObject);
         
@@ -108,7 +105,8 @@ namespace UI.Inventory
             quantity = maxCapacity;
             UpdateQuantityText(quantity);
 
-            return newQuantity - maxCapacity;
+            int leftover = newQuantity - quantity;
+            return leftover > 0 ? leftover : 0;
         }
 
         public void UpdateQuantityText(int value)

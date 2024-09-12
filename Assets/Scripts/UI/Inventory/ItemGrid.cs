@@ -6,9 +6,6 @@ namespace UI.Inventory
     [RequireComponent(typeof(RectTransform))]
     public class ItemGrid : MonoBehaviour
     {
-        [Header("Settings")]
-        [SerializeField] private bool _grabOnly;
-    
         [field: Header("Tile Settings")]
         [field: SerializeField] public Vector2Int tileSize { get; private set; } = new (16, 16);
         [SerializeField] private Vector2Int _size = new (8, 8);
@@ -21,7 +18,7 @@ namespace UI.Inventory
         [Header("Constraints")]
         [SerializeField] private PlayerInput _playerInput;
 
-        public event EventHandler<InventoryItemEventArgs> OnBeforePlaceItem;
+        public event EventHandler<InventoryItemEventArgs> OnItemInteract;
     
         #region InventoryItemEventArgs Class
         public class InventoryItemEventArgs : EventArgs
@@ -64,7 +61,7 @@ namespace UI.Inventory
 
         private void OnDestroy()
         {
-            OnBeforePlaceItem = null;
+            OnItemInteract = null;
         }
 
         private void SetBackground(RectTransform backgroundPrefab)
@@ -91,14 +88,8 @@ namespace UI.Inventory
 
             return _tileGridPosition;
         }
-
-        public bool PlaceItemAsGrabOnly(InventoryItem inventoryItem, Vector2Int position)
-        {
-            // TODO: implement
-            return true;
-        }
-    
-        public bool PlaceItem(InventoryItem inventoryItem, Vector2Int position, ref InventoryItem overlappedItem)
+        
+        public virtual bool PlaceItem(InventoryItem inventoryItem, Vector2Int position, ref InventoryItem overlappedItem)
         {
             if (!IsItemInsideBoundary(position, inventoryItem.GetActualSize()))
                 return false;
@@ -115,10 +106,10 @@ namespace UI.Inventory
                     return false;
             
                 SetInventoryItemSlot(overlappedItem, overlappedItem.gridPosition, false);
-                OnBeforePlaceItem?.Invoke(this, new (overlappedItem, true));
+                OnItemInteract?.Invoke(this, new (overlappedItem, true));
             }
 
-            OnBeforePlaceItem?.Invoke(this, new (inventoryItem));
+            OnItemInteract?.Invoke(this, new (inventoryItem));
             SetInventoryItemSlot(inventoryItem, position, true);
 
             inventoryItem.gridPosition = position;
@@ -135,14 +126,14 @@ namespace UI.Inventory
             );
         }
 
-        public bool CanPlaceItem(Vector2Int itemSize, Vector2Int position)
+        public virtual bool CanPlaceItem(InventoryItem inventoryItem, Vector2Int position)
         {
-            if (!IsItemInsideBoundary(position, itemSize))
+            if (!IsItemInsideBoundary(position, inventoryItem.GetActualSize()))
                 return false;
         
             InventoryItem dummy = null;
         
-            if (IsOverlapping(position, itemSize, ref dummy))
+            if (IsOverlapping(position, inventoryItem.GetActualSize(), ref dummy))
                 return false;
         
 
@@ -167,7 +158,7 @@ namespace UI.Inventory
             if (inventoryItem)
             {
                 SetInventoryItemSlot(inventoryItem, inventoryItem.gridPosition, false);
-                OnBeforePlaceItem?.Invoke(this, new (inventoryItem, true));
+                OnItemInteract?.Invoke(this, new (inventoryItem, true));
             }
 
             return inventoryItem;

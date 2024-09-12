@@ -27,8 +27,8 @@ namespace UI.Inventory
             _playerInput.OnClick += OnClickPerformed;
             _playerInput.OnRotate += OnRotatePerformed;
 
-            _inventoryItemGrid.OnBeforePlaceItem += OnBeforePlaceItemPerformed;
-            _tempInventoryItemGrid.OnBeforePlaceItem += OnBeforePlaceItemPerformed;
+            _inventoryItemGrid.OnItemInteract += OnItemInteractPerformed;
+            _tempInventoryItemGrid.OnItemInteract += OnItemInteractPerformed;
         }
 
         private void OnDestroy()
@@ -36,8 +36,8 @@ namespace UI.Inventory
             _playerInput.OnClick -= OnClickPerformed;
             _playerInput.OnRotate -= OnRotatePerformed;
             
-            _inventoryItemGrid.OnBeforePlaceItem -= OnBeforePlaceItemPerformed;
-            _tempInventoryItemGrid.OnBeforePlaceItem -= OnBeforePlaceItemPerformed;
+            _inventoryItemGrid.OnItemInteract -= OnItemInteractPerformed;
+            _tempInventoryItemGrid.OnItemInteract -= OnItemInteractPerformed;
         }
 
         private void Update()
@@ -65,21 +65,44 @@ namespace UI.Inventory
             if (Input.GetKeyDown(KeyCode.T) && _itemGrid)
             {
                 InventoryItemSO randomInventoryItemSO = _inventoryItemSOs[Random.Range(0, _inventoryItemSOs.Count)];
-                Debug.Log($"Search: {randomInventoryItemSO.name}");
-                InventoryItem inventoryItem = _itemGrid.FindItem(randomInventoryItemSO.guid, true);
+                int quantity = Random.Range(1, 50);
+                Debug.Log($"Stack: {randomInventoryItemSO.name}, Qty: {quantity}");
 
-                if (inventoryItem)
-                    Debug.Log($"Found: {inventoryItem.inventoryItemSO.name} {inventoryItem.gridPosition}");
+                if (TryStackItem(randomInventoryItemSO.guid, _itemGrid, ref quantity))
+                {
+                    Debug.Log($"Yep added! Left: [{quantity}]");
+                }
                 else
-                    Debug.Log("NOT FOUND!");
+                {
+                    bool resylt = AddItemToInventory(randomInventoryItemSO, ref quantity, true);
+                    Debug.Log($"Leftover... [{quantity}] BUT! : {resylt}");
+                }
             }
         
             HandleItemHighlight();
             HandleItemDrag();
         }
 
+        public bool TryStackItem(string guid, ItemGrid itemGrid, ref int quantity)
+        {
+            while (quantity > 0)
+            {
+                InventoryItem inventoryItem = itemGrid?.FindItem(guid, true);
+
+                if (!inventoryItem)
+                    return false;
+                
+                quantity = inventoryItem.AddQuantity(quantity);
+            }
+
+            return true;
+        }
+        
         public bool AddItemToInventory(InventoryItemSO inventoryItemSO, ref int quantity, bool toTempInventory = false)
         {
+            if (inventoryItemSO.isStackable && TryStackItem(inventoryItemSO.guid, _inventoryItemGrid, ref quantity))
+                return true;
+            
             while (quantity > 0)
             {
                 int quantityToAdd = Mathf.Clamp(quantity, 1, inventoryItemSO.maxQuantity);
@@ -97,7 +120,7 @@ namespace UI.Inventory
             return true;
         }
 
-        public bool InsertItemToInventory(InventoryItemSO inventoryItemSO, int quantity, bool toTempInventory = false)
+        private bool InsertItemToInventory(InventoryItemSO inventoryItemSO, int quantity, bool toTempInventory = false)
         {
             ItemGrid itemGrid = toTempInventory ? _tempInventoryItemGrid : _inventoryItemGrid;
             InventoryItem inventoryItem = Instantiate(_inventoryItemPrefab);
@@ -119,18 +142,18 @@ namespace UI.Inventory
         public void SetItemGrid(ItemGrid newItemGrid)
         {
             if (_itemGrid)
-                _itemGrid.OnBeforePlaceItem -= OnBeforePlaceItemPerformed;
+                _itemGrid.OnItemInteract -= OnItemInteractPerformed;
             
             _itemGrid = newItemGrid;
 
             if (_itemGrid)
             {
                 _tileSize = _itemGrid.tileSize;
-                _itemGrid.OnBeforePlaceItem += OnBeforePlaceItemPerformed;
+                _itemGrid.OnItemInteract += OnItemInteractPerformed;
             }
         }
-
-        private void OnBeforePlaceItemPerformed(object sender, ItemGrid.InventoryItemEventArgs e)
+        
+        private void OnItemInteractPerformed(object sender, ItemGrid.InventoryItemEventArgs e)
         {
             if (sender is not ItemGrid)
                 return;
@@ -194,7 +217,7 @@ namespace UI.Inventory
             }
             else
             {
-                _itemHighlight.SetColor(_itemGrid.CanPlaceItem(_selectedItem.GetActualSize(), _positionOnGrid)
+                _itemHighlight.SetColor(_itemGrid.CanPlaceItem(_selectedItem, _positionOnGrid)
                     ? _itemHighlight.allowedColor
                     : _itemHighlight.forbiddenColor);
             
@@ -231,7 +254,7 @@ namespace UI.Inventory
             if (!_selectedItem)
                 PickUpItem(positionOnGrid);
             else
-                PlaceItem(positionOnGrid);
+                PlaceSelectedItem(positionOnGrid);
         }
 
         private Vector2Int GetTileGridPosition()
@@ -247,7 +270,7 @@ namespace UI.Inventory
             return _itemGrid.GetTileGridPosition(pointerPosition);
         }
 
-        private void PlaceItem(Vector2Int positionOnGrid)
+        private void PlaceSelectedItem(Vector2Int positionOnGrid)
         {
             if (_itemGrid.PlaceItem(_selectedItem, positionOnGrid, ref _overlappedItem))
             {
