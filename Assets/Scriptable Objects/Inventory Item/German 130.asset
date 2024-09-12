@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <itemName>k__BackingField: German 130
   <itemDescription>k__BackingField: 
-  <size>k__BackingField: {x: 2, y: 5}
+  <size>k__BackingField: {x: 2, y: 2}
   <icon>k__BackingField: {fileID: 2007263036, guid: a55a80415dc11084aadd8b7aab26a4cc,
     type: 3}
   <maxQuantity>k__BackingField: 1

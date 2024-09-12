@@ -111,7 +111,7 @@ namespace UI.Inventory
 
             if (overlappedItem)
             {
-                if (!overlappedItem.IsFullQuantity() && inventoryItem.inventoryItemSO.IsSame(overlappedItem.inventoryItemSO))
+                if (!overlappedItem.IsFullQuantity() && inventoryItem.inventoryItemSO.guid == overlappedItem.inventoryItemSO.guid)
                     return false;
             
                 SetInventoryItemSlot(overlappedItem, overlappedItem.gridPosition, false);
@@ -253,6 +253,25 @@ namespace UI.Inventory
                     if (!IsOverlapping(slotPosition, itemSize))
                     {
                         return slotPosition;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public InventoryItem FindItem(string guid, bool notFull = false)
+        {
+            for (int y = 0; y < _size.y; y++)
+            {
+                for (int x = 0; x < _size.x; x++)
+                {
+                    Vector2Int position = new Vector2Int(x, y);
+                    InventoryItem currentItem = GetItem(position);
+
+                    if (currentItem != null && currentItem.inventoryItemSO.guid == guid && currentItem.quantity < currentItem.inventoryItemSO.maxQuantity)
+                    {
+                        return currentItem;
                     }
                 }
             }

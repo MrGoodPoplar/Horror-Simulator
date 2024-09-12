@@ -1,9 +1,10 @@
+using Unity.Collections;
 using UnityEngine;
 
 namespace UI.Inventory
 {
     [CreateAssetMenu(menuName = "Inventory/Item")]
-    public class InventoryItemSO : ScriptableObject
+    public class InventoryItemSO : ScriptableObject, IGuided
     {
         [field: SerializeField] public string itemName { get; private set; }
         [field: SerializeField, TextArea] public string itemDescription { get; private set; }
@@ -13,10 +14,6 @@ namespace UI.Inventory
     
         public bool isCountable => maxQuantity > 1;
         public bool isSymmetrical => size.x == size.y;
-    
-        public bool IsSame(InventoryItemSO inventoryItemSo)
-        {
-            return inventoryItemSo == this;
-        }
+        public string guid { get; set; }
     }
 }

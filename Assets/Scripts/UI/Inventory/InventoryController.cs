@@ -61,6 +61,18 @@ namespace UI.Inventory
                     Destroy(inventoryItem.gameObject);
                 }
             }
+
+            if (Input.GetKeyDown(KeyCode.T) && _itemGrid)
+            {
+                InventoryItemSO randomInventoryItemSO = _inventoryItemSOs[Random.Range(0, _inventoryItemSOs.Count)];
+                Debug.Log($"Search: {randomInventoryItemSO.name}");
+                InventoryItem inventoryItem = _itemGrid.FindItem(randomInventoryItemSO.guid, true);
+
+                if (inventoryItem)
+                    Debug.Log($"Found: {inventoryItem.inventoryItemSO.name} {inventoryItem.gridPosition}");
+                else
+                    Debug.Log("NOT FOUND!");
+            }
         
             HandleItemHighlight();
             HandleItemDrag();

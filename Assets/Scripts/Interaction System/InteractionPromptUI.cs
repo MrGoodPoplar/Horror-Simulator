@@ -70,8 +70,6 @@ public class InteractionPromptUI : MonoBehaviour
         {
             _currentInteractable = e.interactable;
             
-            Debug.Log($"{e.interactable.interactableVisualSO.name} UPDATE: {e.updateVisual}");
-
             if (e.updateVisual)
                 SetVisualPrompt(_currentInteractable);
             else if (_currentInteractable.interactableVisualSO.interactEffectEnabled)
