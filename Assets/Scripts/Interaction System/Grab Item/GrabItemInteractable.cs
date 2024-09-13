@@ -16,13 +16,14 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
     [SerializeField, Range(0, 1)] private float _maxQuantityChance = 0.2f;
     [SerializeField] private Vector2Int _quantityRange = new(1, 1);
     
-    [Header("Message Settings")]
+    [Header("Localized Settings")]
     [SerializeField] private LocalizedString _unsuccessfulMessage;
     [SerializeField] private LocalizedString _notEnoughSpaceMessage;
+    [SerializeField] private LocalizedString _labelText;
 
     [field: Header("Constraints")]
     [field: SerializeField] public InteractableVisualSO interactableVisualSO { get; protected set; }
-    [field: SerializeField] public InventoryItemSO inventoryItem { get; private set; }
+    [field: SerializeField] public InventoryItemSO inventoryItemSO { get; private set; }
     
     #region Enums
     enum CalculationType
@@ -46,6 +47,8 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
     
     private int _quantity;
 
+    public virtual string GetInteractableName() => _labelText.GetLocalizedString();
+    
     protected virtual void Awake() { }
 
     private void Start()
@@ -59,10 +62,10 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
         if (_quantity <= 0)
             return new(_unsuccessfulMessage.GetLocalizedString(), false, true);
             
-        bool result = Player.instance.inventoryController.AddItemToInventory(inventoryItem, ref _quantity);
+        bool result = Player.instance.inventoryController.AddItemToInventory(inventoryItemSO, ref _quantity);
 
         if (_tempInventoryEnabled && _quantity > 0)
-            result = Player.instance.inventoryController.AddItemToInventory(inventoryItem, ref _quantity, true);
+            result = Player.instance.inventoryController.AddItemToInventory(inventoryItemSO, ref _quantity, true);
 
         if (result)
             HandleSuccessfulInteraction();

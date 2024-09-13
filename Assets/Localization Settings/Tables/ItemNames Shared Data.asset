@@ -10,32 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
-  m_Name: InteractionMessages Shared Data
+  m_Name: ItemNames Shared Data
   m_EditorClassIdentifier: 
-  m_TableCollectionName: InteractionMessages
-  m_TableCollectionNameGuidString: 27352502d17f92142905cc6044933599
+  m_TableCollectionName: ItemNames
+  m_TableCollectionNameGuidString: 5ec60af363f68624abb221b4be7de683
   m_Entries:
-  - m_Id: 163384422400
-    m_Key: grab_item_not_enough_space
+  - m_Id: 310314807296
+    m_Key: german_130
     m_Metadata:
       m_Items: []
-  - m_Id: 12959903744
-    m_Key: grab_item_unsuccessful_message
-    m_Metadata:
-      m_Items: []
-  - m_Id: 729147092774912
-    m_Key: 357_mag_27_ammo_box
+  - m_Id: 340455075840
+    m_Key: 357_mag_round
     m_Metadata:
       m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
-    rid: 1293046835017416728
+    rid: 1293046880751058945
   references:
     version: 2
     RefIds:
-    - rid: 1293046835017416728
+    - rid: 1293046880751058945
       type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables,
         asm: Unity.Localization}
       data:
-        m_CustomEpoch: 1726092643854
+        m_CustomEpoch: 1726266973323

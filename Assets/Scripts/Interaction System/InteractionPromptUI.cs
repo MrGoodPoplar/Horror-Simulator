@@ -86,25 +86,25 @@ public class InteractionPromptUI : MonoBehaviour
     private void OnInteractHover(object sender, InteractController.InteractEventArgs e)
     {
         _currentInteractable = e.interactable;
-        
-        _promptText.text = _currentInteractable.interactableVisualSO.text;
-        
-        _visualPrompt?.gameObject.SetActive(false);
         SetVisualPrompt(_currentInteractable);
     }
 
     private void SetVisualPrompt(IInteractable interactable)
     {
+        _visualPrompt?.gameObject.SetActive(false);
+
         if (interactable.interactableVisualSO.visualType == InteractableVisualSO.VisualType.Icon)
         {
             _visualPrompt = _promptImage.transform;
             _promptImage.Toggle(true);
-            _promptImage.SetSprite(_currentInteractable.interactableVisualSO.sprite);
+            _promptImage.Set(_currentInteractable.interactableVisualSO.sprite, interactable.GetInteractableName());
             _promptImage.SetProgress(interactable.instant ? 1 : 0);
         }
         else
         {
             _promptImage.Toggle(false);
+            
+            _promptText.text = interactable.GetInteractableName();
             _visualPrompt = _promptUI;
         }
         

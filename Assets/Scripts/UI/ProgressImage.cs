@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,13 +6,15 @@ public class ProgressImage : MonoBehaviour
 {
     [SerializeField] private Image _progressImage;
     [SerializeField] private Image _backgroundImage;
-
+    [SerializeField] private TextMeshProUGUI _promptText;
+    
     public bool active { get; private set; }
     
-    public void SetSprite(Sprite sprite)
+    public void Set(Sprite sprite, string text = null)
     {
         _progressImage.sprite = sprite;
         _backgroundImage.sprite = sprite;
+        _promptText.text = text;
 
         _progressImage.type = Image.Type.Filled;
     }

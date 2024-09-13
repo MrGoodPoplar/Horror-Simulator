@@ -50,4 +50,12 @@ public class OpenGrabItemInteractable : GrabItemInteractable
         
         opened = !opened;
     }
+
+    public override string GetInteractableName()
+    {
+        if (opened)
+            return inventoryItemSO.itemName;
+
+        return base.GetInteractableName();
+    }
 }

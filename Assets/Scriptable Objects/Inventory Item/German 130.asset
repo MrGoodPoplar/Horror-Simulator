@@ -12,10 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ffa02e96590e94cb2931812f425457, type: 3}
   m_Name: German 130
   m_EditorClassIdentifier: 
-  <itemName>k__BackingField: German 130
+  _itemName:
+    m_TableReference:
+      m_TableCollectionName: GUID:5ec60af363f68624abb221b4be7de683
+    m_TableEntryReference:
+      m_KeyId: 310314807296
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   <itemDescription>k__BackingField: 
   <size>k__BackingField: {x: 2, y: 2}
   <icon>k__BackingField: {fileID: 2007263036, guid: a55a80415dc11084aadd8b7aab26a4cc,
     type: 3}
   <maxQuantity>k__BackingField: 1
   <guid>k__BackingField: 152c7f28-252b-4027-a682-e05f294cb9ca
+  references:
+    version: 2
+    RefIds: []

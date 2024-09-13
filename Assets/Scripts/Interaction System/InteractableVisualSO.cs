@@ -1,9 +1,10 @@
 using UnityEngine;
+using UnityEngine.Localization;
 
 [CreateAssetMenu(menuName = "UI/Interactable Visual")]
 public class InteractableVisualSO : ScriptableObject
 {
-    [field: SerializeField] public string text { get; private set; }
+    [SerializeField] private LocalizedString _interactLabelText;
     [field: SerializeField] public float interactScaleEffect { get; private set; } = 0.9f;
     [field: SerializeField] public float interactDurationEffect { get; private set; } = 0.1f;
     [field: SerializeField] public Sprite sprite { get; private set; }
@@ -16,4 +17,5 @@ public class InteractableVisualSO : ScriptableObject
     }
 
     public bool interactEffectEnabled => interactDurationEffect > 0;
+    public string interactLabelText => _interactLabelText?.GetLocalizedString();
 }

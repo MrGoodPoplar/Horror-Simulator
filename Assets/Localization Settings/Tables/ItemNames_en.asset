@@ -10,24 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
-  m_Name: InteractionMessages_en
+  m_Name: ItemNames_en
   m_EditorClassIdentifier: 
   m_LocaleId:
     m_Code: en
-  m_SharedData: {fileID: 11400000, guid: 27352502d17f92142905cc6044933599, type: 2}
+  m_SharedData: {fileID: 11400000, guid: 5ec60af363f68624abb221b4be7de683, type: 2}
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 12959903744
-    m_Localized: No ammo left!
+  - m_Id: 310314807296
+    m_Localized: German 130
     m_Metadata:
       m_Items: []
-  - m_Id: 163384422400
-    m_Localized: Not enough space!
-    m_Metadata:
-      m_Items: []
-  - m_Id: 729147092774912
-    m_Localized: .357 Mag 27-Round Box
+  - m_Id: 340455075840
+    m_Localized: .357 mag round
     m_Metadata:
       m_Items: []
   references:

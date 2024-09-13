@@ -12,7 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 265b8cee8117bc742948898162defc76, type: 3}
   m_Name: Grab
   m_EditorClassIdentifier: 
-  <text>k__BackingField: Grab
+  _interactLabelText:
+    m_TableReference:
+      m_TableCollectionName: GUID:2c07cda0cebe6d94fb8f0a27671427ff
+    m_TableEntryReference:
+      m_KeyId: 137173938176
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  <interactScaleEffect>k__BackingField: 0.9
+  <interactDurationEffect>k__BackingField: 0.1
   <sprite>k__BackingField: {fileID: -32446750, guid: 7572c17fd3d6cf94cbee35ec27a882b4,
     type: 3}
   <visualType>k__BackingField: 1
+  references:
+    version: 2
+    RefIds: []
