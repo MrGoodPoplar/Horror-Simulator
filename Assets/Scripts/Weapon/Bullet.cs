@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -35,8 +36,8 @@ public class Bullet : MonoBehaviour
         _startPosition = transform.position;
         _destroyDistance = destroyDistance;
     }
-    
-    private void OnCollisionEnter(Collision collision)
+
+    private void OnTriggerEnter(Collider other)
     {
         _bulletPool.Release(this);
     }

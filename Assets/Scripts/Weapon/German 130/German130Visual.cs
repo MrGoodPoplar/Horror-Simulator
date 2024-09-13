@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Animator), typeof(Weapon))]
 public class German130Visual : MonoBehaviour
@@ -15,6 +16,7 @@ public class German130Visual : MonoBehaviour
 
     [Header("Animation Settings")]
     [SerializeField] private float _transitionDuration = 0.26f;
+    [FormerlySerializedAs("_rotationOffsetY")] [SerializeField, Range(-180, 180)] private float _rotationAngleOffset = -60.0f;
     
     [Header("Cylinder Settings")]
     [SerializeField] private Transform _cylinderRotationConstraint;
@@ -85,6 +87,7 @@ public class German130Visual : MonoBehaviour
 
         if (_isReloadAnimationPlaying && !AnimatorIsPlaying(_currentReloadAnimationState))
         {
+            SmoothBulletsReverse(_rotationAngleOffset);
             _isReloadAnimationPlaying = false;
             _shooterController.ToggleWeaponInteraction(!Player.instance.isHUDView);
         }
@@ -151,8 +154,7 @@ public class German130Visual : MonoBehaviour
 
     private void ReverseBulletsActive(int count)
     {
-        
-        for (int i = _bullets.Length - 1; i >= 0; i--)
+        for (int i = _bullets .Length- 1; i >= 0; i--)
         {
             German130Bullet bullet = _bullets[i];
 
@@ -197,7 +199,7 @@ public class German130Visual : MonoBehaviour
     {
         _emptyShellsInside++;
         _currentChamberIndex = (_currentChamberIndex + 1) % 6;
-        RotateCylinder(_currentChamberIndex).Forget();;
+        RotateCylinder(_currentChamberIndex, true, _rotationAngleOffset).Forget();;
     }
 
     private void OnReloadPerformed()
@@ -222,18 +224,18 @@ public class German130Visual : MonoBehaviour
         _isReloadAnimationPlaying = true;
     }
 
-    private void SmoothBulletsReverse()
+    private void SmoothBulletsReverse(float angleOffset = 0)
     {
         if (_german130.bulletsInClip > 0)
         {
-            RotateByFullTurns(1, _cylinderRotationDuration / 2).Forget();;
+            RotateByFullTurns(1, _cylinderRotationDuration / 2, angleOffset).Forget();;
             ReverseBulletsActive(_german130.bulletsInClip);
         }
     }
 
-    private async UniTaskVoid RotateByFullTurns(float fullTurns, float duration)
+    private async UniTaskVoid RotateByFullTurns(float fullTurns, float duration, float angleOffset = 0)
     {
-        float totalRotation = fullTurns * 360f;
+        float totalRotation = fullTurns * 360f + angleOffset;
         float elapsedTime = 0f;
         float startRotationY = _cylinderRotationConstraint.localRotation.eulerAngles.y;
         float targetRotationY = startRotationY + totalRotation;
@@ -251,7 +253,7 @@ public class German130Visual : MonoBehaviour
     }
 
     
-    private async UniTaskVoid RotateCylinder(int chamberIndex, bool canReloadAfter = true)
+    private async UniTaskVoid RotateCylinder(int chamberIndex, bool canReloadAfter = true, float angleOffset = 0)
     {
         if (_isCylinderRotating)
             return;
@@ -259,13 +261,13 @@ public class German130Visual : MonoBehaviour
         _isCylinderRotating = true;
         _shooterController.canReload = false;
 
-        int angle = 360 / _german130.clipSize;
-        float targetAngle = -(chamberIndex * angle);
+        float angle = 360.0f / _german130.clipSize;
+        float targetAngle = -(chamberIndex * angle) + angleOffset;
+        
         Quaternion initialRotation = _cylinderRotationConstraint.localRotation;
         Quaternion targetRotation = Quaternion.Euler(0f, targetAngle, 0f);
-
-        float elapsedTime = 0f;
-
+        
+        float elapsedTime = 0;
         while (elapsedTime < _cylinderRotationDuration)
         {
             elapsedTime += Time.deltaTime;

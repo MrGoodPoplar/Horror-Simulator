@@ -272,7 +272,7 @@ MonoBehaviour:
   _tempInventoryEnabled: 0
   _calculationType: 1
   _onGrabType: 2
-  _maxQuantityChance: 0.15
+  _maxQuantityChance: 0.8
   _quantityRange: {x: 4, y: 27}
   _unsuccessfulMessage:
     m_TableReference:
