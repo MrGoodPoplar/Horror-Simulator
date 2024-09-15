@@ -46,6 +46,7 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
     
     public event Action OnInteract;
     public event Action OnSet;
+    public event Action OnQuantityUpdate; 
 
     private InventoryController _inventoryController;
     private int _quantity;
@@ -111,18 +112,37 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
     private void HandleInteractionResult(bool result)
     {
         if (result)
+        {
             HandleSuccessfulInteraction();
+        }
     }
     
+    
+    // TODO: refactoring 
+    // TODO: show label to open inventory if cant fit item automatically
+    // TODO: handle possible problem when player closes inventory with selected item
+    // TODO: Forget should be called when hud closed as well
     public void Forget()
     {
         if (!_isTempItemDefined)
             return;
-        
+
         if (_inventoryController.ItemExistsInTempInventory(inventoryItemSO))
+        {
+            int added = _quantity - _inventoryController.CountItemInInventory(inventoryItemSO, true);
+            _quantity -= added;
+            
+            if (added > 0)
+                OnQuantityUpdate?.Invoke();
+
             _inventoryController.RemoveInventoryItem(inventoryItemSO, _quantity, true);
+        }
         else
+        {
+            _quantity = 0;
+            OnQuantityUpdate?.Invoke();
             HandleInteractionResult(true);
+        }
         
         _isTempItemDefined = false;
         _isTempItemAdded = false;

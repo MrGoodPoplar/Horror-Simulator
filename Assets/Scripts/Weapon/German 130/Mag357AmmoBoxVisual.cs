@@ -29,13 +29,15 @@ public class Mag357AmmoBoxVisual : MonoBehaviour
         _openGrabItemInteractable.OnOpen += OnOpenPerformed;
         _openGrabItemInteractable.OnInteract += OnInteractPerformed;
         _openGrabItemInteractable.OnSet += OnSetPerformed;
+        _openGrabItemInteractable.OnQuantityUpdate += OnQuantityUpdatePerformed;
     }
-    
+
     private void OnDestroy()
     {
         _openGrabItemInteractable.OnOpen -= OnOpenPerformed;
         _openGrabItemInteractable.OnInteract -= OnInteractPerformed;
         _openGrabItemInteractable.OnSet -= OnSetPerformed;
+        _openGrabItemInteractable.OnQuantityUpdate -= OnQuantityUpdatePerformed;
     }
 
     private void OnSetPerformed()
@@ -46,9 +48,13 @@ public class Mag357AmmoBoxVisual : MonoBehaviour
     private void OnInteractPerformed()
     {
         if (_rounds.Count > 0)
-        {
             ClearAmmo(_rounds.Count - _openGrabItemInteractable.quantity);
-        }
+    }
+    
+    private void OnQuantityUpdatePerformed()
+    {
+        if (_rounds.Count > 0)
+            ClearAmmo(_rounds.Count - _openGrabItemInteractable.quantity);
     }
 
     private void OnOpenPerformed()

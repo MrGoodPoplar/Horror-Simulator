@@ -49,6 +49,7 @@ public class Player : MonoBehaviour
     }
 
     // TODO: move to separate class and probably just pause game in inventory
+    // TODO: OnHUDstateChanged event needed
     public void ToggleHUDView(bool toggle)
     {
         ToggleCursor(toggle);

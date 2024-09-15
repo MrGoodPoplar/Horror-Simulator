@@ -306,5 +306,24 @@ namespace UI.Inventory
                 }
             }
         }
+
+        public int CountItem(string guid)
+        {
+            int total = 0;
+            
+            for (int y = 0; y < _size.y; y++)
+            {
+                for (int x = 0; x < _size.x; x++)
+                {
+                    Vector2Int position = new Vector2Int(x, y);
+                    InventoryItem currentItem = GetItem(position);
+
+                    if (currentItem && currentItem.inventoryItemSO.guid == guid)
+                        total += currentItem.quantity;
+                }
+            }
+
+            return total;
+        }
     }
 }

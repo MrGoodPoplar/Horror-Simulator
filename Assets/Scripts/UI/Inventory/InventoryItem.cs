@@ -89,7 +89,7 @@ namespace UI.Inventory
     
         public int SetQuantity(int newQuantity)
         {
-            if (newQuantity == 0)
+            if (newQuantity <= 0)
                 Destroy(gameObject);
         
             int maxCapacity = inventoryItemSO.maxQuantity;
