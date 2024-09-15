@@ -22,8 +22,6 @@ public class Player : MonoBehaviour
             Destroy(gameObject);
         else
             instance = this;
-        
-        
     }
 
     private void Start()
@@ -48,16 +46,16 @@ public class Player : MonoBehaviour
     {
         isHUDView = !isHUDView;
         ToggleHUDView(isHUDView);
-        
-        // TODO: move to separate class and probably just pause game in inventory
-        firstPersonController.canMove = !isHUDView;
-        shooterController.ToggleWeaponInteraction(!isHUDView);
     }
 
-    private void ToggleHUDView(bool toggle)
+    // TODO: move to separate class and probably just pause game in inventory
+    public void ToggleHUDView(bool toggle)
     {
         ToggleCursor(toggle);
-        
+
+        isHUDView = toggle;
         _hud.gameObject.SetActive(toggle);
+        firstPersonController.canMove = !toggle;
+        shooterController.ToggleWeaponInteraction(!toggle);
     }
 }

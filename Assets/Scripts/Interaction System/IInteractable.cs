@@ -10,6 +10,8 @@ public interface IInteractable
     public bool instant => holdDuration <= 0;
     
     public InteractionResponse Interact();
+
+    public void Forget();
     
     public Vector3 GetAnchorPosition() => transform.position;
 

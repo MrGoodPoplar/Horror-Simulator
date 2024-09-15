@@ -141,6 +141,13 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.7877551
+        functionName: HandleReloadEnd
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -200,6 +207,13 @@ ModelImporter:
         messageOptions: 0
       - time: 0.86874485
         functionName: AddBulletToClip
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.8750057
+        functionName: HandleReloadEnd
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -278,6 +292,13 @@ ModelImporter:
         messageOptions: 0
       - time: 0.8954546
         functionName: AddBulletToClip
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.91020405
+        functionName: HandleReloadEnd
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -370,6 +391,13 @@ ModelImporter:
         messageOptions: 0
       - time: 0.91818184
         functionName: AddBulletToClip
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.9346939
+        functionName: HandleReloadEnd
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -476,6 +504,13 @@ ModelImporter:
         messageOptions: 0
       - time: 0.9318182
         functionName: AddBulletToClip
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.94693875
+        functionName: HandleReloadEnd
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -596,6 +631,13 @@ ModelImporter:
         messageOptions: 0
       - time: 0.940909
         functionName: AddBulletToClip
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.94693875
+        functionName: HandleReloadEnd
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

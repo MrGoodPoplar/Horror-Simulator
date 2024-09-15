@@ -19,11 +19,11 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 12959903744
-    m_Localized: No ammo left!
+    m_Localized: Box is empty
     m_Metadata:
       m_Items: []
   - m_Id: 163384422400
-    m_Localized: Not enough space!
+    m_Localized: Not enough space
     m_Metadata:
       m_Items: []
   - m_Id: 729147092774912

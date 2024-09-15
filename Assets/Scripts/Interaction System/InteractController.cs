@@ -22,12 +22,12 @@ public class InteractController : MonoBehaviour
     public class InteractEventArgs : EventArgs
     {
         public IInteractable interactable { get; private set; }
-        public bool updateVisual { get; private set; }
+        public InteractionResponse response { get; private set; }
         
-        public InteractEventArgs(IInteractable interactable, bool updateVisual = false)
+        public InteractEventArgs(IInteractable interactable, InteractionResponse response = default)
         {
             this.interactable = interactable;
-            this.updateVisual = updateVisual;
+            this.response = response;
         }
     }
     #endregion
@@ -60,9 +60,10 @@ public class InteractController : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, _hitPointer.transform.position) > _interactDistance)
         {
-            if (isInteractableInRange)
+            if (!_interactable.IsUnityNull())
             {
                 OnInteractUnhover?.Invoke(null, new InteractEventArgs(_interactable));
+                _interactable.Forget();
                 _interactable = null;
             }
 
@@ -73,6 +74,7 @@ public class InteractController : MonoBehaviour
         {
             if (_interactable != closestInteractable)
             {
+                _interactable?.Forget();
                 _interactable = closestInteractable;
                 OnInteractHover?.Invoke(null, new InteractEventArgs(_interactable));
                 OnInteractCanceled();
@@ -82,10 +84,11 @@ public class InteractController : MonoBehaviour
         {
             OnInteractUnhover?.Invoke(null, new InteractEventArgs(_interactable));
             OnInteractCanceled();
+            _interactable.Forget();
             _interactable = null;
         }
     }
-
+    
     private bool TryGetClosestInteractable(out IInteractable closestInteractable)
     {
         int colliderCount = Physics.OverlapSphereNonAlloc(_hitPointer.transform.position, _interactionRadius, _colliders, _interactableMask);
@@ -167,7 +170,7 @@ public class InteractController : MonoBehaviour
         if (!response.message.IsUnityNull())
             Debug.Log($"{response.message} -> {response.result}");
             
-        OnInteract?.Invoke(null, new InteractEventArgs(interactable, response.updateVisual));
+        OnInteract?.Invoke(null, new InteractEventArgs(interactable, response));
     }
     
     private void OnDrawGizmos()

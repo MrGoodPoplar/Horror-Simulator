@@ -10,6 +10,11 @@ public class TestInteractable : MonoBehaviour, IInteractable
     {
         return new($"IM {_pickupText}!", true);
     }
+
+    public void Forget()
+    {
+        
+    }
     
     public virtual string GetInteractableName() => _pickupText;
 

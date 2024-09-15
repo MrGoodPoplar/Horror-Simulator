@@ -1,12 +1,14 @@
 using System;
+using System.Collections;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.Serialization;
 
-[RequireComponent(typeof(Animator), typeof(Weapon))]
+[RequireComponent(typeof(Animator), typeof(Weapon), typeof(German130BulletVisual))]
 public class German130Visual : MonoBehaviour
 {
     private const string IS_AIMING = "isAiming";
@@ -16,7 +18,7 @@ public class German130Visual : MonoBehaviour
 
     [Header("Animation Settings")]
     [SerializeField] private float _transitionDuration = 0.26f;
-    [FormerlySerializedAs("_rotationOffsetY")] [SerializeField, Range(-180, 180)] private float _rotationAngleOffset = -60.0f;
+    [SerializeField, Range(-180, 180)] private float _rotationAngleOffset = -60.0f;
     
     [Header("Cylinder Settings")]
     [SerializeField] private Transform _cylinderRotationConstraint;
@@ -28,16 +30,16 @@ public class German130Visual : MonoBehaviour
     [SerializeField] private bool _collectionCheck = false;
     
     [Header("Bullets Settings")]
-    [SerializeField] private German130Bullet[] _bullets;
     [SerializeField] private BulletShell _bulletShell;
     [SerializeField] private float _bulletShellLifeSpan = 10f;
     
     private Animator _animator;
     private ShooterController _shooterController;
     private FirstPersonController _firstPersonController;
+    private German130BulletVisual _bulletVisual;
     private PlayerInput _playerInput;
     private Weapon _german130;
-    
+
     private int _currentChamberIndex;
     private string _currentReloadAnimationState;
     private bool _isReloadAnimationPlaying;
@@ -51,7 +53,8 @@ public class German130Visual : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _german130 = GetComponent<Weapon>();
-
+        _bulletVisual = GetComponent<German130BulletVisual>();
+        
         InitPoolObjects();
     }
 
@@ -68,7 +71,7 @@ public class German130Visual : MonoBehaviour
         _firstPersonController.playerInput.OnFire += OnInputFirePerformed;
 
         _emptyShellsInside = _german130.bulletsInClip;
-        HideBullets(_german130.clipSize - _german130.bulletsInClip);
+        _bulletVisual.HideBullets(_german130.clipSize - _german130.bulletsInClip);
     }
     
     private void OnDestroy()
@@ -82,17 +85,25 @@ public class German130Visual : MonoBehaviour
 
     private void Update()
     {
+        HandleReloadingAnimation();
+    }
+
+    private void HandleReloadingAnimation()
+    {
         _animator.SetBool(IS_AIMING, _shooterController.isAiming);
         _animator.SetFloat(VELOCITY, _firstPersonController.velocity);
 
         if (_isReloadAnimationPlaying && !AnimatorIsPlaying(_currentReloadAnimationState))
         {
-            SmoothBulletsReverse(_rotationAngleOffset);
+            if (_reloadingInterrupted)
+                SmoothBulletsReverse(_rotationAngleOffset);
+            
             _isReloadAnimationPlaying = false;
+            _reloadingInterrupted = false;
             _shooterController.ToggleWeaponInteraction(!Player.instance.isHUDView);
         }
     }
-    
+
     private void InitPoolObjects()
     {
         _bulletShellPool = new ObjectPool<BulletShell>(CreateBulletShell, OnGetBulletShellFromPool, OnReleaseBulletShellToPool, OnDestroyPooledBulletShell,
@@ -121,20 +132,24 @@ public class German130Visual : MonoBehaviour
         Destroy(bulletShell);
     }
     
+    private void HandleReloadEnd() // Animation Event
+    {
+        SmoothBulletsReverse(_rotationAngleOffset);
+    }
+    
     private void AddBulletToClip() // Animation Event
     {
         _german130.SetBulletsInClip(_german130.bulletsInClip + 1);
 
         if (_reloadingInterrupted)
         {
-            _reloadingInterrupted = false;
             _animator.SetTrigger(FORCE_STOP_RELOAD);
         }
     }
     
     private void DropShells(int count) // Animation Event
     {
-        German130Bullet[] bullets = _bullets.Take(count).ToArray();
+        German130Bullet[] bullets = _bulletVisual.bullets.Take(count).ToArray();
             
         foreach (German130Bullet bullet in bullets)
         {
@@ -154,9 +169,9 @@ public class German130Visual : MonoBehaviour
 
     private void ReverseBulletsActive(int count)
     {
-        for (int i = _bullets .Length- 1; i >= 0; i--)
+        for (int i = _bulletVisual.bullets.Length - 1; i >= 0; i--)
         {
-            German130Bullet bullet = _bullets[i];
+            German130Bullet bullet = _bulletVisual.bullets[i];
 
             if (count > 0)
             {
@@ -172,22 +187,12 @@ public class German130Visual : MonoBehaviour
     
     private void ShowBullets(int count) // Animation Event
     {
-        German130Bullet[] bullets = _bullets.Take(count).ToArray();
-
-        foreach (German130Bullet bullet in bullets)
-        {
-            bullet.Show();
-        }
+        _bulletVisual.ShowBullets(count);
     }
 
     private void HideBullets(int count) // Animation Event
     {
-        German130Bullet[] bullets = _bullets.Take(count).ToArray();
-
-        foreach (German130Bullet bullet in bullets)
-        {
-            bullet.Hide();
-        }
+        _bulletVisual.HideBullets(count);
     }
     
     private string GetReloadAnimationTrigger(int bullets)
@@ -204,20 +209,21 @@ public class German130Visual : MonoBehaviour
 
     private void OnReloadPerformed()
     {
-        Reload().Forget();;
+        StartCoroutine(ReloadCoroutine());
     }
 
-    private async UniTaskVoid Reload()
+    private IEnumerator ReloadCoroutine()
     {
         _reloadingInterrupted = false;
+        
         _shooterController.ToggleWeaponInteraction(false);
         RotateCylinder(_currentChamberIndex = 0, false).Forget();;
         
         int bulletsToReload = _german130.clipSize - _german130.bulletsInClip;
         _animator.SetTrigger(GetReloadAnimationTrigger(bulletsToReload));
         
-        await UniTask.WaitForSeconds(_transitionDuration);
-
+        yield return new WaitForSeconds(_transitionDuration);
+        
         SmoothBulletsReverse();
         
         _currentReloadAnimationState = _animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;

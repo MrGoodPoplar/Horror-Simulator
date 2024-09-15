@@ -260,14 +260,51 @@ namespace UI.Inventory
                     Vector2Int position = new Vector2Int(x, y);
                     InventoryItem currentItem = GetItem(position);
 
-                    if (currentItem != null && currentItem.inventoryItemSO.guid == guid && currentItem.quantity < currentItem.inventoryItemSO.maxQuantity)
-                    {
+                    if (currentItem && currentItem.inventoryItemSO.guid == guid && (!notFull || currentItem.quantity < currentItem.inventoryItemSO.maxQuantity))
+                    { 
                         return currentItem;
                     }
                 }
             }
 
             return null;
+        }
+        
+        public bool RemoveInventoryItem(string guid, int quantityToRemove = 1)
+        {
+            while (quantityToRemove > 0)
+            {
+                InventoryItem inventoryItem = FindItem(guid);
+            
+                if (inventoryItem)
+                {
+                    SetInventoryItemSlot(inventoryItem, inventoryItem.gridPosition, false);
+
+                    int itemQuantity = inventoryItem.quantity;
+                    inventoryItem.SetQuantity(itemQuantity - quantityToRemove);
+
+                    quantityToRemove -= itemQuantity - quantityToRemove;
+                }
+                else
+                    return true;
+            }
+
+            return false;
+        }
+
+        public void Clear()
+        {
+            for (int y = 0; y < _size.y; y++)
+            {
+                for (int x = 0; x < _size.x; x++)
+                {
+                    Vector2Int position = new Vector2Int(x, y);
+                    InventoryItem currentItem = GetItem(position);
+
+                    if (currentItem)
+                        Destroy(currentItem);
+                }
+            }
         }
     }
 }

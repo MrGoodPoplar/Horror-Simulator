@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 public class InteractionPromptUI : MonoBehaviour
 {
+    [Header("Prompt Settings")]
+    [SerializeField] private float _tempMessageDuration = 1.0f;
+
     [Header("Constraints")]
     [SerializeField] private Camera _camera;
     [SerializeField] private Transform _promptUI;
@@ -53,6 +56,10 @@ public class InteractionPromptUI : MonoBehaviour
                 _promptImage.SetProgress(_interactController.holdingProgress);
             }
         }
+        else if (_visualPrompt && _visualPrompt.gameObject.activeSelf)
+        {
+            _visualPrompt.gameObject.SetActive(false);
+        }
     }
 
     private void LateUpdate()
@@ -70,8 +77,10 @@ public class InteractionPromptUI : MonoBehaviour
         {
             _currentInteractable = e.interactable;
             
-            if (e.updateVisual)
+            if (e.response.updateVisual)
                 SetVisualPrompt(_currentInteractable);
+            else if (e.response.hasMessage)
+                _promptImage.ShowTemporaryMessageAsync(e.response.message, _tempMessageDuration).Forget();
             else if (_currentInteractable.interactableVisualSO.interactEffectEnabled)
                 StartCoroutine(InteractPressedCoroutine());
         }
@@ -114,9 +123,13 @@ public class InteractionPromptUI : MonoBehaviour
     
     private void OnInteractUnhover(object sender, InteractController.InteractEventArgs e)
     {
-        _currentInteractable = null;
-        _promptImage.Toggle(false);
-        _visualPrompt.gameObject.SetActive(false);
+        if (!_currentInteractable.IsUnityNull())
+        {
+            _currentInteractable = null;
+            
+            _promptImage.Toggle(false);
+            _visualPrompt.gameObject.SetActive(false);
+        }
     }
     
     private IEnumerator InteractPressedCoroutine()

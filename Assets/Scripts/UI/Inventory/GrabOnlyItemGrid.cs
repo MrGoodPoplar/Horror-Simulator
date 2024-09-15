@@ -27,5 +27,10 @@ namespace UI.Inventory
         {
             return _relativeItems.Contains(inventoryItem);
         }
+
+        public void AddRelativeItem(InventoryItem inventoryItem)
+        {
+            _relativeItems.Add(inventoryItem);
+        }
     }
 }

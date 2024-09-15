@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace UI.Inventory
 {
@@ -11,7 +13,7 @@ namespace UI.Inventory
         [SerializeField] private InventoryItem _inventoryItemPrefab;
         [SerializeField] private InventoryItemHighlight _itemHighlight;
         [SerializeField] private ItemGrid _inventoryItemGrid;
-        [SerializeField] private ItemGrid _tempInventoryItemGrid;
+        [SerializeField] private GrabOnlyItemGrid _tempInventoryItemGrid;
         [SerializeField] private Transform _itemDragParent;
     
         private ItemGrid _itemGrid;
@@ -42,6 +44,15 @@ namespace UI.Inventory
 
         private void Update()
         {
+            HandleDebug();
+        
+            HandleItemHighlight();
+            HandleItemDrag();
+        }
+
+        private void HandleDebug()
+        {
+            //Debug
             if (Input.GetKeyDown(KeyCode.Q) && _itemGrid)
             {
                 InventoryItem inventoryItem = Instantiate(_inventoryItemPrefab);
@@ -62,6 +73,7 @@ namespace UI.Inventory
                 }
             }
 
+            //Debug
             if (Input.GetKeyDown(KeyCode.T) && _itemGrid)
             {
                 InventoryItemSO randomInventoryItemSO = _inventoryItemSOs[Random.Range(0, _inventoryItemSOs.Count)];
@@ -74,13 +86,10 @@ namespace UI.Inventory
                 }
                 else
                 {
-                    bool resylt = AddItemToInventory(randomInventoryItemSO, ref quantity, true);
+                    bool resylt = AddItemToInventory(randomInventoryItemSO, ref quantity);
                     Debug.Log($"Leftover... [{quantity}] BUT! : {resylt}");
                 }
             }
-        
-            HandleItemHighlight();
-            HandleItemDrag();
         }
 
         public bool TryStackItem(string guid, ItemGrid itemGrid, ref int quantity)
@@ -98,7 +107,7 @@ namespace UI.Inventory
             return true;
         }
         
-        public bool AddItemToInventory(InventoryItemSO inventoryItemSO, ref int quantity, bool toTempInventory = false)
+        public bool AddItemToInventory(InventoryItemSO inventoryItemSO, ref int quantity, bool isTempInventory = false)
         {
             if (inventoryItemSO.isStackable && TryStackItem(inventoryItemSO.guid, _inventoryItemGrid, ref quantity))
                 return true;
@@ -106,36 +115,43 @@ namespace UI.Inventory
             while (quantity > 0)
             {
                 int quantityToAdd = Mathf.Clamp(quantity, 1, inventoryItemSO.maxQuantity);
-                bool isInserted = InsertItemToInventory(inventoryItemSO, quantityToAdd, toTempInventory);
+                bool isInserted = InsertItemToInventory(inventoryItemSO, quantityToAdd, isTempInventory);
 
                 if (!isInserted)
-                {
                     return false;
-                }
 
                 quantity -= quantityToAdd;
             }
 
             quantity = 0;
+
             return true;
         }
 
-        private bool InsertItemToInventory(InventoryItemSO inventoryItemSO, int quantity, bool toTempInventory = false)
+        public bool RemoveInventoryItem(InventoryItemSO inventoryItemSO, int quantity = 1, bool isTempInventory = false)
         {
-            ItemGrid itemGrid = toTempInventory ? _tempInventoryItemGrid : _inventoryItemGrid;
-            InventoryItem inventoryItem = Instantiate(_inventoryItemPrefab);
-            inventoryItem.Set(inventoryItemSO, itemGrid, Mathf.Clamp(quantity, 1, inventoryItemSO.maxQuantity));
-
-            Vector2Int? freeSlot = itemGrid.FindFreeSlotForItem(inventoryItem.inventoryItemSO.size);
-
+            ItemGrid itemGrid = isTempInventory ? _tempInventoryItemGrid : _inventoryItemGrid;
+            return itemGrid.RemoveInventoryItem(inventoryItemSO.guid, quantity);
+        }
+        
+        private bool InsertItemToInventory(InventoryItemSO inventoryItemSO, int quantity, bool isTempInventory = false)
+        {
+            ItemGrid itemGrid = isTempInventory ? _tempInventoryItemGrid : _inventoryItemGrid;
+            Vector2Int? freeSlot = itemGrid.FindFreeSlotForItem(inventoryItemSO.size);
+            
             if (freeSlot.HasValue)
             {
+                InventoryItem inventoryItem = Instantiate(_inventoryItemPrefab);
+                inventoryItem.Set(inventoryItemSO, itemGrid, Mathf.Clamp(quantity, 1, inventoryItemSO.maxQuantity));
+
+                if (isTempInventory)
+                    _tempInventoryItemGrid.AddRelativeItem(inventoryItem);
+                
                 itemGrid.PlaceItem(inventoryItem, freeSlot.Value, ref _overlappedItem);
                 inventoryItem.GetRectTransform().SetAsLastSibling();
                 return true;
             }
         
-            Destroy(inventoryItem.gameObject);
             return false;
         }
 
@@ -314,6 +330,11 @@ namespace UI.Inventory
 
             _itemStateUpdated = true;
             _selectedItem.Rotate(_tileSize);
+        }
+
+        public bool ItemExistsInTempInventory(InventoryItemSO inventoryItemSO)
+        {
+            return !_tempInventoryItemGrid.FindItem(inventoryItemSO.guid).IsUnityNull();
         }
     }
 }

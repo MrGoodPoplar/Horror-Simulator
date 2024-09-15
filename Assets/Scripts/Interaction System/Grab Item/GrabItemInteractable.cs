@@ -1,5 +1,6 @@
 using System;
 using UI.Inventory;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Localization;
 using Random = UnityEngine.Random;
@@ -29,7 +30,8 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
     enum CalculationType
     {
         Probabilistic,
-        Exponential
+        Exponential,
+        Static
     }
 
     enum OnGrabType
@@ -44,40 +46,88 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
     
     public event Action OnInteract;
     public event Action OnSet;
-    
+
+    private InventoryController _inventoryController;
     private int _quantity;
+    private bool _isTempItemDefined;
+    private bool _isTempItemAdded;
 
     public virtual string GetInteractableName() => _labelText.GetLocalizedString();
     
-    protected virtual void Awake() { }
+    protected virtual void Awake() {}
 
     private void Start()
     {
         _quantity = GetQuantity();
+        _inventoryController = Player.instance.inventoryController;
+        
         OnSet?.Invoke();
     }
 
     public virtual InteractionResponse Interact()
     {
+        if (_isTempItemDefined)
+            return HandleTemporaryItemInteraction();
+
         if (_quantity <= 0)
             return new(_unsuccessfulMessage.GetLocalizedString(), false, true);
-            
-        bool result = Player.instance.inventoryController.AddItemToInventory(inventoryItemSO, ref _quantity);
 
-        if (_tempInventoryEnabled && _quantity > 0)
-            result = Player.instance.inventoryController.AddItemToInventory(inventoryItemSO, ref _quantity, true);
+        bool result = HandleInventoryItemInteraction();
 
-        if (result)
-            HandleSuccessfulInteraction();
-
+        HandleInteractionResult(result);
         OnInteract?.Invoke();
 
         if (_quantity > 0)
             return new(_notEnoughSpaceMessage.GetLocalizedString(), true, true);
-        
+
         return new(null, true);
     }
 
+    private InteractionResponse HandleTemporaryItemInteraction()
+    {
+        if (!_isTempItemAdded)
+        {
+            int dummyQuantity = _quantity;
+            _isTempItemAdded = _inventoryController.AddItemToInventory(inventoryItemSO, ref dummyQuantity, true);
+        }
+        
+        Player.instance.ToggleHUDView(true);
+        return new(null, true);
+    }
+
+    private bool HandleInventoryItemInteraction()
+    {
+        bool result = _inventoryController.AddItemToInventory(inventoryItemSO, ref _quantity);
+
+        if (_tempInventoryEnabled && _quantity > 0)
+        {
+            _isTempItemDefined = true;
+            result = false;
+        }
+
+        return result;
+    }
+
+    private void HandleInteractionResult(bool result)
+    {
+        if (result)
+            HandleSuccessfulInteraction();
+    }
+    
+    public void Forget()
+    {
+        if (!_isTempItemDefined)
+            return;
+        
+        if (_inventoryController.ItemExistsInTempInventory(inventoryItemSO))
+            _inventoryController.RemoveInventoryItem(inventoryItemSO, _quantity, true);
+        else
+            HandleInteractionResult(true);
+        
+        _isTempItemDefined = false;
+        _isTempItemAdded = false;
+    }
+    
     private void HandleSuccessfulInteraction()
     {
         switch (_onGrabType)
@@ -99,6 +149,8 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
                 return GetExponentialQuantity();
             case CalculationType.Probabilistic: 
                 return GetProbabilisticQuantity();
+            case CalculationType.Static:
+                return inventoryItemSO.maxQuantity;
             default:
                 return 0;
         }
