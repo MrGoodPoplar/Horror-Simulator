@@ -73,7 +73,7 @@ public class WeaponMovement : MonoBehaviour
 
     private float GetSwayAmount()
     {
-        if (!Player.instance.isHUDView)
+        if (!Player.instance.HUDController.isHUDView)
             return _shooterController.isAiming ? _aimSwayAmount : _swayAmount;
 
         return 0;

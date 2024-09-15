@@ -119,7 +119,7 @@ public class InteractController : MonoBehaviour
     
     private void OnInteractPerformed()
     {
-        if (_interactable != null && !Player.instance.isHUDView)
+        if (_interactable != null && !Player.instance.HUDController.isHUDView)
         {
             _isHolding = true;
 

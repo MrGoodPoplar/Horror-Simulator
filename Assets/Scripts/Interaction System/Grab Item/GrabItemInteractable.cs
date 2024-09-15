@@ -92,8 +92,18 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
             _isTempItemAdded = _inventoryController.AddItemToInventory(inventoryItemSO, ref dummyQuantity, true);
         }
         
-        Player.instance.ToggleHUDView(true);
+        Player.instance.HUDController.ToggleHUDView(true);
+        Player.instance.HUDController.OnHUDStateChanged += OnHUDStateChangedPerformed;
+
         return new(null, true);
+    }
+    
+    private void OnHUDStateChangedPerformed(bool state)
+    {
+        if (state)
+            return;
+        
+        Forget();
     }
 
     private bool HandleInventoryItemInteraction()
@@ -118,10 +128,7 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
     }
     
     
-    // TODO: refactoring 
     // TODO: show label to open inventory if cant fit item automatically
-    // TODO: handle possible problem when player closes inventory with selected item
-    // TODO: Forget should be called when hud closed as well
     public void Forget()
     {
         if (!_isTempItemDefined)
@@ -146,6 +153,7 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
         
         _isTempItemDefined = false;
         _isTempItemAdded = false;
+        Player.instance.HUDController.OnHUDStateChanged -= OnHUDStateChangedPerformed;
     }
     
     private void HandleSuccessfulInteraction()

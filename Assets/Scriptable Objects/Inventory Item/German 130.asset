@@ -22,7 +22,7 @@ MonoBehaviour:
     m_WaitForCompletion: 0
     m_LocalVariables: []
   <itemDescription>k__BackingField: 
-  <size>k__BackingField: {x: 2, y: 2}
+  <size>k__BackingField: {x: 2, y: 3}
   <icon>k__BackingField: {fileID: 2007263036, guid: a55a80415dc11084aadd8b7aab26a4cc,
     type: 3}
   <maxQuantity>k__BackingField: 1

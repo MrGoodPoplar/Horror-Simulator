@@ -19,7 +19,7 @@ namespace UI.Inventory
         public InventoryItemSO inventoryItemSO { get; private set; }
         public bool rotated { get; private set; }
         public int quantity { get; private set; }
-    
+
         private RectTransform _rectTransform;
         private Vector2 _defaultPivot;
         private Vector3 _defaultScale;
@@ -69,7 +69,7 @@ namespace UI.Inventory
         public void Set(InventoryItemSO inventoryItemSO, ItemGrid itemGrid, int quantity = 1)
         {
             this.inventoryItemSO = inventoryItemSO;
-        
+            
             _quantityBackground.gameObject.SetActive(inventoryItemSO.isStackable);
 
             GetComponent<Image>().sprite = inventoryItemSO.icon;
@@ -133,7 +133,7 @@ namespace UI.Inventory
             _rectTransform.rotation = Quaternion.Euler(0, 0, rotated ?  90.0f : 0);
             _quantityBackground.rectTransform.localRotation = Quaternion.Euler(0, 0, rotated ? -90.0f : 0);
             _quantityBackground.rectTransform.anchoredPosition = rotated
-                ? Vector3.left * tileSize.x * inventoryItemSO.size.x
+                ? Vector3.left * (tileSize.x * inventoryItemSO.size.x)
                 : _defaultQuantityAnchoredPosition;
         }
 

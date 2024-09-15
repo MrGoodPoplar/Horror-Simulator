@@ -100,7 +100,7 @@ public class German130Visual : MonoBehaviour
             
             _isReloadAnimationPlaying = false;
             _reloadingInterrupted = false;
-            _shooterController.ToggleWeaponInteraction(!Player.instance.isHUDView);
+            _shooterController.ToggleWeaponInteraction(!Player.instance.HUDController.isHUDView);
         }
     }
 

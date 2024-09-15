@@ -19,7 +19,8 @@ namespace UI.Inventory
         private ItemGrid _itemGrid;
         private InventoryItem _selectedItem;
         private InventoryItem _overlappedItem;
-
+        private InventoryItem _addedItemFromTempInventory;
+        
         private Vector2Int _positionOnGrid;
         private Vector2Int _tileSize;
         private bool _itemStateUpdated;
@@ -31,6 +32,7 @@ namespace UI.Inventory
 
             _inventoryItemGrid.OnItemInteract += OnItemInteractPerformed;
             _tempInventoryItemGrid.OnItemInteract += OnItemInteractPerformed;
+            Player.instance.HUDController.OnHUDStateChanged += OnHUDStateChangedPerformed;
         }
 
         private void OnDestroy()
@@ -59,7 +61,7 @@ namespace UI.Inventory
                 InventoryItemSO randomInventoryItemSO = _inventoryItemSOs[Random.Range(0, _inventoryItemSOs.Count)];
                 inventoryItem.Set(randomInventoryItemSO, _itemGrid, Random.Range(1, randomInventoryItemSO.maxQuantity));
 
-                Vector2Int? freeSlot = _itemGrid.FindFreeSlotForItem(inventoryItem.inventoryItemSO.size);
+                Vector2Int? freeSlot = _itemGrid.FindFreeSlotForItem(inventoryItem.GetActualSize());
 
                 if (freeSlot.HasValue)
                 {
@@ -138,21 +140,39 @@ namespace UI.Inventory
         {
             ItemGrid itemGrid = isTempInventory ? _tempInventoryItemGrid : _inventoryItemGrid;
             Vector2Int? freeSlot = itemGrid.FindFreeSlotForItem(inventoryItemSO.size);
+            bool rotated = false;
+            
+            if (!freeSlot.HasValue && !inventoryItemSO.isSymmetrical)
+            {
+                freeSlot = itemGrid.FindFreeSlotForItem(new (inventoryItemSO.size.y, inventoryItemSO.size.y));
+                rotated = true;
+            }
             
             if (freeSlot.HasValue)
             {
                 InventoryItem inventoryItem = Instantiate(_inventoryItemPrefab);
-                inventoryItem.Set(inventoryItemSO, itemGrid, Mathf.Clamp(quantity, 1, inventoryItemSO.maxQuantity));
 
-                if (isTempInventory)
-                    _tempInventoryItemGrid.AddRelativeItem(inventoryItem);
+                if (rotated)
+                    inventoryItem.Rotate(itemGrid.tileSize);
                 
-                itemGrid.PlaceItem(inventoryItem, freeSlot.Value, ref _overlappedItem);
-                inventoryItem.GetRectTransform().SetAsLastSibling();
+                inventoryItem.Set(inventoryItemSO, itemGrid, Mathf.Clamp(quantity, 1, inventoryItemSO.maxQuantity));
+                
+                PutItemInInventory(inventoryItem, freeSlot.Value, isTempInventory);
                 return true;
             }
         
             return false;
+        }
+
+        private void PutItemInInventory(InventoryItem inventoryItem, Vector2Int positionOnGrid, bool isTempInventory = false)
+        {
+            ItemGrid itemGrid = isTempInventory ? _tempInventoryItemGrid : _inventoryItemGrid;
+
+            if (isTempInventory)
+                _tempInventoryItemGrid.AddRelativeItem(inventoryItem);
+
+            itemGrid.PlaceItem(inventoryItem, positionOnGrid, ref _overlappedItem);
+            inventoryItem.GetRectTransform().SetAsLastSibling();
         }
 
         public void SetItemGrid(ItemGrid newItemGrid)
@@ -169,6 +189,7 @@ namespace UI.Inventory
             }
         }
         
+        // TODO: may be called twice, when item from temp inventory set to default one
         private void OnItemInteractPerformed(object sender, ItemGrid.InventoryItemEventArgs e)
         {
             if (sender is not ItemGrid)
@@ -182,6 +203,9 @@ namespace UI.Inventory
                 inventoryItem.SetParent(_itemDragParent, itemGrid.scale);
                 return;
             }
+
+            if (itemGrid == _inventoryItemGrid && _tempInventoryItemGrid.IsRelativeItem(inventoryItem))
+                _addedItemFromTempInventory = inventoryItem;
             
             inventoryItem.SetPivotToDefault();
             inventoryItem.SetParent(itemGrid.rectTransform);
@@ -300,6 +324,9 @@ namespace UI.Inventory
                 
                     _selectedItem.GetRectTransform().SetAsLastSibling();
                     _selectedItem.SetPivotCenter();
+                    
+                    if (_itemGrid == _tempInventoryItemGrid)
+                        _addedItemFromTempInventory = _selectedItem;
                 }
             }
             else if (_overlappedItem)
@@ -321,8 +348,11 @@ namespace UI.Inventory
                 _selectedItem.GetRectTransform().SetAsLastSibling();
                 _selectedItem.SetPivotCenter();
             }
+
+            if (_itemGrid == _tempInventoryItemGrid)
+                _addedItemFromTempInventory = _selectedItem;
         }
-    
+        
         private void OnRotatePerformed()
         {
             if (!_selectedItem || _selectedItem.inventoryItemSO.isSymmetrical)
@@ -341,6 +371,47 @@ namespace UI.Inventory
         {
             ItemGrid itemGrid = isTempInventory ? _tempInventoryItemGrid : _inventoryItemGrid;
             return itemGrid.CountItem(inventoryItemSO.guid);
+        }
+        
+        private void OnHUDStateChangedPerformed(bool state)
+        {
+            if (state || !_selectedItem)
+                return;
+
+            if (_selectedItem == _addedItemFromTempInventory)
+            {
+                PutItemInInventory(_addedItemFromTempInventory, _selectedItem.gridPosition, true);
+            }
+            else if (!PutSelectedItemToInventory())
+            {
+                Vector2Int? freeSlot = _tempInventoryItemGrid.FindFreeSlotForItem(_selectedItem.GetActualSize());
+
+                if (freeSlot.HasValue)
+                {
+                    _inventoryItemGrid.ForgetItem(_addedItemFromTempInventory);
+                    PutItemInInventory(_addedItemFromTempInventory, freeSlot.Value, true);
+                    PutSelectedItemToInventory();
+                }
+                else
+                {
+                    Debug.LogWarning("Couldn't find free slot for item from temporary inventory!");
+                }
+            }
+            
+            _tempInventoryItemGrid.ClearRelatives();
+        }
+        
+        private bool PutSelectedItemToInventory()
+        {
+            Vector2Int? freeSlot = _inventoryItemGrid.FindFreeSlotForItem(_selectedItem.GetActualSize());
+
+            if (freeSlot.HasValue)
+            {
+                PutItemInInventory(_selectedItem, freeSlot.Value);
+                _selectedItem = null;
+            }
+
+            return freeSlot.HasValue;
         }
     }
 }

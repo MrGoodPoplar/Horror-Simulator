@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UI.Inventory
@@ -105,7 +106,7 @@ namespace UI.Inventory
                 if (!overlappedItem.IsFullQuantity() && inventoryItem.inventoryItemSO.guid == overlappedItem.inventoryItemSO.guid)
                     return false;
             
-                SetInventoryItemSlot(overlappedItem, overlappedItem.gridPosition, false);
+                ForgetItem(overlappedItem);
                 OnItemInteract?.Invoke(this, new (overlappedItem, true));
             }
 
@@ -116,6 +117,12 @@ namespace UI.Inventory
             inventoryItem.transform.localPosition = GetPositionOnGrid(position);
 
             return true;
+        }
+        
+        public void ForgetItem(InventoryItem inventoryItem)
+        {
+            if (Contains(inventoryItem))
+                SetInventoryItemSlot(inventoryItem, inventoryItem.gridPosition, false);
         }
 
         public Vector3 GetPositionOnGrid(Vector2Int position)
@@ -247,7 +254,7 @@ namespace UI.Inventory
                     }
                 }
             }
-
+            
             return null;
         }
 
@@ -268,6 +275,22 @@ namespace UI.Inventory
             }
 
             return null;
+        }
+
+        public bool Contains(InventoryItem inventoryItem)
+        {
+            for (int y = 0; y < _size.y; y++)
+            {
+                for (int x = 0; x < _size.x; x++)
+                {
+                    InventoryItem currentItem = GetItem(new (x, y));
+
+                    if (currentItem == inventoryItem)
+                        return true;
+                }
+            }
+
+            return true;
         }
         
         public bool RemoveInventoryItem(string guid, int quantityToRemove = 1)
@@ -309,6 +332,7 @@ namespace UI.Inventory
 
         public int CountItem(string guid)
         {
+            List<InventoryItem> countedItems = new();
             int total = 0;
             
             for (int y = 0; y < _size.y; y++)
@@ -318,8 +342,11 @@ namespace UI.Inventory
                     Vector2Int position = new Vector2Int(x, y);
                     InventoryItem currentItem = GetItem(position);
 
-                    if (currentItem && currentItem.inventoryItemSO.guid == guid)
+                    if (currentItem && currentItem.inventoryItemSO.guid == guid && !countedItems.Contains(currentItem))
+                    {
+                        countedItems.Add(currentItem);
                         total += currentItem.quantity;
+                    }
                 }
             }
 

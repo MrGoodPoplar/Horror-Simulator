@@ -73,7 +73,7 @@ public class InteractionPromptUI : MonoBehaviour
     
     private void OnInteractPerformed(object sender, InteractController.InteractEventArgs e)
     {
-        if (!e.interactable.IsUnityNull() && !Player.instance.isHUDView)
+        if (!e.interactable.IsUnityNull() && !Player.instance.HUDController.isHUDView)
         {
             _currentInteractable = e.interactable;
             
