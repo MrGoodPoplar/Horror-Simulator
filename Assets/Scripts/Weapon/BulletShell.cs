@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -11,9 +11,12 @@ public class BulletShell : MonoBehaviour
         _bulletShellPool = bulletShellPool;
     }
     
-    public async void Drop(float lifeSpan)
+    public async UniTaskVoid DropAsync(Vector3 startPos, float lifeSpan)
     {
-        await Task.Delay((int)(lifeSpan * 1000));
+        transform.position = startPos;
+        transform.rotation = Quaternion.identity;
+
+        await UniTask.WaitForSeconds(lifeSpan);
         _bulletShellPool.Release(this);
     }
 }

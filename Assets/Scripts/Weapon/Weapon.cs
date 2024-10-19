@@ -32,9 +32,9 @@ public class Weapon : MonoBehaviour
     [SerializeField] private int _poolMaxSize = 100;
     [SerializeField] private bool _collectionCheck = false;
     
-    [Header("Constraints")]
+    [field: Header("Constraints")]
+    [field: SerializeField] public InventoryItemSO bulletItemSO { get; private set; }
     [SerializeField] private Transform _bulletSpawn;
-    [SerializeField] private Bullet _bullet;
     
     private float _lastShotTime;
     private IObjectPool<Bullet> _bulletPool;
@@ -86,9 +86,14 @@ public class Weapon : MonoBehaviour
 
     private Bullet CreateBullet()
     {
-        Bullet bullet = Instantiate(_bullet);
-        bullet.SetBulletPool(_bulletPool);
-        return bullet;
+        if (Instantiate(bulletItemSO.prefab).TryGetComponent(out Bullet bullet))
+        {
+            bullet.SetBulletPool(_bulletPool);
+            return bullet;
+        }
+
+        Debug.LogError($"{bulletItemSO.name}'s prefab is not type of Bullet!");
+        return null;
     }
 
     private void OnGetBulletFromPool(Bullet bullet)

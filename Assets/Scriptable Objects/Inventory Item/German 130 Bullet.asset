@@ -26,7 +26,9 @@ MonoBehaviour:
   <icon>k__BackingField: {fileID: -1002449638, guid: a55a80415dc11084aadd8b7aab26a4cc,
     type: 3}
   <maxQuantity>k__BackingField: 18
-  <guid>k__BackingField: 
+  <prefab>k__BackingField: {fileID: 651491265444021911, guid: c2891d340ae12cb458ddc9670c9e406e,
+    type: 3}
+  <guid>k__BackingField: 18dfd921-dd85-444f-801a-6a16b1220ee9
   references:
     version: 2
     RefIds: []

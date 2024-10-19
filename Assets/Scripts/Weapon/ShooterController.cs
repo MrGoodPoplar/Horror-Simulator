@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using UI.Inventory;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -8,7 +9,7 @@ using UnityEngine.Serialization;
 public class ShooterController : MonoBehaviour
 {
     public event Action OnFire;
-    public event Action OnReload;
+    public event Action<int> OnReload;
     
     public bool canAim { get; set; } = true;
     public bool canFire { get; set; } = true;
@@ -31,13 +32,15 @@ public class ShooterController : MonoBehaviour
     private float _defaultSensitivity;
     private PlayerInput _playerInput;
     private FirstPersonController _firstPersonController;
-    [SerializeField] private Weapon _currentWeapon;
-    
-    private void Awake()
+    private InventoryController _inventoryController;
+    [SerializeField] private Weapon _currentWeapon; // SerializeField only for test purposes
+
+    private void Start()
     {
-        _firstPersonController = GetComponent<FirstPersonController>();
-        _playerInput = _firstPersonController.playerInput;
-        
+        _playerInput = Player.instance.playerInput;
+        _inventoryController = Player.instance.inventoryController;
+        _firstPersonController = Player.instance.firstPersonController;
+
         _playerInput.OnFire += OnFirePerformed;
         _playerInput.OnReload += OnReloadPerfomed;
 
@@ -109,10 +112,27 @@ public class ShooterController : MonoBehaviour
     
     private void OnReloadPerfomed()
     {
-        if (canReload && _currentWeapon.bulletsInClip != _currentWeapon.clipSize)
-            OnReload?.Invoke();
+        int availableAmmoCount = GetAvailableAmmoCount();
+        int totalToReloadCount = _currentWeapon.clipSize - _currentWeapon.bulletsInClip;
+        int totalToReload = Mathf.Clamp(availableAmmoCount, 0, totalToReloadCount);
+
+        if (canReload && totalToReload > 0)
+            OnReload?.Invoke(totalToReload);
     }
-    
+
+    private int GetAvailableAmmoCount()
+    {
+        return _inventoryController.GetItemCountInInventory(_currentWeapon.bulletItemSO);
+    }
+
+    public bool TakeAmmo(int count)
+    {
+        if (GetAvailableAmmoCount() - count >= 0)
+            return _inventoryController.RemoveInventoryItem(_currentWeapon.bulletItemSO, count);
+
+        return false;
+    }
+
     public void ToggleWeaponInteraction(bool toggle)
     {
         canAim = toggle;

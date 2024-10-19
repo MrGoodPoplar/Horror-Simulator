@@ -9,6 +9,7 @@ public class InventoryItemSO : ScriptableObject, IGuided
     [field: SerializeField] public Vector2Int size { get; private set; }
     [field: SerializeField] public Sprite icon { get; private set; }
     [field: SerializeField] public int maxQuantity { get; private set; } = 1;
+    [field: SerializeField] public GameObject prefab { get; private set; }
     [field: SerializeField, HideInInspector] public string guid { get; set; }
 
     public bool isStackable => maxQuantity > 1;

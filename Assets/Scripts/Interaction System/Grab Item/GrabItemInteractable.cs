@@ -136,7 +136,7 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
 
         if (_inventoryController.ItemExistsInTempInventory(inventoryItemSO))
         {
-            int added = _quantity - _inventoryController.CountItemInInventory(inventoryItemSO, true);
+            int added = _quantity - _inventoryController.GetItemCountInInventory(inventoryItemSO, true);
             _quantity -= added;
             
             if (added > 0)

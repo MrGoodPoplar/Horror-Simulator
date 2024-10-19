@@ -367,7 +367,7 @@ namespace UI.Inventory
             return !_tempInventoryItemGrid.FindItem(inventoryItemSO.guid).IsUnityNull();
         }
 
-        public int CountItemInInventory(InventoryItemSO inventoryItemSO, bool isTempInventory)
+        public int GetItemCountInInventory(InventoryItemSO inventoryItemSO, bool isTempInventory = false)
         {
             ItemGrid itemGrid = isTempInventory ? _tempInventoryItemGrid : _inventoryItemGrid;
             return itemGrid.CountItem(inventoryItemSO.guid);

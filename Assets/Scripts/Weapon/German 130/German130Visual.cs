@@ -1,12 +1,9 @@
 using System;
 using System.Collections;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Pool;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Animator), typeof(Weapon), typeof(German130BulletVisual))]
 public class German130Visual : MonoBehaviour
@@ -139,17 +136,20 @@ public class German130Visual : MonoBehaviour
     
     private void AddBulletToClip() // Animation Event
     {
-        _german130.SetBulletsInClip(_german130.bulletsInClip + 1);
+        bool isAmmoAvaiable = _shooterController.TakeAmmo(1);
+
+        if (isAmmoAvaiable)
+            _german130.SetBulletsInClip(_german130.bulletsInClip + 1);
+        else
+            _reloadingInterrupted = true;
 
         if (_reloadingInterrupted)
-        {
             _animator.SetTrigger(FORCE_STOP_RELOAD);
-        }
     }
-    
-    private void DropShells(int count) // Animation Event
+
+    private void DropShells() // Animation Event
     {
-        German130Bullet[] bullets = _bulletVisual.bullets.Take(count).ToArray();
+        German130Bullet[] bullets = _bulletVisual.bullets.Take(_emptyShellsInside).ToArray();
             
         foreach (German130Bullet bullet in bullets)
         {
@@ -158,9 +158,7 @@ public class German130Visual : MonoBehaviour
             if (_emptyShellsInside - 1 >= 0)
             {
                 _bulletShell = _bulletShellPool.Get();
-                _bulletShell.transform.position = bullet.transform.position;
-                _bulletShell.transform.rotation = Quaternion.identity;;
-                _bulletShell.Drop(_bulletShellLifeSpan);
+                _bulletShell.DropAsync(bullet.transform.position, _bulletShellLifeSpan).Forget();
                 
                 _emptyShellsInside --;
             }
@@ -207,22 +205,21 @@ public class German130Visual : MonoBehaviour
         RotateCylinder(_currentChamberIndex, true, _rotationAngleOffset).Forget();;
     }
 
-    private void OnReloadPerformed()
+    private void OnReloadPerformed(int totalToReload)
     {
-        StartCoroutine(ReloadCoroutine());
+        ReloadAsync(totalToReload).Forget();
     }
 
-    private IEnumerator ReloadCoroutine()
+    private async UniTaskVoid ReloadAsync(int totalToReload)
     {
         _reloadingInterrupted = false;
         
         _shooterController.ToggleWeaponInteraction(false);
         RotateCylinder(_currentChamberIndex = 0, false).Forget();;
         
-        int bulletsToReload = _german130.clipSize - _german130.bulletsInClip;
-        _animator.SetTrigger(GetReloadAnimationTrigger(bulletsToReload));
-        
-        yield return new WaitForSeconds(_transitionDuration);
+        _animator.SetTrigger(GetReloadAnimationTrigger(totalToReload));
+
+        await UniTask.WaitForSeconds(_transitionDuration);
         
         SmoothBulletsReverse();
         

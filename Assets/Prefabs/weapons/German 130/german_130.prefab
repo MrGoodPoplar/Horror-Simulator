@@ -955,8 +955,9 @@ MonoBehaviour:
   _poolDefaultSize: 6
   _poolMaxSize: 24
   _collectionCheck: 0
+  <bulletItemSO>k__BackingField: {fileID: 11400000, guid: 4578cb31cc64eb445a72f8c18a533647,
+    type: 2}
   _bulletSpawn: {fileID: 5181397836112528444}
-  _bullet: {fileID: 4703478747776906434, guid: c2891d340ae12cb458ddc9670c9e406e, type: 3}
 --- !u!114 &1005982092262914977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -991,7 +992,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7126cb73a04de3b4cb4d34c821ea22a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bullets:
+  <bullets>k__BackingField:
   - {fileID: 219798250510196666}
   - {fileID: 4138486464132844723}
   - {fileID: 6198269779170557107}

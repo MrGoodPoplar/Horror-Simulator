@@ -47,15 +47,14 @@ namespace UI.Inventory
         private void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
+            _inventoryItemSlot = new InventoryItem[_size.x, _size.y];
+
+            _rectTransform.localScale = new(_scale.x, _scale.y);
+            _rectTransform.sizeDelta = new(tileSize.x * _size.x, tileSize.y * _size.y);
         }
 
         private void Start()
         {
-            _inventoryItemSlot = new InventoryItem[_size.x, _size.y];
-
-            _rectTransform.localScale = new (_scale.x, _scale.y);
-            _rectTransform.sizeDelta = new(tileSize.x * _size.x, tileSize.y * _size.y);
-
             if (_backgroundPrefab)
                 SetBackground(_backgroundPrefab);
         }
@@ -301,18 +300,19 @@ namespace UI.Inventory
             
                 if (inventoryItem)
                 {
-                    SetInventoryItemSlot(inventoryItem, inventoryItem.gridPosition, false);
+                    if (inventoryItem.quantity - quantityToRemove <= 0)
+                        SetInventoryItemSlot(inventoryItem, inventoryItem.gridPosition, false);
 
                     int itemQuantity = inventoryItem.quantity;
                     inventoryItem.SetQuantity(itemQuantity - quantityToRemove);
 
-                    quantityToRemove -= itemQuantity - quantityToRemove;
+                    quantityToRemove = Mathf.Max(0, quantityToRemove - (itemQuantity - quantityToRemove));
                 }
                 else
                     return true;
             }
 
-            return false;
+            return quantityToRemove == 0;
         }
 
         public void Clear()
