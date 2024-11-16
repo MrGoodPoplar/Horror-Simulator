@@ -116,11 +116,13 @@ public class InteractionPromptUI : MonoBehaviour
             _promptText.text = interactable.GetInteractableName();
             _visualPrompt = _promptUI;
         }
-        
+
+        _visualPrompt.transform.localScale = _originalScale;
         _visualPrompt.position = _currentInteractable.GetAnchorPosition();
         _visualPrompt.gameObject.SetActive(true);
     }
-    
+
+
     private void OnInteractUnhover(object sender, InteractController.InteractEventArgs e)
     {
         if (!_currentInteractable.IsUnityNull())
@@ -129,34 +131,42 @@ public class InteractionPromptUI : MonoBehaviour
             
             _promptImage.Toggle(false);
             _visualPrompt.gameObject.SetActive(false);
+            _visualPrompt = null;
         }
     }
     
     private IEnumerator InteractPressedCoroutine()
     {
-        float elapsed = 0f;
         float scale = _currentInteractable.interactableVisualSO.interactScaleEffect;
         float duration = _currentInteractable.interactableVisualSO.interactDurationEffect;
-        
         Vector3 targetScale = _originalScale * scale;
+        IInteractable triggeredInteractable = _currentInteractable;
 
-        while (elapsed < duration)
+        // Scale up
+        yield return ScaleObject(_originalScale, targetScale, duration, triggeredInteractable);
+
+        // Scale down
+        yield return ScaleObject(targetScale, _originalScale, duration, triggeredInteractable);
+
+        IEnumerator ScaleObject(Vector3 fromScale, Vector3 toScale, float duration, IInteractable triggeredInteractable)
         {
-            _visualPrompt.transform.localScale = Vector3.Lerp(_originalScale, targetScale, elapsed / duration);
-            elapsed += Time.deltaTime;
-            yield return null;
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                if (triggeredInteractable != _currentInteractable)
+                {
+                    if (_visualPrompt)
+                        _visualPrompt.transform.localScale = _originalScale;
+                    yield break;
+                }
+
+                _visualPrompt.transform.localScale = Vector3.Lerp(fromScale, toScale, elapsed / duration);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            _visualPrompt.transform.localScale = toScale;
         }
-
-        _visualPrompt.transform.localScale = targetScale;
-
-        elapsed = 0f;
-        while (elapsed < duration)
-        {
-            _visualPrompt.transform.localScale = Vector3.Lerp(targetScale, _originalScale, elapsed / duration);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        _visualPrompt.transform.localScale = _originalScale;
     }
 }

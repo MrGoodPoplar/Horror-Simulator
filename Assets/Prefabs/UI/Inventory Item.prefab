@@ -144,7 +144,7 @@ MonoBehaviour:
   m_text: 99
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d6854196e1ce86a4e9d1bfc0af74f075, type: 2}
-  m_sharedMaterial: {fileID: -8402795843764482426, guid: d6854196e1ce86a4e9d1bfc0af74f075,
+  m_sharedMaterial: {fileID: -8557317836227644440, guid: d6854196e1ce86a4e9d1bfc0af74f075,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -300,6 +300,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1f464fa25a0444fb908f5c8da57192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxQuantity: 99
+  _maxQuantityValueText: 99
   _quantityText: {fileID: 4892561630858411978}
   _quantityBackground: {fileID: 2986296400428724921}
