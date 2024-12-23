@@ -33,6 +33,11 @@ namespace UI.Inventory
             _relativeItems.Add(inventoryItem);
         }
 
+        public void RemoveRelativeItem(InventoryItem inventoryItem)
+        {
+            _relativeItems.Remove(inventoryItem);
+        }
+
         public void ClearRelatives()
         {
             _relativeItems.Clear();

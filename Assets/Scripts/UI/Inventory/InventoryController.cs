@@ -375,6 +375,9 @@ namespace UI.Inventory
         
         private void OnHUDStateChangedPerformed(bool state)
         {
+            if (_addedItemFromTempInventory && !_selectedItem)
+                _tempInventoryItemGrid.RemoveRelativeItem(_addedItemFromTempInventory);
+
             if (state || !_selectedItem)
                 return;
 
