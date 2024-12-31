@@ -1,12 +1,10 @@
-using System;
-using System.Collections;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Pool;
 
 [RequireComponent(typeof(Animator), typeof(Weapon), typeof(German130BulletVisual))]
-public class German130Visual : MonoBehaviour
+public class German130Visual : MonoBehaviour, IWeaponReloadHandler
 {
     private const string IS_AIMING = "isAiming";
     private const string VELOCITY = "velocity";
@@ -24,11 +22,13 @@ public class German130Visual : MonoBehaviour
     [Header("Bullet Pool Settings")]
     [SerializeField] private int _poolDefaultSize = 12;
     [SerializeField] private int _poolMaxSize = 24;
-    [SerializeField] private bool _collectionCheck = false;
+    [SerializeField] private bool _collectionCheck;
     
     [Header("Bullets Settings")]
     [SerializeField] private BulletShell _bulletShell;
     [SerializeField] private float _bulletShellLifeSpan = 10f;
+    
+    public bool isReloading { get; private set; }
     
     private Animator _animator;
     private ShooterController _shooterController;
@@ -45,7 +45,7 @@ public class German130Visual : MonoBehaviour
     private bool _reloadingInterrupted;
     
     private IObjectPool<BulletShell> _bulletShellPool;
-    
+
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -94,7 +94,8 @@ public class German130Visual : MonoBehaviour
         {
             if (_reloadingInterrupted)
                 SmoothBulletsReverse(_rotationAngleOffset);
-            
+
+            isReloading = false;
             _isReloadAnimationPlaying = false;
             _reloadingInterrupted = false;
             _shooterController.ToggleWeaponInteraction(!Player.instance.HUDController.isHUDView);
@@ -141,7 +142,7 @@ public class German130Visual : MonoBehaviour
         if (isAmmoAvaiable)
             _german130.SetBulletsInClip(_german130.bulletsInClip + 1);
         else
-            _reloadingInterrupted = true;
+            InterruptReloadAnimation();
 
         if (_reloadingInterrupted)
             _animator.SetTrigger(FORCE_STOP_RELOAD);
@@ -213,6 +214,7 @@ public class German130Visual : MonoBehaviour
     private async UniTaskVoid ReloadAsync(int totalToReload)
     {
         _reloadingInterrupted = false;
+        isReloading = true;
         
         _shooterController.ToggleWeaponInteraction(false);
         RotateCylinder(_currentChamberIndex = 0, false).Forget();;
@@ -306,7 +308,6 @@ public class German130Visual : MonoBehaviour
 
     private void InterruptReloadAnimation()
     {
-        if (_isReloadAnimationPlaying)
-            _reloadingInterrupted = true;
+       _reloadingInterrupted = true;
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Pool;
 using Random = UnityEngine.Random;
@@ -34,7 +33,10 @@ public class Weapon : MonoBehaviour
     
     [field: Header("Constraints")]
     [field: SerializeField] public InventoryItemSO bulletItemSO { get; private set; }
+    [SerializeField, RequireInterface(typeof(IWeaponReloadHandler))] private MonoBehaviour _reloadHandler;
     [SerializeField] private Transform _bulletSpawn;
+    
+    public IWeaponReloadHandler reloadHandler => _reloadHandler as IWeaponReloadHandler;
     
     private float _lastShotTime;
     private IObjectPool<Bullet> _bulletPool;

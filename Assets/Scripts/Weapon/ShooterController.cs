@@ -1,6 +1,8 @@
 using System;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UI.Inventory;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -42,7 +44,7 @@ public class ShooterController : MonoBehaviour
         _firstPersonController = Player.instance.firstPersonController;
 
         _playerInput.OnFire += OnFirePerformed;
-        _playerInput.OnReload += OnReloadPerfomed;
+        _playerInput.OnReload += OnReloadPerformed;
 
         _defaultFOV = _firstPersonController.playerCamera.fieldOfView;
         _defaultSensitivity = _firstPersonController.sensitivity;
@@ -51,12 +53,12 @@ public class ShooterController : MonoBehaviour
     private void OnDestroy()
     {
         _playerInput.OnFire -= OnFirePerformed;
-        _playerInput.OnReload -= OnReloadPerfomed;
+        _playerInput.OnReload -= OnReloadPerformed;
     }
 
     private void Update()
     {
-        HandleAiming();
+        HandleAiming().Forget();
     }
 
     private void OnAiming()
@@ -65,11 +67,11 @@ public class ShooterController : MonoBehaviour
         _currentWeapon.transform.localRotation = isAiming ? _currentWeapon.aimRotation : Quaternion.identity;
     }
     
-    private async void HandleAiming()
+    private async UniTaskVoid HandleAiming()
     {
-        bool aimStateChanged = isAiming != _playerInput.isAiming || isAiming && !canAim;
+        bool aimStateChanged = isAiming != _playerInput.isAiming || !canAim;
 
-        if (_isAimingTransition || !aimStateChanged)
+        if (_isAimingTransition || !aimStateChanged || (!canAim && !isAiming))
             return;
 
         bool aim = _playerInput.isAiming && canAim;
@@ -92,7 +94,7 @@ public class ShooterController : MonoBehaviour
             _currentWeapon.transform.localPosition = Vector3.Lerp(_currentWeapon.transform.localPosition, targetPosition, t);
             _currentWeapon.transform.localRotation = Quaternion.Lerp(_currentWeapon.transform.localRotation, targetRotation, t);
 
-            await Task.Yield();
+            await UniTask.Yield();
         }
 
         _isAimingTransition = false;
@@ -110,7 +112,7 @@ public class ShooterController : MonoBehaviour
         }
     }
     
-    private void OnReloadPerfomed()
+    private void OnReloadPerformed()
     {
         int availableAmmoCount = GetAvailableAmmoCount();
         int totalToReloadCount = _currentWeapon.clipSize - _currentWeapon.bulletsInClip;
@@ -135,8 +137,13 @@ public class ShooterController : MonoBehaviour
 
     public void ToggleWeaponInteraction(bool toggle)
     {
-        canAim = toggle;
+        if (!_currentWeapon)
+            return;
+        
+        bool isReloading = !_currentWeapon.reloadHandler.IsUnityNull() && _currentWeapon.reloadHandler.isReloading;
+        
+        canAim = toggle && !isReloading;
         canReload = toggle;
-        canFire = toggle;
+        canFire = toggle && !isReloading;
     }
 }

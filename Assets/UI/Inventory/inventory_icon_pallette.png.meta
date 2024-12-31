@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: inventory item Slot
+      name: inventory item Slot #1
       rect:
         serializedVersion: 2
         x: 2
@@ -160,13 +160,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Grab Icon
+      name: inventory item Slot #2
       rect:
         serializedVersion: 2
-        x: 93
-        y: 92
-        width: 32
-        height: 32
+        x: 32
+        y: 110
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -174,8 +174,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5ad6f565b391e9a49aabd42354b05cae
-      internalID: -33441350
+      spriteID: 4de835ce92e7e944e8d9094396e0046d
+      internalID: -2001839438
       vertices: []
       indices: 
       edges: []
@@ -194,7 +194,8 @@ TextureImporter:
       Grab Icon: -33441350
       Inventory Item Highlight: -973561186
       Inventory Item Quantity: -232087225
-      inventory item Slot: 1873673993
+      inventory item Slot #1: 1873673993
+      inventory item Slot #2: -2001839438
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

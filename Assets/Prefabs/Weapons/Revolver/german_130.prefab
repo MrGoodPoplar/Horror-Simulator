@@ -957,6 +957,7 @@ MonoBehaviour:
   _collectionCheck: 0
   <bulletItemSO>k__BackingField: {fileID: 11400000, guid: 4578cb31cc64eb445a72f8c18a533647,
     type: 2}
+  reloadHandler: {fileID: 1005982092262914977}
   _bulletSpawn: {fileID: 5181397836112528444}
 --- !u!114 &1005982092262914977
 MonoBehaviour:

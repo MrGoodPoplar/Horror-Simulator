@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI.Inventory
 {
@@ -15,6 +16,7 @@ namespace UI.Inventory
         [Header("Background Settings")]
         [SerializeField] private RectTransform _backgroundPrefab;
         [SerializeField] private Vector2 _backgroundScale = new(1.25f, 1.25f);
+        [SerializeField] private Color _backgroundColor;
     
         [Header("Constraints")]
         [SerializeField] private PlayerInput _playerInput;
@@ -70,6 +72,11 @@ namespace UI.Inventory
             background.SetAsFirstSibling();
             background.localScale = new (_backgroundScale.x, _backgroundScale.y);
             background.sizeDelta = new(tileSize.x * _size.x, tileSize.y * _size.y);
+            
+            if (background.TryGetComponent(out Image image))
+            {
+                image.color = _backgroundColor;
+            }
         
             Vector2 gridSize = new Vector2(_size.x * tileSize.x * _scale.x, _size.y * tileSize.y * _scale.y);
             Vector2 backgroundSize = new Vector2(_size.x * tileSize.x * _backgroundScale.x, _size.y * tileSize.y * _backgroundScale.y);

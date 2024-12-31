@@ -4521,6 +4521,7 @@ MonoBehaviour:
   _backgroundPrefab: {fileID: 7190745660779952081, guid: 50200e76a5c7cf54ca4c341c2a9aaf01,
     type: 3}
   _backgroundScale: {x: 3.2, y: 3.2}
+  _backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   _playerInput: {fileID: 1902487657}
 --- !u!114 &1259248720
 MonoBehaviour:
@@ -4542,7 +4543,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1873673993, guid: 4510835207a74d84b932e0f77f8b93e9, type: 3}
+  m_Sprite: {fileID: -2001839438, guid: 4510835207a74d84b932e0f77f8b93e9, type: 3}
   m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4973,6 +4974,7 @@ MonoBehaviour:
   _backgroundPrefab: {fileID: 7190745660779952081, guid: 50200e76a5c7cf54ca4c341c2a9aaf01,
     type: 3}
   _backgroundScale: {x: 3.2, y: 3.2}
+  _backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   _playerInput: {fileID: 1902487657}
 --- !u!114 &1437946903
 MonoBehaviour:
@@ -4994,7 +4996,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1873673993, guid: 4510835207a74d84b932e0f77f8b93e9, type: 3}
+  m_Sprite: {fileID: -2001839438, guid: 4510835207a74d84b932e0f77f8b93e9, type: 3}
   m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5819,7 +5821,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1873673993, guid: 4510835207a74d84b932e0f77f8b93e9, type: 3}
+  m_Sprite: {fileID: -2001839438, guid: 4510835207a74d84b932e0f77f8b93e9, type: 3}
   m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5867,6 +5869,7 @@ MonoBehaviour:
   _backgroundPrefab: {fileID: 7190745660779952081, guid: 50200e76a5c7cf54ca4c341c2a9aaf01,
     type: 3}
   _backgroundScale: {x: 3.2, y: 3.2}
+  _backgroundColor: {r: 0.6901961, g: 0.6901961, b: 0.6901961, a: 1}
   _playerInput: {fileID: 1902487657}
   _relativeItems: []
 --- !u!4 &1822604815 stripped
