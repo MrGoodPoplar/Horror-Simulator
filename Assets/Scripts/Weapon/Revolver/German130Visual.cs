@@ -132,20 +132,24 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     
     private void HandleReloadEnd() // Animation Event
     {
+        _shooterController.RetrieveReserve();
         SmoothBulletsReverse(_rotationAngleOffset);
     }
     
     private void AddBulletToClip() // Animation Event
     {
-        bool isAmmoAvaiable = _shooterController.TakeAmmo(1);
+        bool isAmmoAvailable = _shooterController.TakeAmmo(1);
 
-        if (isAmmoAvaiable)
+        if (isAmmoAvailable)
             _german130.SetBulletsInClip(_german130.bulletsInClip + 1);
         else
             InterruptReloadAnimation();
 
         if (_reloadingInterrupted)
+        {
             _animator.SetTrigger(FORCE_STOP_RELOAD);
+            _shooterController.RetrieveReserve();
+        }
     }
 
     private void DropShells() // Animation Event
@@ -208,11 +212,15 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
 
     private void OnReloadPerformed(int totalToReload)
     {
+        if (_shooterController.reservedBulletCount == 0)
+            _shooterController.ReserveBullets(1);
+        
         ReloadAsync(totalToReload).Forget();
     }
 
     private async UniTaskVoid ReloadAsync(int totalToReload)
     {
+        _animator.ResetTrigger(FORCE_STOP_RELOAD);
         _reloadingInterrupted = false;
         isReloading = true;
         
@@ -307,7 +315,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     }
 
     private void InterruptReloadAnimation()
-    {
-       _reloadingInterrupted = true;
+    { 
+        _reloadingInterrupted = true;
     }
 }

@@ -17,6 +17,7 @@ public class ShooterController : MonoBehaviour
     public bool canFire { get; set; } = true;
     public bool canReload { get; set; } = true;
 
+    public int reservedBulletCount { get; private set; }
     public bool isAiming { get; private set; }
     
     [Header("Aim Settings")]
@@ -98,15 +99,14 @@ public class ShooterController : MonoBehaviour
         }
 
         _isAimingTransition = false;
-
     }
-
+    
     private void OnFirePerformed()
     {
         if (canFire && _currentWeapon.Fire(_hitPointer.transform.position))
         {
-            _cameraRecoil?.RecoilFire(_currentWeapon.recoil, _currentWeapon.recoilForce, _currentWeapon.recoildSpeed);
-            _weaponMovement?.ApplyRecoil(_currentWeapon.recoilForce, _currentWeapon.recoildSpeed, _currentWeapon.recoilDuration);
+            _cameraRecoil?.RecoilFire(_currentWeapon.recoil, _currentWeapon.recoilForce, _currentWeapon.recoilSpeed);
+            _weaponMovement?.ApplyRecoil(_currentWeapon.recoilForce, _currentWeapon.recoilSpeed, _currentWeapon.recoilDuration);
             
             OnFire?.Invoke();
         }
@@ -127,13 +127,44 @@ public class ShooterController : MonoBehaviour
         return _inventoryController.GetItemCountInInventory(_currentWeapon.bulletItemSO);
     }
 
+    public void ReserveBullets(int count)
+    {
+        if (_inventoryController.RemoveInventoryItem(_currentWeapon.bulletItemSO, count))
+        {
+            reservedBulletCount += count;
+        }
+    }
+
+    public void RetrieveReserve()
+    {
+        if (reservedBulletCount > 0)
+        {
+            int toReturn = reservedBulletCount;
+            _inventoryController.AddItemToInventory(_currentWeapon.bulletItemSO, ref toReturn);
+            reservedBulletCount = 0;
+        }
+    }
+    
     public bool TakeAmmo(int count)
     {
-        if (GetAvailableAmmoCount() - count >= 0)
-            return _inventoryController.RemoveInventoryItem(_currentWeapon.bulletItemSO, count);
+        if (reservedBulletCount >= count)
+        {
+            reservedBulletCount -= count;
+            if (reservedBulletCount < count)
+                ReserveBullets(count);
+            
+            return true;
+        }
+        
+        int neededFromInventory = count - reservedBulletCount;
+        bool enoughAmmo = _inventoryController.RemoveInventoryItem(_currentWeapon.bulletItemSO, neededFromInventory);
 
-        return false;
+        if (enoughAmmo)
+            reservedBulletCount = 0;
+
+        return enoughAmmo;
     }
+
 
     public void ToggleWeaponInteraction(bool toggle)
     {

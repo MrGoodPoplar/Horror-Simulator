@@ -16,6 +16,7 @@ namespace UI.Inventory
         [SerializeField] private Image _quantityBackground;
 
         public Vector2Int gridPosition { get; set; }
+        public bool reserved { get; set; }
         public InventoryItemSO inventoryItemSO { get; private set; }
         public bool rotated { get; private set; }
         public int quantity { get; private set; }

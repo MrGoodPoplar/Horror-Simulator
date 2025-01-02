@@ -118,7 +118,7 @@ namespace UI.Inventory
             {
                 int quantityToAdd = Mathf.Clamp(quantity, 1, inventoryItemSO.maxQuantity);
                 bool isInserted = InsertItemToInventory(inventoryItemSO, quantityToAdd, isTempInventory);
-
+                
                 if (!isInserted)
                     return false;
 
@@ -192,10 +192,9 @@ namespace UI.Inventory
         // TODO: may be called twice, when item from temp inventory set to default one
         private void OnItemInteractPerformed(object sender, ItemGrid.InventoryItemEventArgs e)
         {
-            if (sender is not ItemGrid)
+            if (sender is not ItemGrid itemGrid)
                 return;
-            
-            ItemGrid itemGrid = sender as ItemGrid;
+
             InventoryItem inventoryItem = e.inventoryItem;
             
             if (e.grabbed)
@@ -299,6 +298,7 @@ namespace UI.Inventory
 
         private Vector2Int GetTileGridPosition()
         {
+            // TODO: add gamepad accessibility
             Vector2 pointerPosition = Input.mousePosition;
         
             if (_selectedItem)
@@ -397,7 +397,7 @@ namespace UI.Inventory
                 }
                 else
                 {
-                    Debug.LogWarning("Couldn't find free slot for item from temporary inventory!");
+                    Debug.LogWarning("Couldn't find free slot for item in the temporary inventory!");
                 }
             }
             

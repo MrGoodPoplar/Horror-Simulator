@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Inventory Item Names Shared Data
   m_EditorClassIdentifier: 
   m_TableCollectionName: Inventory Item Names
-  m_TableCollectionNameGuidString: 00000000000000000000000000000000
+  m_TableCollectionNameGuidString: 6cda5a701a307c9489a5d3db997cfa00
   m_Entries: []
   m_Metadata:
     m_Items: []

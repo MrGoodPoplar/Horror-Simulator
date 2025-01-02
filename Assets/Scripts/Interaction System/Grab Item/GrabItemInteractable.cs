@@ -50,7 +50,6 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
 
     private InventoryController _inventoryController;
     private int _quantity;
-    private bool _isTempItemDefined;
     private bool _isTempItemAdded;
 
     public virtual string GetInteractableName() => _labelText.GetLocalizedString();
@@ -67,7 +66,7 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
 
     public virtual InteractionResponse Interact()
     {
-        if (_isTempItemDefined)
+        if (_isTempItemAdded)
             return HandleTemporaryItemInteraction();
 
         if (_quantity <= 0)
@@ -86,12 +85,6 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
 
     private InteractionResponse HandleTemporaryItemInteraction()
     {
-        if (!_isTempItemAdded)
-        {
-            int dummyQuantity = _quantity;
-            _isTempItemAdded = _inventoryController.AddItemToInventory(inventoryItemSO, ref dummyQuantity, true);
-        }
-        
         Player.instance.HUDController.ToggleHUDView(true);
         Player.instance.HUDController.OnHUDStateChanged += OnHUDStateChangedPerformed;
 
@@ -112,7 +105,9 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
 
         if (_tempInventoryEnabled && _quantity > 0)
         {
-            _isTempItemDefined = true;
+            int dummyQuantity = _quantity;
+            _isTempItemAdded = _inventoryController.AddItemToInventory(inventoryItemSO, ref dummyQuantity, true);
+            
             result = false;
         }
 
@@ -131,7 +126,7 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
     // TODO: show label to open inventory if cant fit item automatically
     public void Forget()
     {
-        if (!_isTempItemDefined)
+        if (!_isTempItemAdded)
             return;
 
         if (_inventoryController.ItemExistsInTempInventory(inventoryItemSO))
@@ -151,7 +146,7 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
             HandleInteractionResult(true);
         }
         
-        _isTempItemDefined = false;
+        _isTempItemAdded = false;
         _isTempItemAdded = false;
         Player.instance.HUDController.OnHUDStateChanged -= OnHUDStateChangedPerformed;
     }

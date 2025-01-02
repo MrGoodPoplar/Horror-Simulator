@@ -16,7 +16,7 @@ public class Weapon : MonoBehaviour
     [field: Header("Recoil Settings")]
     [field: SerializeField] public Vector3 recoil { get; private set; }
     [field: SerializeField] public float recoilForce { get; private set; }
-    [field: SerializeField] public float recoildSpeed { get; private set; }
+    [field: SerializeField] public float recoilSpeed { get; private set; }
     [field: SerializeField] public float recoilDuration { get; private set; }
     
     [Header("Bullet Settings")]

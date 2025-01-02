@@ -147,6 +147,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <shell>k__BackingField: {fileID: 498013215}
+--- !u!4 &68383106 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5181397836112528444, guid: a0db881418e593e4eb23d2871d41b506,
+    type: 3}
+  m_PrefabInstance: {fileID: 5368571091338765281}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &87481307
 GameObject:
   m_ObjectHideFlags: 0
@@ -2588,6 +2594,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7396852754883572224}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &689022463 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1005982092262914977, guid: a0db881418e593e4eb23d2871d41b506,
+    type: 3}
+  m_PrefabInstance: {fileID: 5368571091338765281}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4269babbc3213a45b96270a71972a56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705278366 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8386849440276478087, guid: befeec2e6508be9418b6111b6a14a4ff,
@@ -7631,6 +7649,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2717229963701440363, guid: a0db881418e593e4eb23d2871d41b506,
+        type: 3}
+      propertyPath: _bulletSpawn
+      value: 
+      objectReference: {fileID: 68383106}
+    - target: {fileID: 2717229963701440363, guid: a0db881418e593e4eb23d2871d41b506,
+        type: 3}
+      propertyPath: _reloadHandler
+      value: 
+      objectReference: {fileID: 689022463}
+    - target: {fileID: 2717229963701440363, guid: a0db881418e593e4eb23d2871d41b506,
+        type: 3}
+      propertyPath: <recoilSpeed>k__BackingField
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 3372880397999312697, guid: a0db881418e593e4eb23d2871d41b506,
         type: 3}

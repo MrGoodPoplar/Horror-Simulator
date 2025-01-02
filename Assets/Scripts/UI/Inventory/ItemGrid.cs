@@ -45,6 +45,7 @@ namespace UI.Inventory
         private Vector2Int _tileGridPosition;
 
         private InventoryItem[,] _inventoryItemSlot;
+        private List<InventoryItem> _reservedItems;
     
         private void Awake()
         {
@@ -304,19 +305,19 @@ namespace UI.Inventory
             while (quantityToRemove > 0)
             {
                 InventoryItem inventoryItem = FindItem(guid);
-            
+
                 if (inventoryItem)
                 {
                     if (inventoryItem.quantity - quantityToRemove <= 0)
                         SetInventoryItemSlot(inventoryItem, inventoryItem.gridPosition, false);
 
                     int itemQuantity = inventoryItem.quantity;
-                    inventoryItem.SetQuantity(itemQuantity - quantityToRemove);
+                    inventoryItem.SetQuantity(itemQuantity - Mathf.Min(quantityToRemove, itemQuantity));
 
-                    quantityToRemove = Mathf.Max(0, quantityToRemove - (itemQuantity - quantityToRemove));
+                    quantityToRemove -= Mathf.Min(quantityToRemove, itemQuantity);
                 }
                 else
-                    return true;
+                    break;
             }
 
             return quantityToRemove == 0;
@@ -358,6 +359,33 @@ namespace UI.Inventory
             }
 
             return total;
+        }
+
+        // Reserves first found item in inventory
+        public bool ReserveItem(string guid)
+        {
+            InventoryItem inventoryItem = FindItem(guid);
+
+            if (!inventoryItem)
+                return false;
+            
+            inventoryItem.reserved = true;
+            _reservedItems.Add(inventoryItem);
+            return true;
+        }
+
+        
+        // Frees first found item from reserved list
+        public void FreeItem(string guid)
+        {
+            foreach (InventoryItem inventoryItem in _reservedItems)
+            {
+                if (inventoryItem.inventoryItemSO.guid == guid)
+                {
+                    inventoryItem.reserved = false;
+                    break;
+                }
+            }
         }
     }
 }
