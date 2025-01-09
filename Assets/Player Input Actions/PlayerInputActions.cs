@@ -1061,6 +1061,74 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Hotbar"",
+            ""id"": ""de9fdfa8-c3e5-4b0c-a829-66c2207950b9"",
+            ""actions"": [
+                {
+                    ""name"": ""slot 1"",
+                    ""type"": ""Button"",
+                    ""id"": ""a96d1e66-6174-44db-b24d-c8fbdf98b5fb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""slot 2"",
+                    ""type"": ""Button"",
+                    ""id"": ""86dec236-291f-4d4e-b074-e7b0e67131e0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""slot 3"",
+                    ""type"": ""Button"",
+                    ""id"": ""e5c0bff8-0f7d-4027-996c-6c49ada09f88"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""6d6e58d3-c90c-40fb-9854-73f634eb6cd7"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""slot 1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8afb55c7-f9cd-4123-9986-6efde3630cad"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""slot 2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5527cf2e-5ae2-47b0-9b72-c959571dc7e8"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""slot 3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -1152,6 +1220,11 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        // Hotbar
+        m_Hotbar = asset.FindActionMap("Hotbar", throwIfNotFound: true);
+        m_Hotbar_slot1 = m_Hotbar.FindAction("slot 1", throwIfNotFound: true);
+        m_Hotbar_slot2 = m_Hotbar.FindAction("slot 2", throwIfNotFound: true);
+        m_Hotbar_slot3 = m_Hotbar.FindAction("slot 3", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1461,6 +1534,68 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // Hotbar
+    private readonly InputActionMap m_Hotbar;
+    private List<IHotbarActions> m_HotbarActionsCallbackInterfaces = new List<IHotbarActions>();
+    private readonly InputAction m_Hotbar_slot1;
+    private readonly InputAction m_Hotbar_slot2;
+    private readonly InputAction m_Hotbar_slot3;
+    public struct HotbarActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public HotbarActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @slot1 => m_Wrapper.m_Hotbar_slot1;
+        public InputAction @slot2 => m_Wrapper.m_Hotbar_slot2;
+        public InputAction @slot3 => m_Wrapper.m_Hotbar_slot3;
+        public InputActionMap Get() { return m_Wrapper.m_Hotbar; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(HotbarActions set) { return set.Get(); }
+        public void AddCallbacks(IHotbarActions instance)
+        {
+            if (instance == null || m_Wrapper.m_HotbarActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_HotbarActionsCallbackInterfaces.Add(instance);
+            @slot1.started += instance.OnSlot1;
+            @slot1.performed += instance.OnSlot1;
+            @slot1.canceled += instance.OnSlot1;
+            @slot2.started += instance.OnSlot2;
+            @slot2.performed += instance.OnSlot2;
+            @slot2.canceled += instance.OnSlot2;
+            @slot3.started += instance.OnSlot3;
+            @slot3.performed += instance.OnSlot3;
+            @slot3.canceled += instance.OnSlot3;
+        }
+
+        private void UnregisterCallbacks(IHotbarActions instance)
+        {
+            @slot1.started -= instance.OnSlot1;
+            @slot1.performed -= instance.OnSlot1;
+            @slot1.canceled -= instance.OnSlot1;
+            @slot2.started -= instance.OnSlot2;
+            @slot2.performed -= instance.OnSlot2;
+            @slot2.canceled -= instance.OnSlot2;
+            @slot3.started -= instance.OnSlot3;
+            @slot3.performed -= instance.OnSlot3;
+            @slot3.canceled -= instance.OnSlot3;
+        }
+
+        public void RemoveCallbacks(IHotbarActions instance)
+        {
+            if (m_Wrapper.m_HotbarActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IHotbarActions instance)
+        {
+            foreach (var item in m_Wrapper.m_HotbarActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_HotbarActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public HotbarActions @Hotbar => new HotbarActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -1533,5 +1668,11 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+    }
+    public interface IHotbarActions
+    {
+        void OnSlot1(InputAction.CallbackContext context);
+        void OnSlot2(InputAction.CallbackContext context);
+        void OnSlot3(InputAction.CallbackContext context);
     }
 }

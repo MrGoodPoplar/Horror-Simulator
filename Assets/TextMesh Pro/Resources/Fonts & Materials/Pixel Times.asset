@@ -70,7 +70,7 @@ Material:
     - _OutlineSoftness: 0
     - _OutlineUVSpeedX: 0
     - _OutlineUVSpeedY: 0
-    - _OutlineWidth: 0.15
+    - _OutlineWidth: 0
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
     - _ScaleRatioA: 0.8
@@ -118,11 +118,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: Pixel Times Bold SDF
+  m_Name: Pixel Times
   m_EditorClassIdentifier: 
-  hashCode: -2018586214
+  hashCode: 740123886
   material: {fileID: -8557317836227644440}
-  materialHashCode: -1244515846
+  materialHashCode: -1870953074
   m_Version: 1.1.0
   m_SourceFontFileGUID: 5bfcff207d9359d42a54d99c1bef36a1
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 5bfcff207d9359d42a54d99c1bef36a1,

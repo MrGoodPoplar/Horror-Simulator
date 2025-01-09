@@ -1,4 +1,5 @@
 using System;
+using UI.Hotbar;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,7 +26,7 @@ public class PlayerInput : MonoBehaviour
     {
         _playerInputActions = new PlayerInputActions();
     }
-    
+
     private void OnEnable()
     {
         _playerInputActions.Player.Jump.performed += OnJumpPerformed;

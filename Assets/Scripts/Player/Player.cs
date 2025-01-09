@@ -1,3 +1,4 @@
+using UI.Hotbar;
 using UI.Inventory;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ public class Player : MonoBehaviour
     [field: SerializeField] public InteractController InteractController { get; private set; }
     [field: SerializeField] public HUDController HUDController { get; private set; }
     [field: SerializeField] public PlayerInput playerInput { get; private set; }
+    [field: SerializeField] public HotbarController hotbarController { get; private set; }
+
     
     public static Player instance { get; private set; }
     

@@ -1039,6 +1039,74 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Hotbar",
+            "id": "de9fdfa8-c3e5-4b0c-a829-66c2207950b9",
+            "actions": [
+                {
+                    "name": "slot 1",
+                    "type": "Button",
+                    "id": "a96d1e66-6174-44db-b24d-c8fbdf98b5fb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "slot 2",
+                    "type": "Button",
+                    "id": "86dec236-291f-4d4e-b074-e7b0e67131e0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "slot 3",
+                    "type": "Button",
+                    "id": "e5c0bff8-0f7d-4027-996c-6c49ada09f88",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "6d6e58d3-c90c-40fb-9854-73f634eb6cd7",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "slot 1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8afb55c7-f9cd-4123-9986-6efde3630cad",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "slot 2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5527cf2e-5ae2-47b0-9b72-c959571dc7e8",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "slot 3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
