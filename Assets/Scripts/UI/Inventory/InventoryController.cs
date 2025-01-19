@@ -16,6 +16,8 @@ namespace UI.Inventory
         [SerializeField] private GrabOnlyItemGrid _tempInventoryItemGrid;
         [SerializeField] private Transform _itemDragParent;
     
+        public InventoryItem onHoverInventoryItem { get; private set; }
+        
         private ItemGrid _itemGrid;
         private InventoryItem _selectedItem;
         private InventoryItem _overlappedItem;
@@ -224,6 +226,7 @@ namespace UI.Inventory
             {
                 _itemHighlight.Hide();
                 _itemStateUpdated = true;
+                onHoverInventoryItem = null;
                 return;
             }
         
@@ -233,20 +236,21 @@ namespace UI.Inventory
                 return;
 
             _positionOnGrid = newPositionOnGrid;
+            onHoverInventoryItem = null;
             _itemStateUpdated = false;
-        
+            
             if (!_selectedItem)
             {
-                InventoryItem itemToHighlight = _itemGrid.GetItem(_positionOnGrid);
+                onHoverInventoryItem = _itemGrid.GetItem(_positionOnGrid);
 
-                if (itemToHighlight)
+                if (onHoverInventoryItem)
                 {
                     _itemHighlight.SetColor(_itemHighlight.defaultColor);
                 
                     ToggleItemHighlight(
                         true,
-                        itemToHighlight.GetActualSize(),
-                        itemToHighlight.gridPosition
+                        onHoverInventoryItem.GetActualSize(),
+                        onHoverInventoryItem.gridPosition
                     );
                 }
                 else
@@ -415,6 +419,11 @@ namespace UI.Inventory
             }
 
             return freeSlot.HasValue;
+        }
+
+        public bool IsOnHoverGridMain()
+        {
+            return _itemGrid == _inventoryItemGrid;
         }
     }
 }

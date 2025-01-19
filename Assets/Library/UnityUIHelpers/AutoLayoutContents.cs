@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Library.UnityUIHelpers
@@ -55,7 +53,7 @@ namespace Library.UnityUIHelpers
             _rectTransform ??= GetComponent<RectTransform>();
         }
 
-        private void RefreshLayout()
+        public void RefreshLayout()
         {
             _table.Clear();
 
@@ -143,7 +141,7 @@ namespace Library.UnityUIHelpers
             switch (_alignment)
             {
                 case Alignment.Right:
-                    return _rectTransform.rect.width - borderX + _paddingRight;
+                    return _rectTransform.rect.width - borderX - _paddingRight;
                 case Alignment.Center:
                     return (_rectTransform.rect.width - borderX) / 2;
                 default:
@@ -154,6 +152,19 @@ namespace Library.UnityUIHelpers
         private float GetRectHorizontalBorder(RectTransform rectTransform)
         {
             return rectTransform.anchoredPosition.x + rectTransform.rect.width / 2;
+        }
+
+        public void AttachChild(Transform newChild)
+        {
+            newChild.SetParent(transform);
+        }
+        
+        public void ClearChildren()
+        {
+            for (int i = 0; i < gameObject.transform.childCount; i++)
+            {
+                Destroy(gameObject.transform.GetChild(i).gameObject);
+            }
         }
     }
 }

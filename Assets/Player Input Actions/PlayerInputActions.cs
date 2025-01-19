@@ -1129,6 +1129,54 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Inventory Item Actions"",
+            ""id"": ""6cf1a096-e928-4c20-aa2d-133e41a38e5d"",
+            ""actions"": [
+                {
+                    ""name"": ""Equip"",
+                    ""type"": ""Button"",
+                    ""id"": ""0c3dc441-ed94-4a94-ab95-5d52fbf23ce1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Test Action"",
+                    ""type"": ""Button"",
+                    ""id"": ""e379250d-0836-413e-ad15-a114075e7a3f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""24f75afd-98de-4c0a-b771-26dfd296e223"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Equip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8308bec0-0703-419a-9058-46252cecfb0b"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Test Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -1225,6 +1273,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Hotbar_slot1 = m_Hotbar.FindAction("slot 1", throwIfNotFound: true);
         m_Hotbar_slot2 = m_Hotbar.FindAction("slot 2", throwIfNotFound: true);
         m_Hotbar_slot3 = m_Hotbar.FindAction("slot 3", throwIfNotFound: true);
+        // Inventory Item Actions
+        m_InventoryItemActions = asset.FindActionMap("Inventory Item Actions", throwIfNotFound: true);
+        m_InventoryItemActions_Equip = m_InventoryItemActions.FindAction("Equip", throwIfNotFound: true);
+        m_InventoryItemActions_TestAction = m_InventoryItemActions.FindAction("Test Action", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1596,6 +1648,60 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public HotbarActions @Hotbar => new HotbarActions(this);
+
+    // Inventory Item Actions
+    private readonly InputActionMap m_InventoryItemActions;
+    private List<IInventoryItemActionsActions> m_InventoryItemActionsActionsCallbackInterfaces = new List<IInventoryItemActionsActions>();
+    private readonly InputAction m_InventoryItemActions_Equip;
+    private readonly InputAction m_InventoryItemActions_TestAction;
+    public struct InventoryItemActionsActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public InventoryItemActionsActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Equip => m_Wrapper.m_InventoryItemActions_Equip;
+        public InputAction @TestAction => m_Wrapper.m_InventoryItemActions_TestAction;
+        public InputActionMap Get() { return m_Wrapper.m_InventoryItemActions; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(InventoryItemActionsActions set) { return set.Get(); }
+        public void AddCallbacks(IInventoryItemActionsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_InventoryItemActionsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_InventoryItemActionsActionsCallbackInterfaces.Add(instance);
+            @Equip.started += instance.OnEquip;
+            @Equip.performed += instance.OnEquip;
+            @Equip.canceled += instance.OnEquip;
+            @TestAction.started += instance.OnTestAction;
+            @TestAction.performed += instance.OnTestAction;
+            @TestAction.canceled += instance.OnTestAction;
+        }
+
+        private void UnregisterCallbacks(IInventoryItemActionsActions instance)
+        {
+            @Equip.started -= instance.OnEquip;
+            @Equip.performed -= instance.OnEquip;
+            @Equip.canceled -= instance.OnEquip;
+            @TestAction.started -= instance.OnTestAction;
+            @TestAction.performed -= instance.OnTestAction;
+            @TestAction.canceled -= instance.OnTestAction;
+        }
+
+        public void RemoveCallbacks(IInventoryItemActionsActions instance)
+        {
+            if (m_Wrapper.m_InventoryItemActionsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IInventoryItemActionsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_InventoryItemActionsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_InventoryItemActionsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public InventoryItemActionsActions @InventoryItemActions => new InventoryItemActionsActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -1674,5 +1780,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnSlot1(InputAction.CallbackContext context);
         void OnSlot2(InputAction.CallbackContext context);
         void OnSlot3(InputAction.CallbackContext context);
+    }
+    public interface IInventoryItemActionsActions
+    {
+        void OnEquip(InputAction.CallbackContext context);
+        void OnTestAction(InputAction.CallbackContext context);
     }
 }

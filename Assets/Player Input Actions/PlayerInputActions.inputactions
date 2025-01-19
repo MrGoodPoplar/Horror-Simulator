@@ -1107,6 +1107,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Inventory Item Actions",
+            "id": "6cf1a096-e928-4c20-aa2d-133e41a38e5d",
+            "actions": [
+                {
+                    "name": "Equip",
+                    "type": "Button",
+                    "id": "0c3dc441-ed94-4a94-ab95-5d52fbf23ce1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Test Action",
+                    "type": "Button",
+                    "id": "e379250d-0836-413e-ad15-a114075e7a3f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "24f75afd-98de-4c0a-b771-26dfd296e223",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Equip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8308bec0-0703-419a-9058-46252cecfb0b",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Test Action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

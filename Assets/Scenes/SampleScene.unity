@@ -4611,8 +4611,7 @@ MonoBehaviour:
   <tileSize>k__BackingField: {x: 16, y: 16}
   _size: {x: 2, y: 10}
   _scale: {x: 3, y: 3}
-  _backgroundPrefab: {fileID: 7190745660779952081, guid: 50200e76a5c7cf54ca4c341c2a9aaf01,
-    type: 3}
+  _backgroundPrefab: {fileID: 0}
   _backgroundScale: {x: 3.2, y: 3.2}
   _backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   _playerInput: {fileID: 1902487657}
@@ -4708,6 +4707,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1308334781}
   - component: {fileID: 1308334782}
+  - component: {fileID: 1308334783}
   m_Layer: 5
   m_Name: Hotkey Prompt Container
   m_TagString: Untagged
@@ -4735,8 +4735,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 167.2241, y: -238.3}
-  m_SizeDelta: {x: -348.7882, y: 110}
+  m_AnchoredPosition: {x: 165, y: -235}
+  m_SizeDelta: {x: -350, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1308334782
 MonoBehaviour:
@@ -4756,6 +4756,20 @@ MonoBehaviour:
   _spacingHorizontal: 10
   _spacingVertical: 10
   _alignment: 1
+--- !u!114 &1308334783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308334780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c387de36f57b4318808322166f796c2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hotkeyPromptPrefab: {fileID: 4215982544764260225, guid: ac3d831291c506442b6350e10285584c,
+    type: 3}
 --- !u!1 &1314547438
 GameObject:
   m_ObjectHideFlags: 0
@@ -5123,8 +5137,7 @@ MonoBehaviour:
   <tileSize>k__BackingField: {x: 16, y: 16}
   _size: {x: 2, y: 4}
   _scale: {x: 3, y: 3}
-  _backgroundPrefab: {fileID: 7190745660779952081, guid: 50200e76a5c7cf54ca4c341c2a9aaf01,
-    type: 3}
+  _backgroundPrefab: {fileID: 0}
   _backgroundScale: {x: 3.2, y: 3.2}
   _backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   _playerInput: {fileID: 1902487657}
@@ -5334,7 +5347,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -301, y: 222}
+  m_AnchoredPosition: {x: -307, y: 233}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1577216602
@@ -5843,7 +5856,7 @@ PrefabInstance:
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 450.127
+      value: 448.91522
       objectReference: {fileID: 0}
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
@@ -6280,8 +6293,7 @@ MonoBehaviour:
   <tileSize>k__BackingField: {x: 16, y: 16}
   _size: {x: 6, y: 8}
   _scale: {x: 3, y: 3}
-  _backgroundPrefab: {fileID: 7190745660779952081, guid: 50200e76a5c7cf54ca4c341c2a9aaf01,
-    type: 3}
+  _backgroundPrefab: {fileID: 0}
   _backgroundScale: {x: 3.2, y: 3.2}
   _backgroundColor: {r: 0.6901961, g: 0.6901961, b: 0.6901961, a: 1}
   _playerInput: {fileID: 1902487657}
@@ -6378,7 +6390,7 @@ PrefabInstance:
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 557.49695
+      value: 556.28516
       objectReference: {fileID: 0}
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
@@ -6892,6 +6904,8 @@ MonoBehaviour:
   <HUDController>k__BackingField: {fileID: 1157878300}
   <playerInput>k__BackingField: {fileID: 1902487657}
   <hotbarController>k__BackingField: {fileID: 1745438401}
+  <inputBindingSpriteBinder>k__BackingField: {fileID: 11400000, guid: f5035560a32808f42a96663aa32b03c6,
+    type: 2}
 --- !u!1 &1915886730 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: befeec2e6508be9418b6111b6a14a4ff,
@@ -7900,7 +7914,7 @@ PrefabInstance:
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 630.397
+      value: 629.1852
       objectReference: {fileID: 0}
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
@@ -8569,7 +8583,7 @@ PrefabInstance:
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 280.212
+      value: 279.0002
       objectReference: {fileID: 0}
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}

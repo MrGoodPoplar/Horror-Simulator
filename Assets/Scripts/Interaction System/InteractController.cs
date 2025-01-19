@@ -58,6 +58,12 @@ public class InteractController : MonoBehaviour
 
     private void Update()
     {
+        if (!Player.instance.HUDController.isHUDView) // TODO: if player will move in HUD view a possible bug can occur
+            FindInteractable();
+    }
+
+    private void FindInteractable()
+    {
         if (Vector3.Distance(transform.position, _hitPointer.transform.position) > _interactDistance)
         {
             if (!_interactable.IsUnityNull())

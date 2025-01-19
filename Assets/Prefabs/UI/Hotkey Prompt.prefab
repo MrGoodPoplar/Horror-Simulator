@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 101.509995, y: -26}
+  m_AnchoredPosition: {x: 81.509995, y: -16}
   m_SizeDelta: {x: 84.6, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &720902586352375780
@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 8522977359698298994}
   - component: {fileID: 1538866040923140513}
   - component: {fileID: 412302665966748618}
+  - component: {fileID: 4215982544764260225}
   m_Layer: 5
   m_Name: Hotkey Prompt
   m_TagString: Untagged
@@ -345,6 +346,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 1
+--- !u!114 &4215982544764260225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6634498272545774108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 682b1cda7bc8eb44684345f9fce751b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hotkeyImage: {fileID: 4997037886242014229}
+  _hotkeyLabel: {fileID: 4197654857910588507}
 --- !u!1 &9067966964422106702
 GameObject:
   m_ObjectHideFlags: 0
@@ -380,7 +395,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50.605, y: -26}
+  m_AnchoredPosition: {x: 35.605, y: -16}
   m_SizeDelta: {x: 7.21, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3347647845127924052

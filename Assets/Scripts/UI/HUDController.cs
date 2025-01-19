@@ -47,6 +47,7 @@ public class HUDController : MonoBehaviour
         isHUDView = toggle;
         gameObject.SetActive(toggle);
         _player.firstPersonController.canMove = !toggle;
+        _player.firstPersonController.canJump = !toggle;
         _player.shooterController.ToggleWeaponInteraction(!toggle);
         
         OnHUDStateChanged?.Invoke(toggle);
