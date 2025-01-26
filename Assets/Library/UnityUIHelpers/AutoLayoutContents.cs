@@ -30,6 +30,9 @@ namespace Library.UnityUIHelpers
         private void Awake()
         {
             AssignRectTransform();
+
+            if (Application.isPlaying)
+                ClearChildren();
         }
 
         private void Update()
@@ -67,7 +70,7 @@ namespace Library.UnityUIHelpers
 
             foreach (Transform child in gameObject.transform)
             {
-                if (child.TryGetComponent(out RectTransform rectTransform))
+                if (child.gameObject.activeSelf && child.TryGetComponent(out RectTransform rectTransform))
                     children.Add(rectTransform);
             }
 
@@ -79,7 +82,7 @@ namespace Library.UnityUIHelpers
             List<RectTransform> rectTransformChildren = GetRectTransformChildren();
             if (rectTransformChildren.Count == 0)
                 return;
-
+            
             RectTransform previousRectTransform = rectTransformChildren.First();
             Vector2 currentPosition = new Vector2(
                 -GetRectTransformWidth(_rectTransform)  / 2f + GetRectTransformWidth(previousRectTransform) / 2f + _paddingLeft,

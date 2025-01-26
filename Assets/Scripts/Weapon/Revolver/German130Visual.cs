@@ -115,20 +115,11 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
         return bulletShell;
     }
 
-    private void OnGetBulletShellFromPool(BulletShell bulletShell)
-    {
-        bulletShell.gameObject.SetActive(true);
-    }
+    private void OnGetBulletShellFromPool(BulletShell bulletShell) => bulletShell.gameObject.SetActive(true);
 
-    private void OnReleaseBulletShellToPool(BulletShell bulletShell)
-    {
-        bulletShell.gameObject.SetActive(false);
-    }
+    private void OnReleaseBulletShellToPool(BulletShell bulletShell) => bulletShell.gameObject.SetActive(false);
 
-    private void OnDestroyPooledBulletShell(BulletShell bulletShell)
-    {
-        Destroy(bulletShell);
-    }
+    private void OnDestroyPooledBulletShell(BulletShell bulletShell) => Destroy(bulletShell);
     
     private void HandleReloadEnd() // Animation Event
     {

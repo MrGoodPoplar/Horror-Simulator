@@ -4770,6 +4770,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hotkeyPromptPrefab: {fileID: 4215982544764260225, guid: ac3d831291c506442b6350e10285584c,
     type: 3}
+  _fadeDuration: 0.1
+  _poolDefaultSize: 10
+  _poolMaxSize: 20
+  _collectionCheck: 0
 --- !u!1 &1314547438
 GameObject:
   m_ObjectHideFlags: 0
@@ -4997,6 +5001,24 @@ RectTransform:
   m_AnchoredPosition: {x: 16, y: -16}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1383436858 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6634498272545774108, guid: ac3d831291c506442b6350e10285584c,
+    type: 3}
+  m_PrefabInstance: {fileID: 8660050919721970748}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &1383436864
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1383436858}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!4 &1413501402 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1597745038679449245, guid: ffb62205729d7084f8c4d87e7b66866a,
@@ -8698,7 +8720,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6634498272545774108, guid: ac3d831291c506442b6350e10285584c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1383436864}
   m_SourcePrefab: {fileID: 100100000, guid: ac3d831291c506442b6350e10285584c, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
