@@ -82,8 +82,8 @@ namespace Library.UnityUIHelpers
 
             RectTransform previousRectTransform = rectTransformChildren.First();
             Vector2 currentPosition = new Vector2(
-                -_rectTransform.rect.width / 2f + previousRectTransform.rect.width / 2f + _paddingLeft,
-                _rectTransform.rect.height / 2f - previousRectTransform.rect.height / 2f - _paddingTop
+                -GetRectTransformWidth(_rectTransform)  / 2f + GetRectTransformWidth(previousRectTransform) / 2f + _paddingLeft,
+                GetRectTransformHeight(_rectTransform) / 2f - GetRectTransformHeight(previousRectTransform) / 2f - _paddingTop
             );
 
             UIPositionHelper.SetAbsoluteAnchoredCenterPosition(previousRectTransform, currentPosition);
@@ -94,13 +94,13 @@ namespace Library.UnityUIHelpers
                 if (!gameObject.transform.GetChild(i).TryGetComponent(out RectTransform currentRectTransform))
                     continue;
 
-                float offsetX = previousRectTransform.rect.width / 2f + currentRectTransform.rect.width / 2f + _spacingHorizontal;
+                float offsetX = GetRectTransformWidth(previousRectTransform) / 2f + GetRectTransformWidth(currentRectTransform) / 2f + _spacingHorizontal;
 
-                if (currentPosition.x + offsetX + currentRectTransform.rect.width / 2f + _paddingRight > _rectTransform.rect.width / 2f)
+                if (currentPosition.x + offsetX + GetRectTransformWidth(currentRectTransform) / 2f + _paddingRight > GetRectTransformWidth(_rectTransform) / 2f)
                 {
-                    var offsetY = -previousRectTransform.rect.height - _spacingVertical;
+                    var offsetY = -GetRectTransformHeight(previousRectTransform) - _spacingVertical;
                     currentPosition = new Vector2(
-                        -_rectTransform.rect.width / 2f + currentRectTransform.rect.width / 2f + _paddingLeft,
+                        -GetRectTransformWidth(_rectTransform) / 2f + GetRectTransformWidth(currentRectTransform) / 2f + _paddingLeft,
                         currentPosition.y + offsetY
                     );
                     
@@ -119,6 +119,16 @@ namespace Library.UnityUIHelpers
             }
             
             _table.Add(row);
+        }
+
+        private float GetRectTransformWidth(RectTransform rectTransform)
+        {
+            return rectTransform.rect.width * rectTransform.localScale.x;
+        }
+        
+        private float GetRectTransformHeight(RectTransform rectTransform)
+        {
+            return rectTransform.rect.height * rectTransform.localScale.y;
         }
 
         private void ApplyAlignment()
@@ -141,9 +151,9 @@ namespace Library.UnityUIHelpers
             switch (_alignment)
             {
                 case Alignment.Right:
-                    return _rectTransform.rect.width - borderX - _paddingRight;
+                    return GetRectTransformWidth(_rectTransform) - borderX - _paddingRight;
                 case Alignment.Center:
-                    return (_rectTransform.rect.width - borderX) / 2;
+                    return (GetRectTransformWidth(_rectTransform) - borderX) / 2;
                 default:
                     return 0;
             }
@@ -151,7 +161,7 @@ namespace Library.UnityUIHelpers
 
         private float GetRectHorizontalBorder(RectTransform rectTransform)
         {
-            return rectTransform.anchoredPosition.x + rectTransform.rect.width / 2;
+            return rectTransform.anchoredPosition.x + GetRectTransformWidth(rectTransform) / 2;
         }
 
         public void AttachChild(Transform newChild)

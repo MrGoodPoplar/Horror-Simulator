@@ -13,7 +13,7 @@ namespace UI.Hotkey_Prompts
         public void SetPreferences(Sprite icon, Vector2 spriteScale, string text)
         {
             _hotkeyImage.sprite = icon;
-            _hotkeyImage.rectTransform.sizeDelta *= spriteScale;
+            _hotkeyImage.rectTransform.localScale *= spriteScale;
             _hotkeyLabel.text = text;
         }
     }
