@@ -1,13 +1,10 @@
 using System.Collections.Generic;
-using System.Linq;
 using Cysharp.Threading.Tasks;
 using Library.UnityUIHelpers;
 using UI.Inventory;
 using UI.Inventory.Actions;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Pool;
-using UnityEngine.UI;
 
 namespace UI.Hotkey_Prompts
 {
@@ -20,25 +17,17 @@ namespace UI.Hotkey_Prompts
         [Header("Settings")]
         [SerializeField, Range(0, 5)] private float _fadeDuration = 0.5f;
         
-        [Header("Hotkey Prompt Pool Settings")]
-        [SerializeField] private int _poolDefaultSize = 10;
-        [SerializeField] private int _poolMaxSize = 20;
-        [SerializeField] private bool _collectionCheck;
-        
         private InventoryController _inventoryController;
         private InventoryItem _currentOnHoverItem;
         private AutoLayoutContents _autoLayout;
         private List<InventoryItemAction> _currentActions = new();
         private List<HotkeyPrompt> _currentHotkeyPrompts = new();
-        private IObjectPool<HotkeyPrompt> _hotkeyPromptPool;
         private bool _refreshPromptLayoutInProcess;
 
 
         private void Awake()
         {
             _autoLayout = GetComponent<AutoLayoutContents>();
-            
-            InitPoolObjects();
         }
 
         private void Start()
@@ -55,36 +44,22 @@ namespace UI.Hotkey_Prompts
             {
                 _currentOnHoverItem = _inventoryController.onHoverInventoryItem;
                 _refreshPromptLayoutInProcess = true;
+         
                 await RefreshPromptLayout();
+                
                 _refreshPromptLayoutInProcess = false;
             }
         }
-
-        private void InitPoolObjects()
-        {
-            _hotkeyPromptPool = new ObjectPool<HotkeyPrompt>(CreateHotkeyPrompt, OnGetHotkeyPromptFromPool, OnReleaseHotkeyPromptToPool, OnDestroyPooledHotkeyPrompt,
-                _collectionCheck, _poolDefaultSize, _poolMaxSize);
-        }
-
-        private void OnDestroyPooledHotkeyPrompt(HotkeyPrompt hotkeyPrompt) => hotkeyPrompt.gameObject.SetActive(false); // TODO: weak point
         
-        private void OnReleaseHotkeyPromptToPool(HotkeyPrompt hotkeyPrompt) => hotkeyPrompt.gameObject.SetActive(false);
-
-        private void OnGetHotkeyPromptFromPool(HotkeyPrompt hotkeyPrompt) => hotkeyPrompt.gameObject.SetActive(true);
-
-        private HotkeyPrompt CreateHotkeyPrompt() => Instantiate(_hotkeyPromptPrefab);
-
         private async UniTask HideHotkeyPromptsAsync()
         {
             await UniTask.WhenAll(_currentHotkeyPrompts.Select(async item =>
             {
                 await item.HidePromptAsync(_fadeDuration);
+                Destroy(item.gameObject);
             }));
-
-            foreach (var item in _currentHotkeyPrompts)
-            {
-                _hotkeyPromptPool.Release(item);
-            }
+            
+            _currentHotkeyPrompts.Clear();
         }
         
         private async UniTask ShowHotkeyPromptsAsync(List<HotkeyPrompt> hotkeyPrompts)
@@ -97,12 +72,13 @@ namespace UI.Hotkey_Prompts
         
         private async UniTask RefreshPromptLayout()
         {
+            bool toVoid = !_inventoryController.onHoverInventoryItem;
             await HideHotkeyPromptsAsync();
             ForgetActions();
-            
-            if (!_inventoryController.onHoverInventoryItem)
-                return;
 
+            if (toVoid || !_inventoryController.onHoverInventoryItem)
+                return;
+            
             List<HotkeyPrompt> activeHotkeyPrompts = new();
             
             foreach (InventoryItemAction itemAction in _inventoryController.onHoverInventoryItem.inventoryItemSO.actions)
@@ -111,9 +87,8 @@ namespace UI.Hotkey_Prompts
 
                 if (!spritePreference.IsUnityNull())
                 {
-                    HotkeyPrompt hotkeyPrompt = _hotkeyPromptPool.Get();
+                    HotkeyPrompt hotkeyPrompt = Instantiate(_hotkeyPromptPrefab, transform, true);
                     hotkeyPrompt.SetPreferences(spritePreference.sprite, spritePreference.scale, itemAction.GetActionName());
-                    hotkeyPrompt.transform.SetParent(transform);
                     itemAction.Activate();
                     
                     activeHotkeyPrompts.Add(hotkeyPrompt);
@@ -124,9 +99,9 @@ namespace UI.Hotkey_Prompts
                 }
             }
 
-            await UniTask.WaitForSeconds(0.1f); // TODO: weak point
+            await UniTask.DelayFrame(2); // TODO: weak point
             
-            _autoLayout.RefreshLayout(); // TODO: weak point
+            _autoLayout.RefreshLayout();
             await ShowHotkeyPromptsAsync(activeHotkeyPrompts);
         }
 

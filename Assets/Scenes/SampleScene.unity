@@ -4709,7 +4709,7 @@ GameObject:
   - component: {fileID: 1308334782}
   - component: {fileID: 1308334783}
   m_Layer: 5
-  m_Name: Hotkey Prompt Container
+  m_Name: Hotkey Prompt Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4771,9 +4771,6 @@ MonoBehaviour:
   _hotkeyPromptPrefab: {fileID: 4215982544764260225, guid: ac3d831291c506442b6350e10285584c,
     type: 3}
   _fadeDuration: 0.1
-  _poolDefaultSize: 10
-  _poolMaxSize: 20
-  _collectionCheck: 0
 --- !u!1 &1314547438
 GameObject:
   m_ObjectHideFlags: 0
