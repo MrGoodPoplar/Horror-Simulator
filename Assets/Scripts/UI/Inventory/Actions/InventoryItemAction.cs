@@ -12,7 +12,7 @@ namespace UI.Inventory.Actions
         [SerializeField] protected LocalizedString LabelText;
         [SerializeField] protected InputActionReference InputActionReference;
         
-        public string GetActionName() => LabelText.GetLocalizedString();
+        public string actionName => LabelText.GetLocalizedString();
         
         public string GetInputBindingPath()
         {

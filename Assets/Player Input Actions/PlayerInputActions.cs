@@ -1142,15 +1142,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Test Action"",
-                    ""type"": ""Button"",
-                    ""id"": ""e379250d-0836-413e-ad15-a114075e7a3f"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1162,17 +1153,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Equip"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8308bec0-0703-419a-9058-46252cecfb0b"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Test Action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1276,7 +1256,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Inventory Item Actions
         m_InventoryItemActions = asset.FindActionMap("Inventory Item Actions", throwIfNotFound: true);
         m_InventoryItemActions_Equip = m_InventoryItemActions.FindAction("Equip", throwIfNotFound: true);
-        m_InventoryItemActions_TestAction = m_InventoryItemActions.FindAction("Test Action", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1653,13 +1632,11 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_InventoryItemActions;
     private List<IInventoryItemActionsActions> m_InventoryItemActionsActionsCallbackInterfaces = new List<IInventoryItemActionsActions>();
     private readonly InputAction m_InventoryItemActions_Equip;
-    private readonly InputAction m_InventoryItemActions_TestAction;
     public struct InventoryItemActionsActions
     {
         private @PlayerInputActions m_Wrapper;
         public InventoryItemActionsActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Equip => m_Wrapper.m_InventoryItemActions_Equip;
-        public InputAction @TestAction => m_Wrapper.m_InventoryItemActions_TestAction;
         public InputActionMap Get() { return m_Wrapper.m_InventoryItemActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1672,9 +1649,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Equip.started += instance.OnEquip;
             @Equip.performed += instance.OnEquip;
             @Equip.canceled += instance.OnEquip;
-            @TestAction.started += instance.OnTestAction;
-            @TestAction.performed += instance.OnTestAction;
-            @TestAction.canceled += instance.OnTestAction;
         }
 
         private void UnregisterCallbacks(IInventoryItemActionsActions instance)
@@ -1682,9 +1656,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Equip.started -= instance.OnEquip;
             @Equip.performed -= instance.OnEquip;
             @Equip.canceled -= instance.OnEquip;
-            @TestAction.started -= instance.OnTestAction;
-            @TestAction.performed -= instance.OnTestAction;
-            @TestAction.canceled -= instance.OnTestAction;
         }
 
         public void RemoveCallbacks(IInventoryItemActionsActions instance)
@@ -1784,6 +1755,5 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IInventoryItemActionsActions
     {
         void OnEquip(InputAction.CallbackContext context);
-        void OnTestAction(InputAction.CallbackContext context);
     }
 }

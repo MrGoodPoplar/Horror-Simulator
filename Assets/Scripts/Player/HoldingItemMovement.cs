@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class WeaponMovement : MonoBehaviour
+public class HoldingItemMovement : MonoBehaviour
 {
     [Header("Sway Settings")]
     [SerializeField, Range(0, 1)] private float _swayAmount = 0.5f;

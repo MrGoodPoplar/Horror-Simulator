@@ -1,11 +1,8 @@
 using System;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UI.Inventory;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(FirstPersonController))]
 public class ShooterController : MonoBehaviour
@@ -28,7 +25,7 @@ public class ShooterController : MonoBehaviour
     [Header("Constraints")]
     [SerializeField] private HitPointer _hitPointer;
     [SerializeField] private CameraRecoil _cameraRecoil;
-    [SerializeField] private WeaponMovement _weaponMovement;
+    [SerializeField] private HoldingItemMovement _holdingItemMovement;
 
     private bool _isAimingTransition;
     private float _defaultFOV;
@@ -75,7 +72,7 @@ public class ShooterController : MonoBehaviour
         if (_isAimingTransition || !aimStateChanged || (!canAim && !isAiming))
             return;
 
-        bool aim = _playerInput.isAiming && canAim;
+        bool aim = _playerInput.isAiming && canAim && _currentWeapon;
         float elapsedTime = 0f;
         float targetFov = aim ? _aimFOV : _defaultFOV;
         float targetSensitivity = aim ? _defaultSensitivity / _aimSensitivityReducer : _defaultSensitivity;
@@ -92,8 +89,12 @@ public class ShooterController : MonoBehaviour
 
             _firstPersonController.playerCamera.fieldOfView = Mathf.Lerp(_firstPersonController.playerCamera.fieldOfView, targetFov, t);
             _firstPersonController.sensitivity = Mathf.Lerp(_firstPersonController.sensitivity, targetSensitivity, t);
-            _currentWeapon.transform.localPosition = Vector3.Lerp(_currentWeapon.transform.localPosition, targetPosition, t);
-            _currentWeapon.transform.localRotation = Quaternion.Lerp(_currentWeapon.transform.localRotation, targetRotation, t);
+
+            if (_currentWeapon)
+            {
+                _currentWeapon.transform.localPosition = Vector3.Lerp(_currentWeapon.transform.localPosition, targetPosition, t);
+                _currentWeapon.transform.localRotation = Quaternion.Lerp(_currentWeapon.transform.localRotation, targetRotation, t);
+            }
 
             await UniTask.Yield();
         }
@@ -103,10 +104,10 @@ public class ShooterController : MonoBehaviour
     
     private void OnFirePerformed()
     {
-        if (canFire && _currentWeapon.Fire(_hitPointer.transform.position))
+        if (canFire && _currentWeapon && _currentWeapon.Fire(_hitPointer.transform.position))
         {
             _cameraRecoil?.RecoilFire(_currentWeapon.recoil, _currentWeapon.recoilForce, _currentWeapon.recoilSpeed);
-            _weaponMovement?.ApplyRecoil(_currentWeapon.recoilForce, _currentWeapon.recoilSpeed, _currentWeapon.recoilDuration);
+            _holdingItemMovement?.ApplyRecoil(_currentWeapon.recoilForce, _currentWeapon.recoilSpeed, _currentWeapon.recoilDuration);
             
             OnFire?.Invoke();
         }
@@ -114,6 +115,9 @@ public class ShooterController : MonoBehaviour
     
     private void OnReloadPerformed()
     {
+        if (!_currentWeapon)
+            return;
+        
         int availableAmmoCount = GetAvailableAmmoCount();
         int totalToReloadCount = _currentWeapon.clipSize - _currentWeapon.bulletsInClip;
         int totalToReload = Mathf.Clamp(availableAmmoCount, 0, totalToReloadCount);
@@ -124,12 +128,12 @@ public class ShooterController : MonoBehaviour
 
     private int GetAvailableAmmoCount()
     {
-        return _inventoryController.GetItemCountInInventory(_currentWeapon.bulletItemSO);
+        return _currentWeapon ? _inventoryController.GetItemCountInInventory(_currentWeapon.bulletItemSO) : 0;
     }
 
     public void ReserveBullets(int count)
     {
-        if (_inventoryController.RemoveInventoryItem(_currentWeapon.bulletItemSO, count))
+        if (_currentWeapon && _inventoryController.RemoveInventoryItem(_currentWeapon.bulletItemSO, count))
         {
             reservedBulletCount += count;
         }
@@ -137,7 +141,7 @@ public class ShooterController : MonoBehaviour
 
     public void RetrieveReserve()
     {
-        if (reservedBulletCount > 0)
+        if (_currentWeapon && reservedBulletCount > 0)
         {
             int toReturn = reservedBulletCount;
             _inventoryController.AddItemToInventory(_currentWeapon.bulletItemSO, ref toReturn);
@@ -147,6 +151,9 @@ public class ShooterController : MonoBehaviour
     
     public bool TakeAmmo(int count)
     {
+        if (!_currentWeapon)
+            return false;
+        
         if (reservedBulletCount >= count)
         {
             reservedBulletCount -= count;

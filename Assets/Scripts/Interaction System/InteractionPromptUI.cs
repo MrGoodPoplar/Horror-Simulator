@@ -24,7 +24,7 @@ public class InteractionPromptUI : MonoBehaviour
     
     private void Start()
     {
-        _interactController = Player.instance.InteractController;
+        _interactController = Player.instance.interactController;
         
         _originalScale = _promptUI.transform.localScale;
         

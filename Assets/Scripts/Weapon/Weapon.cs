@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Pool;
 using Random = UnityEngine.Random;
 
-public class Weapon : MonoBehaviour
+public class Weapon : MonoBehaviour, IHoldable
 {
     public int bulletsInClip { get; private set; }
     
@@ -37,7 +37,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private Transform _bulletSpawn;
     
     public IWeaponReloadHandler reloadHandler => _reloadHandler as IWeaponReloadHandler;
-    
+
     private float _lastShotTime;
     private IObjectPool<Bullet> _bulletPool;
 
@@ -116,5 +116,15 @@ public class Weapon : MonoBehaviour
     public void SetBulletsInClip(int value)
     {
         bulletsInClip = Mathf.Clamp(value, 0, clipSize);
+    }
+
+    public void OnHold()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnHide()
+    {
+        throw new System.NotImplementedException();
     }
 }

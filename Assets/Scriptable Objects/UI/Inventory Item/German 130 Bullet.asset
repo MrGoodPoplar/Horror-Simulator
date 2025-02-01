@@ -30,7 +30,7 @@ MonoBehaviour:
     type: 3}
   _actions:
   - {fileID: 11400000, guid: 44adbe13946395348b2f1a52b2d4bb80, type: 2}
-  <guid>k__BackingField: 18dfd921-dd85-444f-801a-6a16b1220ee9
+  <guid>k__BackingField: 
   references:
     version: 2
     RefIds: []

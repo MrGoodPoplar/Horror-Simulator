@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UI.Inventory;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,10 +8,19 @@ namespace UI.Hotbar
 {
     public class HotbarController : MonoBehaviour
     {
-        [SerializeField] private List<HotbarSlot> _hotbarSlots;
+        [SerializeField] private List<HotbarSlotSO> _hotbarSlots;
 
         private readonly List<Action<InputAction.CallbackContext>> _delegates = new();
-        
+
+        private HoldingItemController _holdingItemController;
+
+        private void Start()
+        {
+            _holdingItemController = Player.instance.holdingItemController;
+            
+            InitHotbarSlots();
+        }
+
         private void OnDestroy()
         {
             UnsubscribeFromHotkeys();
@@ -26,9 +36,17 @@ namespace UI.Hotbar
             UnsubscribeFromHotkeys();
         }
 
+        private void InitHotbarSlots()
+        {
+            for (var index = 0; index < _hotbarSlots.Count; index++)
+            {
+                _hotbarSlots[index] = Instantiate(_hotbarSlots[index]);
+            }
+        }
+
         private void SubscribeToHotkeys()
         {
-            foreach (HotbarSlot slot in _hotbarSlots)
+            foreach (HotbarSlotSO slot in _hotbarSlots)
             {
                 slot.inputActionReference.action.Enable();
                 Action<InputAction.CallbackContext> action = ctx => OnHotkeyPerformed(slot, ctx);
@@ -51,9 +69,27 @@ namespace UI.Hotbar
             _delegates.Clear();
         }
 
-        private void OnHotkeyPerformed(HotbarSlot hotbarSlot, InputAction.CallbackContext context)
+        private void OnHotkeyPerformed(HotbarSlotSO hotbarSlot, InputAction.CallbackContext context)
         {
-            Debug.Log($"Hotbar Slot triggered: {hotbarSlot}, {context.action.GetBindingDisplayString()} - pressed!");
+            if (hotbarSlot.item.inventoryItemSO)
+            {
+                // if (ReferenceEquals(_holdingItemController.currentHoldable, hotbarSlot.item.inventoryItemSO))
+                //     _holdingItemController.Hide();
+                // else
+                //     _holdingItemController.Hold(hotbarSlot.item.inventoryItemSO);
+                
+                // TODO: IHoldable implementation
+            }
+        }
+
+        public void EquipItem(InventoryItem inventoryItem, string hotbarSlotGuid)
+        {
+            var hotbarSlot = _hotbarSlots.Find(slot => slot.guid == hotbarSlotGuid);
+            
+            if (hotbarSlot)
+                hotbarSlot.item = inventoryItem;
+            else
+                Debug.LogWarning($"Hotbar Slot with guid {hotbarSlotGuid} doesn't exist!");
         }
     }
 }

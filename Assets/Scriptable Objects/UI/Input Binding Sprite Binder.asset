@@ -21,3 +21,15 @@ MonoBehaviour:
     <sprite>k__BackingField: {fileID: 557099240, guid: 4027a2496a7c1df4baa3425532e0d010,
       type: 3}
     <scale>k__BackingField: {x: 2, y: 1}
+  - <bindingPath>k__BackingField: <Keyboard>/1
+    <sprite>k__BackingField: {fileID: -913537918, guid: 4027a2496a7c1df4baa3425532e0d010,
+      type: 3}
+    <scale>k__BackingField: {x: 2, y: 1}
+  - <bindingPath>k__BackingField: <Keyboard>/2
+    <sprite>k__BackingField: {fileID: -1922194861, guid: 4027a2496a7c1df4baa3425532e0d010,
+      type: 3}
+    <scale>k__BackingField: {x: 2, y: 1}
+  - <bindingPath>k__BackingField: <Keyboard>/3
+    <sprite>k__BackingField: {fileID: 1158889541, guid: 4027a2496a7c1df4baa3425532e0d010,
+      type: 3}
+    <scale>k__BackingField: {x: 2, y: 1}

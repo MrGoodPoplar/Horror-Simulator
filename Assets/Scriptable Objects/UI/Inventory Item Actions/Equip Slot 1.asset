@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed941b0d99b349c4a0ae88a0a9b48c88, type: 3}
-  m_Name: Equip
+  m_Name: Equip Slot 1
   m_EditorClassIdentifier: 
   LabelText:
     m_TableReference:
@@ -23,6 +23,8 @@ MonoBehaviour:
     m_LocalVariables: []
   InputActionReference: {fileID: 381872869675051440, guid: 0f82b09a99f0b644489bc61e81576ca8,
     type: 3}
+  <hotbarSlotSO>k__BackingField: {fileID: 11400000, guid: ca0a6f91970a157458931578b9dc4564,
+    type: 2}
   references:
     version: 2
     RefIds: []

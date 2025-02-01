@@ -293,18 +293,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5368571091338765281}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &101102193 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2717229963701440363, guid: a0db881418e593e4eb23d2871d41b506,
-    type: 3}
-  m_PrefabInstance: {fileID: 5368571091338765281}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 847767c7c2e915d489ee51eb0b0f8c88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &115338756 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1597745038679449245, guid: ffb62205729d7084f8c4d87e7b66866a,
@@ -3666,7 +3654,7 @@ GameObject:
   - component: {fileID: 1074463168}
   - component: {fileID: 1074463166}
   m_Layer: 0
-  m_Name: Weapon Camera
+  m_Name: Item Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5875,7 +5863,7 @@ PrefabInstance:
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 448.91522
+      value: 449.13666
       objectReference: {fileID: 0}
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
@@ -6054,12 +6042,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hotbarSlots:
-  - <inputActionReference>k__BackingField: {fileID: -482619838264492540, guid: 0f82b09a99f0b644489bc61e81576ca8,
-      type: 3}
-  - <inputActionReference>k__BackingField: {fileID: -694325143706232449, guid: 0f82b09a99f0b644489bc61e81576ca8,
-      type: 3}
-  - <inputActionReference>k__BackingField: {fileID: -9193700220029055012, guid: 0f82b09a99f0b644489bc61e81576ca8,
-      type: 3}
+  - {fileID: 11400000, guid: ca0a6f91970a157458931578b9dc4564, type: 2}
+  - {fileID: 11400000, guid: e6af0d702db7ecd4babbf514a305d99d, type: 2}
+  - {fileID: 11400000, guid: 223c054e04a9ba24d9762504ed5039df, type: 2}
 --- !u!4 &1753689608 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -1998989058246132498, guid: befeec2e6508be9418b6111b6a14a4ff,
@@ -6414,7 +6399,7 @@ PrefabInstance:
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 556.28516
+      value: 556.5066
       objectReference: {fileID: 0}
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
@@ -6877,8 +6862,8 @@ MonoBehaviour:
   _timeToAim: 0.5
   _hitPointer: {fileID: 1989430317}
   _cameraRecoil: {fileID: 980719094}
-  _weaponMovement: {fileID: 2044637790}
-  _currentWeapon: {fileID: 101102193}
+  _holdingItemMovement: {fileID: 2044637790}
+  _currentWeapon: {fileID: 0}
 --- !u!114 &1902487657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6924,10 +6909,12 @@ MonoBehaviour:
   <firstPersonController>k__BackingField: {fileID: 1902487653}
   <shooterController>k__BackingField: {fileID: 1902487656}
   <inventoryController>k__BackingField: {fileID: 87481309}
-  <InteractController>k__BackingField: {fileID: 1902487659}
+  <interactController>k__BackingField: {fileID: 1902487659}
   <HUDController>k__BackingField: {fileID: 1157878300}
   <playerInput>k__BackingField: {fileID: 1902487657}
   <hotbarController>k__BackingField: {fileID: 1745438401}
+  <hotkeyPromptController>k__BackingField: {fileID: 1308334783}
+  <holdingItemController>k__BackingField: {fileID: 2044637791}
   <inputBindingSpriteBinder>k__BackingField: {fileID: 11400000, guid: f5035560a32808f42a96663aa32b03c6,
     type: 2}
 --- !u!1 &1915886730 stripped
@@ -7463,9 +7450,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2044637789}
+  - component: {fileID: 2044637791}
   - component: {fileID: 2044637790}
   m_Layer: 0
-  m_Name: Weapon Holder
+  m_Name: Item Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7512,6 +7500,18 @@ MonoBehaviour:
   _jumpSwayHorizontal: 0.01
   _aimJumpReducer: 0.3
   _aimRecoilReducer: 0.15
+--- !u!114 &2044637791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044637788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 190f6535b4e9450ba59e9f847d952b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2087538555
 GameObject:
   m_ObjectHideFlags: 0
@@ -7938,7 +7938,7 @@ PrefabInstance:
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 629.1852
+      value: 629.4066
       objectReference: {fileID: 0}
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
@@ -8607,7 +8607,7 @@ PrefabInstance:
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 279.0002
+      value: 279.22165
       objectReference: {fileID: 0}
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}

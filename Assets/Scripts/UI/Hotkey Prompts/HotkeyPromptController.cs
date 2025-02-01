@@ -16,9 +16,10 @@ namespace UI.Hotkey_Prompts
 
         [Header("Settings")]
         [SerializeField, Range(0, 5)] private float _fadeDuration = 0.5f;
+
+        public InventoryItem currentOnHoverItem { get; private set; }
         
         private InventoryController _inventoryController;
-        private InventoryItem _currentOnHoverItem;
         private AutoLayoutContents _autoLayout;
         private List<InventoryItemAction> _currentActions = new();
         private List<HotkeyPrompt> _currentHotkeyPrompts = new();
@@ -40,9 +41,9 @@ namespace UI.Hotkey_Prompts
 
         private async void Update()
         {
-            if (!_refreshPromptLayoutInProcess && _inventoryController.onHoverInventoryItem != _currentOnHoverItem)
+            if (!_refreshPromptLayoutInProcess && _inventoryController.onHoverInventoryItem != currentOnHoverItem)
             {
-                _currentOnHoverItem = _inventoryController.onHoverInventoryItem;
+                currentOnHoverItem = _inventoryController.onHoverInventoryItem;
                 _refreshPromptLayoutInProcess = true;
          
                 await RefreshPromptLayout();
@@ -88,7 +89,7 @@ namespace UI.Hotkey_Prompts
                 if (!spritePreference.IsUnityNull())
                 {
                     HotkeyPrompt hotkeyPrompt = Instantiate(_hotkeyPromptPrefab, transform, true);
-                    hotkeyPrompt.SetPreferences(spritePreference.sprite, spritePreference.scale, itemAction.GetActionName());
+                    hotkeyPrompt.SetPreferences(spritePreference.sprite, spritePreference.scale, itemAction.actionName);
                     itemAction.Activate();
                     
                     activeHotkeyPrompts.Add(hotkeyPrompt);
