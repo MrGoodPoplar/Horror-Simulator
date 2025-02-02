@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UI.Inventory;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,16 +10,21 @@ namespace UI.Hotbar
     public class HotbarController : MonoBehaviour
     {
         [SerializeField] private List<HotbarSlotSO> _hotbarSlots;
-
+        
+        public bool canInteract { get; set; } = true;
+        
         private readonly List<Action<InputAction.CallbackContext>> _delegates = new();
-
+        private Dictionary<string, IHoldable> _holdableCache = new();
         private HoldingItemController _holdingItemController;
+
+        private void Awake()
+        {
+            InitHotbarSlots();
+        }
 
         private void Start()
         {
             _holdingItemController = Player.instance.holdingItemController;
-            
-            InitHotbarSlots();
         }
 
         private void OnDestroy()
@@ -71,15 +77,33 @@ namespace UI.Hotbar
 
         private void OnHotkeyPerformed(HotbarSlotSO hotbarSlot, InputAction.CallbackContext context)
         {
-            if (hotbarSlot.item.inventoryItemSO)
+            if (!canInteract || !hotbarSlot.item)
+                return;
+            
+            if (TryGetHoldable(hotbarSlot.item.inventoryItemSO, out IHoldable holdable))
             {
-                // if (ReferenceEquals(_holdingItemController.currentHoldable, hotbarSlot.item.inventoryItemSO))
-                //     _holdingItemController.Hide();
-                // else
-                //     _holdingItemController.Hold(hotbarSlot.item.inventoryItemSO);
-                
-                // TODO: IHoldable implementation
+                if (holdable == _holdingItemController.currentHoldable)
+                    _holdingItemController.Hide();
+                else
+                    _holdingItemController.Take(holdable);
             }
+            else
+                Debug.LogError($"{hotbarSlot.item.inventoryItemSO.name}'s prefab is not type of {typeof(IHoldable)}!");
+        }
+
+        private bool TryGetHoldable(InventoryItemSO inventoryItemSO, out IHoldable holdable)
+        {
+            if (_holdableCache.TryGetValue(inventoryItemSO.guid, out holdable))
+                return true;
+            
+            var item = Instantiate(inventoryItemSO.prefab, Vector3.zero, Quaternion.identity);
+            if (item.TryGetComponent(out holdable))
+            {
+                _holdableCache.Add(inventoryItemSO.guid, holdable);
+                return true;
+            }
+
+            return false;
         }
 
         public void EquipItem(InventoryItem inventoryItem, string hotbarSlotGuid)
@@ -91,5 +115,8 @@ namespace UI.Hotbar
             else
                 Debug.LogWarning($"Hotbar Slot with guid {hotbarSlotGuid} doesn't exist!");
         }
+        
+        // TODO: handle hiding weapon during reload
+        // TODO: camera bobbing bug if no item in hands
     }
 }

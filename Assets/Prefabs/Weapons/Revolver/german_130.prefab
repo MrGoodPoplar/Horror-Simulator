@@ -947,7 +947,7 @@ MonoBehaviour:
   _fireDelay: 0.3
   <recoil>k__BackingField: {x: -15, y: 15, z: 1}
   <recoilForce>k__BackingField: 0.6
-  <recoildSpeed>k__BackingField: 0.7
+  <recoilSpeed>k__BackingField: 0.3
   <recoilDuration>k__BackingField: 0.2
   _bulletSpeed: 150
   _flightDistance: 65
@@ -957,7 +957,7 @@ MonoBehaviour:
   _collectionCheck: 0
   <bulletItemSO>k__BackingField: {fileID: 11400000, guid: 4578cb31cc64eb445a72f8c18a533647,
     type: 2}
-  reloadHandler: {fileID: 1005982092262914977}
+  _reloadHandler: {fileID: 1005982092262914977}
   _bulletSpawn: {fileID: 5181397836112528444}
 --- !u!114 &1005982092262914977
 MonoBehaviour:

@@ -33,7 +33,7 @@ public class ShooterController : MonoBehaviour
     private PlayerInput _playerInput;
     private FirstPersonController _firstPersonController;
     private InventoryController _inventoryController;
-    [SerializeField] private Weapon _currentWeapon; // SerializeField only for test purposes
+    private Weapon _currentWeapon;
 
     private void Start()
     {
@@ -43,6 +43,9 @@ public class ShooterController : MonoBehaviour
 
         _playerInput.OnFire += OnFirePerformed;
         _playerInput.OnReload += OnReloadPerformed;
+        
+        Player.instance.holdingItemController.OnTake += HoldingItemOnTakePerformed;
+        Player.instance.holdingItemController.OnHide += HoldingItemOnHidePerformed;
 
         _defaultFOV = _firstPersonController.playerCamera.fieldOfView;
         _defaultSensitivity = _firstPersonController.sensitivity;
@@ -52,6 +55,9 @@ public class ShooterController : MonoBehaviour
     {
         _playerInput.OnFire -= OnFirePerformed;
         _playerInput.OnReload -= OnReloadPerformed;
+        
+        Player.instance.holdingItemController.OnTake -= HoldingItemOnTakePerformed;
+        Player.instance.holdingItemController.OnHide -= HoldingItemOnHidePerformed;
     }
 
     private void Update()
@@ -67,7 +73,7 @@ public class ShooterController : MonoBehaviour
     
     private async UniTaskVoid HandleAiming()
     {
-        bool aimStateChanged = isAiming != _playerInput.isAiming || !canAim;
+        bool aimStateChanged = isAiming != _playerInput.isAiming || !canAim || !_currentWeapon;
 
         if (_isAimingTransition || !aimStateChanged || (!canAim && !isAiming))
             return;
@@ -183,5 +189,24 @@ public class ShooterController : MonoBehaviour
         canAim = toggle && !isReloading;
         canReload = toggle;
         canFire = toggle && !isReloading;
+    }
+    
+    private void HoldingItemOnTakePerformed(IHoldable holdable)
+    {
+        if (holdable.transform.TryGetComponent(out Weapon weapon))
+        {
+            _currentWeapon = weapon;
+        }
+    }
+    
+    private void HoldingItemOnHidePerformed(IHoldable holdable)
+    {
+        if (holdable.transform.TryGetComponent(out Weapon weapon))
+        {
+            if (weapon != _currentWeapon)
+                Debug.LogWarning($"Hidden holding weapon [{weapon.name}] is not the same as current weapon [{_currentWeapon.name}]!");
+            
+            _currentWeapon = null;
+        }
     }
 }

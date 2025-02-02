@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using UI.Hotbar;
 using UnityEngine;
 using UnityEngine.InputSystem;

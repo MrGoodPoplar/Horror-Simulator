@@ -1,26 +1,34 @@
+using System;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class HoldingItemController : MonoBehaviour
 {
+    public event Action<IHoldable> OnTake;
+    public event Action<IHoldable> OnHide;
+    
     public IHoldable currentHoldable { get; private set; }
-
-    public void Hold(IHoldable holdable)
+    
+    public void Take(IHoldable holdable)
     {
         if (!currentHoldable.IsUnityNull())
-            currentHoldable.OnHide();
+            Hide();
 
-        holdable.OnHold();
+        holdable.Take();
         holdable.transform.gameObject.SetActive(true);
-        holdable.transform.SetParent(transform);
-
+        holdable.transform.SetParent(transform, false);
+        
+        OnTake?.Invoke(holdable);
         currentHoldable = holdable;
     }
-
+    
     public void Hide()
     {
-        currentHoldable.OnHide();
+        currentHoldable.Hide();
         currentHoldable.transform.gameObject.SetActive(false);
+        
+        OnHide?.Invoke(currentHoldable);
         currentHoldable = null;
     }
 }

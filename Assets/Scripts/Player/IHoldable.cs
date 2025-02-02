@@ -4,7 +4,7 @@ public interface IHoldable
 {
     public Transform transform { get; }
     
-    public void OnHold();
+    public void Take() {}
 
-    public void OnHide();
+    public void Hide() {}
 }

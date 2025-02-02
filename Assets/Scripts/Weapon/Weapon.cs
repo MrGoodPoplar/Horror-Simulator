@@ -1,11 +1,10 @@
+using System;
 using UnityEngine;
 using UnityEngine.Pool;
 using Random = UnityEngine.Random;
 
 public class Weapon : MonoBehaviour, IHoldable
 {
-    public int bulletsInClip { get; private set; }
-    
     [field: Header("Settings")]
     [field: SerializeField] public Vector3 aimPosition { get; private set; }
     [field: SerializeField] public Quaternion aimRotation { get; private set; }
@@ -36,8 +35,9 @@ public class Weapon : MonoBehaviour, IHoldable
     [SerializeField, RequireInterface(typeof(IWeaponReloadHandler))] private MonoBehaviour _reloadHandler;
     [SerializeField] private Transform _bulletSpawn;
     
+    public int bulletsInClip { get; private set; }
     public IWeaponReloadHandler reloadHandler => _reloadHandler as IWeaponReloadHandler;
-
+    
     private float _lastShotTime;
     private IObjectPool<Bullet> _bulletPool;
 
@@ -94,7 +94,7 @@ public class Weapon : MonoBehaviour, IHoldable
             return bullet;
         }
 
-        Debug.LogError($"{bulletItemSO.name}'s prefab is not type of Bullet!");
+        Debug.LogError($"{bulletItemSO.name}'s prefab is not type of {typeof(Bullet)}!");
         return null;
     }
 
@@ -116,15 +116,5 @@ public class Weapon : MonoBehaviour, IHoldable
     public void SetBulletsInClip(int value)
     {
         bulletsInClip = Mathf.Clamp(value, 0, clipSize);
-    }
-
-    public void OnHold()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnHide()
-    {
-        throw new System.NotImplementedException();
     }
 }
