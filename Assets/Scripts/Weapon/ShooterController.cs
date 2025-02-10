@@ -64,17 +64,11 @@ public class ShooterController : MonoBehaviour
     {
         HandleAiming().Forget();
     }
-
-    private void OnAiming()
-    {
-        _currentWeapon.transform.localPosition = isAiming ? _currentWeapon.aimPosition : Vector3.zero;
-        _currentWeapon.transform.localRotation = isAiming ? _currentWeapon.aimRotation : Quaternion.identity;
-    }
     
     private async UniTaskVoid HandleAiming()
     {
-        bool aimStateChanged = isAiming != _playerInput.isAiming || !canAim || !_currentWeapon;
-
+        bool aimStateChanged = isAiming != _playerInput.isAiming || !canAim || (isAiming && !_currentWeapon);
+        
         if (_isAimingTransition || !aimStateChanged || (!canAim && !isAiming))
             return;
 
@@ -86,8 +80,8 @@ public class ShooterController : MonoBehaviour
         Quaternion targetRotation = aim ? _currentWeapon.aimRotation : Quaternion.identity;
         
         _isAimingTransition = true;
-        isAiming = !isAiming;
-        
+        isAiming = !isAiming && _currentWeapon;
+
         while (elapsedTime < _timeToAim)
         {
             float t = elapsedTime / _timeToAim;
@@ -196,6 +190,9 @@ public class ShooterController : MonoBehaviour
         if (holdable.transform.TryGetComponent(out Weapon weapon))
         {
             _currentWeapon = weapon;
+
+            _currentWeapon.transform.localPosition = Vector3.zero;
+            _currentWeapon.transform.localRotation = Quaternion.identity;
         }
     }
     

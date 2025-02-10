@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public interface IHoldable
@@ -7,4 +8,8 @@ public interface IHoldable
     public void Take() {}
 
     public void Hide() {}
+
+    public async UniTask TakeAsync() => Take();
+
+    public async UniTask HideAsync() => Hide();
 }

@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Pool;
 using Random = UnityEngine.Random;
@@ -34,7 +36,9 @@ public class Weapon : MonoBehaviour, IHoldable
     [field: SerializeField] public InventoryItemSO bulletItemSO { get; private set; }
     [SerializeField, RequireInterface(typeof(IWeaponReloadHandler))] private MonoBehaviour _reloadHandler;
     [SerializeField] private Transform _bulletSpawn;
-    
+
+    public event Func<UniTask> OnHide;
+
     public int bulletsInClip { get; private set; }
     public IWeaponReloadHandler reloadHandler => _reloadHandler as IWeaponReloadHandler;
     
@@ -116,5 +120,17 @@ public class Weapon : MonoBehaviour, IHoldable
     public void SetBulletsInClip(int value)
     {
         bulletsInClip = Mathf.Clamp(value, 0, clipSize);
+    }
+
+    public async UniTask HideAsync()
+    {
+        if (OnHide != null)
+        {
+            var invocationList = OnHide.GetInvocationList()
+                .Cast<Func<UniTask>>()
+                .Select(d => d.Invoke());
+
+            await UniTask.WhenAll(invocationList);
+        }
     }
 }

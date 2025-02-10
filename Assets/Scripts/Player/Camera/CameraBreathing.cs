@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class CameraBreathing : MonoBehaviour
 {
-    [Header("Breathing Settings")]
-    [SerializeField] public bool canBreath = true;
+    [field: Header("Breathing Settings")]
+    [field: SerializeField] public bool canBreath { get; set; } = true;
     [SerializeField] private Vector2 _amplitude = new(1.0f, 0.5f);
     [SerializeField, Range(0, 5)] private float _speed = 1.0f;
 

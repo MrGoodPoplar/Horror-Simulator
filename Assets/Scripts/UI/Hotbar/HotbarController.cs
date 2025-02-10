@@ -75,7 +75,7 @@ namespace UI.Hotbar
             _delegates.Clear();
         }
 
-        private void OnHotkeyPerformed(HotbarSlotSO hotbarSlot, InputAction.CallbackContext context)
+        private async void OnHotkeyPerformed(HotbarSlotSO hotbarSlot, InputAction.CallbackContext context)
         {
             if (!canInteract || !hotbarSlot.item)
                 return;
@@ -83,14 +83,15 @@ namespace UI.Hotbar
             if (TryGetHoldable(hotbarSlot.item.inventoryItemSO, out IHoldable holdable))
             {
                 if (holdable == _holdingItemController.currentHoldable)
-                    _holdingItemController.Hide();
+                    await _holdingItemController.HideAsync();
                 else
-                    _holdingItemController.Take(holdable);
+                    await _holdingItemController.TakeAsync(holdable);
             }
             else
                 Debug.LogError($"{hotbarSlot.item.inventoryItemSO.name}'s prefab is not type of {typeof(IHoldable)}!");
         }
 
+        // TODO: same items, but with different params should not be collided
         private bool TryGetHoldable(InventoryItemSO inventoryItemSO, out IHoldable holdable)
         {
             if (_holdableCache.TryGetValue(inventoryItemSO.guid, out holdable))

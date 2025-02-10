@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -10,12 +10,12 @@ public class HoldingItemController : MonoBehaviour
     
     public IHoldable currentHoldable { get; private set; }
     
-    public void Take(IHoldable holdable)
+    public async UniTask TakeAsync(IHoldable holdable)
     {
         if (!currentHoldable.IsUnityNull())
-            Hide();
+            await HideAsync();
 
-        holdable.Take();
+        await holdable.TakeAsync();
         holdable.transform.gameObject.SetActive(true);
         holdable.transform.SetParent(transform, false);
         
@@ -23,9 +23,9 @@ public class HoldingItemController : MonoBehaviour
         currentHoldable = holdable;
     }
     
-    public void Hide()
+    public async UniTask HideAsync()
     {
-        currentHoldable.Hide();
+        await currentHoldable.HideAsync();
         currentHoldable.transform.gameObject.SetActive(false);
         
         OnHide?.Invoke(currentHoldable);

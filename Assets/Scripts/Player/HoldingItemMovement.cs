@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HoldingItemMovement : MonoBehaviour
@@ -32,10 +33,10 @@ public class HoldingItemMovement : MonoBehaviour
     
     private float _timer;
     private float _recoilTimer;
-    private float _recoilSpeed = 0;
-    private float _recoilDuration = 0;
-    private float _recoilForce = 0;
-    private bool _isAirborne = false;
+    private float _recoilSpeed;
+    private float _recoilDuration;
+    private float _recoilForce;
+    private bool _isAirborne;
 
     private void Start()
     {

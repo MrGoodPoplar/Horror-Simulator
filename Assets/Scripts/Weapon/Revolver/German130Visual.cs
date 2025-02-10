@@ -63,9 +63,12 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
         
         _shooterController.OnReload += OnReloadPerformed;
         _shooterController.OnFire += OnFirePerformed;
+        
         _playerInput.OnOpenHUD += OnOpenHudPerformed;
         
         _firstPersonController.playerInput.OnFire += OnInputFirePerformed;
+        
+        _german130.OnHide += WeaponOnHidePerformed;
 
         _emptyShellsInside = _german130.bulletsInClip;
         _bulletVisual.HideBullets(_german130.clipSize - _german130.bulletsInClip);
@@ -74,16 +77,28 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     private void OnDestroy()
     {
         _shooterController.OnReload -= OnReloadPerformed;
+        
         _shooterController.OnFire -= OnFirePerformed;
         _playerInput.OnOpenHUD -= OnOpenHudPerformed;
-
+        
         _firstPersonController.playerInput.OnFire -= OnInputFirePerformed;
+        
+        _german130.OnHide -= WeaponOnHidePerformed;
     }
 
     private void Update()
     {
         HandleReloadingAnimation();
     }
+    
+    private async UniTask WeaponOnHidePerformed() // TODO: fix bugs!
+    {
+        InterruptReloadAnimation();
+
+        await UniTask.WaitUntil(() => !_isReloadAnimationPlaying);
+        Debug.Log("Ended!");
+    }
+
 
     private void HandleReloadingAnimation()
     {
@@ -93,7 +108,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
         if (_isReloadAnimationPlaying && !AnimatorIsPlaying(_currentReloadAnimationState))
         {
             if (_reloadingInterrupted)
-                SmoothBulletsReverse(_rotationAngleOffset);
+                SmoothBulletsReverse(_cylinderRotationDuration / 2, _rotationAngleOffset);
 
             isReloading = false;
             _isReloadAnimationPlaying = false;
@@ -124,7 +139,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     private void HandleReloadEnd() // Animation Event
     {
         _shooterController.RetrieveReserve();
-        SmoothBulletsReverse(_rotationAngleOffset);
+        SmoothBulletsReverse(_cylinderRotationDuration / 2, _rotationAngleOffset);
     }
     
     private void AddBulletToClip() // Animation Event
@@ -137,12 +152,9 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
             InterruptReloadAnimation();
 
         if (_reloadingInterrupted)
-        {
             _animator.SetTrigger(FORCE_STOP_RELOAD);
-            _shooterController.RetrieveReserve();
-        }
     }
-
+    
     private void DropShells() // Animation Event
     {
         German130Bullet[] bullets = _bulletVisual.bullets.Take(_emptyShellsInside).ToArray();
@@ -222,17 +234,20 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
 
         await UniTask.WaitForSeconds(_transitionDuration);
         
-        SmoothBulletsReverse();
+        SmoothBulletsReverse(_cylinderRotationDuration / 2);
         
-        _currentReloadAnimationState = _animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
-        _isReloadAnimationPlaying = true;
+        var clipInfo = _animator.GetCurrentAnimatorClipInfo(0);
+        if (clipInfo.Length > 0)
+            _currentReloadAnimationState = clipInfo[0].clip.name;
+
+        _isReloadAnimationPlaying = clipInfo.Length > 0;
     }
 
-    private void SmoothBulletsReverse(float angleOffset = 0)
+    private void SmoothBulletsReverse(float duration, float angleOffset = 0)
     {
         if (_german130.bulletsInClip > 0)
         {
-            RotateByFullTurns(1, _cylinderRotationDuration / 2, angleOffset).Forget();;
+            RotateByFullTurns(1, duration, angleOffset).Forget();
             ReverseBulletsActive(_german130.bulletsInClip);
         }
     }
@@ -295,18 +310,8 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
         return AnimatorIsPlaying() && _animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
     }
     
-    private void OnInputFirePerformed()
-    {
-        InterruptReloadAnimation();
-    }
+    private void OnInputFirePerformed() => InterruptReloadAnimation();
 
-    private void OnOpenHudPerformed()
-    {
-        InterruptReloadAnimation();
-    }
-
-    private void InterruptReloadAnimation()
-    { 
-        _reloadingInterrupted = true;
-    }
+    private void OnOpenHudPerformed() => InterruptReloadAnimation();
+    private void InterruptReloadAnimation() => _reloadingInterrupted = true;
 }
