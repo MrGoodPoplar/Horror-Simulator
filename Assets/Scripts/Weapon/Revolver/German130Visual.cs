@@ -38,11 +38,12 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     private Weapon _german130;
 
     private int _currentChamberIndex;
+    private int _emptyShellsInside;
     private string _currentReloadAnimationState;
     private bool _isReloadAnimationPlaying;
     private bool _isCylinderRotating;
-    private int _emptyShellsInside;
     private bool _reloadingInterrupted;
+    private bool _isHandlingReloadInterruption;
     
     private IObjectPool<BulletShell> _bulletShellPool;
 
@@ -68,7 +69,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
         
         _firstPersonController.playerInput.OnFire += OnInputFirePerformed;
         
-        _german130.OnHide += WeaponOnHidePerformed;
+        _german130.OnHide += InterruptReloadAnimationAsync;
 
         _emptyShellsInside = _german130.bulletsInClip;
         _bulletVisual.HideBullets(_german130.clipSize - _german130.bulletsInClip);
@@ -83,36 +84,34 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
         
         _firstPersonController.playerInput.OnFire -= OnInputFirePerformed;
         
-        _german130.OnHide -= WeaponOnHidePerformed;
+        _german130.OnHide -= InterruptReloadAnimationAsync;
     }
 
     private void Update()
     {
-        HandleReloadingAnimation();
-    }
-    
-    private async UniTask WeaponOnHidePerformed() // TODO: fix bugs!
-    {
-        InterruptReloadAnimation();
-
-        await UniTask.WaitUntil(() => !_isReloadAnimationPlaying);
-        Debug.Log("Ended!");
+        HandleReloadingAnimation().Forget();
     }
 
-
-    private void HandleReloadingAnimation()
+    private async UniTaskVoid HandleReloadingAnimation()
     {
+        if (_isHandlingReloadInterruption)
+            return;
+        
         _animator.SetBool(IS_AIMING, _shooterController.isAiming);
         _animator.SetFloat(VELOCITY, _firstPersonController.velocity);
 
         if (_isReloadAnimationPlaying && !AnimatorIsPlaying(_currentReloadAnimationState))
         {
+            _isHandlingReloadInterruption = true;
+            
             if (_reloadingInterrupted)
-                SmoothBulletsReverse(_cylinderRotationDuration / 2, _rotationAngleOffset);
+                await SmoothBulletsReverseAsync(_cylinderRotationDuration / 2, _rotationAngleOffset);
 
             isReloading = false;
             _isReloadAnimationPlaying = false;
             _reloadingInterrupted = false;
+            _isHandlingReloadInterruption = false;
+            
             _shooterController.ToggleWeaponInteraction(!Player.instance.HUDController.isHUDView);
         }
     }
@@ -139,7 +138,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     private void HandleReloadEnd() // Animation Event
     {
         _shooterController.RetrieveReserve();
-        SmoothBulletsReverse(_cylinderRotationDuration / 2, _rotationAngleOffset);
+        SmoothBulletsReverseAsync(_cylinderRotationDuration / 2, _rotationAngleOffset).Forget();
     }
     
     private void AddBulletToClip() // Animation Event
@@ -155,10 +154,11 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
             _animator.SetTrigger(FORCE_STOP_RELOAD);
     }
     
-    private void DropShells() // Animation Event
+    private void DropShells(int count) // Animation Event
     {
+        _bulletVisual.HideBullets(count);
         German130Bullet[] bullets = _bulletVisual.bullets.Take(_emptyShellsInside).ToArray();
-            
+
         foreach (German130Bullet bullet in bullets)
         {
             bullet.Hide();
@@ -195,11 +195,6 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     {
         _bulletVisual.ShowBullets(count);
     }
-
-    private void HideBullets(int count) // Animation Event
-    {
-        _bulletVisual.HideBullets(count);
-    }
     
     private string GetReloadAnimationTrigger(int bullets)
     {
@@ -234,7 +229,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
 
         await UniTask.WaitForSeconds(_transitionDuration);
         
-        SmoothBulletsReverse(_cylinderRotationDuration / 2);
+        SmoothBulletsReverseAsync(_cylinderRotationDuration / 2).Forget();
         
         var clipInfo = _animator.GetCurrentAnimatorClipInfo(0);
         if (clipInfo.Length > 0)
@@ -243,16 +238,16 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
         _isReloadAnimationPlaying = clipInfo.Length > 0;
     }
 
-    private void SmoothBulletsReverse(float duration, float angleOffset = 0)
+    private async UniTask SmoothBulletsReverseAsync(float duration, float angleOffset = 0)
     {
         if (_german130.bulletsInClip > 0)
         {
-            RotateByFullTurns(1, duration, angleOffset).Forget();
+            await RotateByFullTurnsAsync(1, duration, angleOffset);
             ReverseBulletsActive(_german130.bulletsInClip);
         }
     }
 
-    private async UniTaskVoid RotateByFullTurns(float fullTurns, float duration, float angleOffset = 0)
+    private async UniTask RotateByFullTurnsAsync(float fullTurns, float duration, float angleOffset = 0)
     {
         float totalRotation = fullTurns * 360f + angleOffset;
         float elapsedTime = 0f;
@@ -313,5 +308,12 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     private void OnInputFirePerformed() => InterruptReloadAnimation();
 
     private void OnOpenHudPerformed() => InterruptReloadAnimation();
+
     private void InterruptReloadAnimation() => _reloadingInterrupted = true;
+    
+    private async UniTask InterruptReloadAnimationAsync()
+    { 
+        InterruptReloadAnimation();
+        await UniTask.WaitUntil(() => !_isReloadAnimationPlaying);
+    }
 }

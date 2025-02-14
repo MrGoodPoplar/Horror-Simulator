@@ -19,7 +19,7 @@ public class InteractController : MonoBehaviour
     public event EventHandler<InteractEventArgs> OnInteractUnhover;
     
     #region InteractEventArgs Class
-    public class InteractEventArgs : EventArgs
+    public class InteractEventArgs : EventArgs // TODO: maybe convert to Action class instead of EventHandler
     {
         public IInteractable interactable { get; private set; }
         public InteractionResponse response { get; private set; }

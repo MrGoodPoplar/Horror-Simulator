@@ -8,8 +8,6 @@ public class German130BulletVisual : MonoBehaviour
     
     public void ShowBullets(int count)
     {
-        HideBullets(bullets.Length);
-        
         foreach (German130Bullet bullet in bullets.Take(count).ToArray())
         {
             bullet.Show();

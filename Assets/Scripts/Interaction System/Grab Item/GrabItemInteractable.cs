@@ -1,6 +1,5 @@
 using System;
 using UI.Inventory;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Localization;
 using Random = UnityEngine.Random;
@@ -122,8 +121,6 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
         }
     }
     
-    
-    // TODO: show label to open inventory if cant fit item automatically
     public void Forget()
     {
         if (!_isTempItemAdded)

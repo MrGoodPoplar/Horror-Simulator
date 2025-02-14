@@ -163,6 +163,7 @@ public class FirstPersonController : MonoBehaviour
         return Physics.Raycast(rayOrigin, Vector3.up, distance + offset);
     }
     
+    
     private async void HandleCrouching()
     {
         bool crouchStateChanged = playerInput.isCrouching != _isCrouching;
@@ -182,6 +183,10 @@ public class FirstPersonController : MonoBehaviour
         {
             _characterController.height = Mathf.Lerp(_characterController.height, targetHeight, elapsedTime / _timeToCrouch);
             _characterController.center = Vector3.Lerp(_characterController.center, targetCenter, elapsedTime / _timeToCrouch);
+            
+            // junk solution to update position according to skin width
+            _characterController.SimpleMove(transform.forward * 0.05f);
+            _characterController.SimpleMove(-transform.forward * 0.05f);
 
             elapsedTime += Time.deltaTime;
 
@@ -190,6 +195,7 @@ public class FirstPersonController : MonoBehaviour
         
         _characterController.height = targetHeight;
         _characterController.center = targetCenter;
+        
         _isCrouchingTransition = false;
         _isCrouching = isCrouching;
     }

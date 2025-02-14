@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UI.Inventory;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,7 +13,7 @@ namespace UI.Hotbar
         public bool canInteract { get; set; } = true;
         
         private readonly List<Action<InputAction.CallbackContext>> _delegates = new();
-        private Dictionary<string, IHoldable> _holdableCache = new();
+        private readonly Dictionary<string, IHoldable> _holdableCache = new();
         private HoldingItemController _holdingItemController;
 
         private void Awake()
@@ -25,6 +24,8 @@ namespace UI.Hotbar
         private void Start()
         {
             _holdingItemController = Player.instance.holdingItemController;
+            
+            Player.instance.interactController.OnInteract += InteractControllerOnInteractPerformed;
         }
 
         private void OnDestroy()
@@ -117,7 +118,9 @@ namespace UI.Hotbar
                 Debug.LogWarning($"Hotbar Slot with guid {hotbarSlotGuid} doesn't exist!");
         }
         
-        // TODO: handle hiding weapon during reload
-        // TODO: camera bobbing bug if no item in hands
+        private void InteractControllerOnInteractPerformed(object sender, InteractController.InteractEventArgs e)
+        {
+            // TODO: automatically handle hotbar slot matching on pick up
+        }
     }
 }
