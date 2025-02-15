@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Library.UnityUIHelpers;
@@ -35,8 +36,24 @@ namespace UI.Hotkey_Prompts
         {
             _inventoryController = Player.instance.inventoryController;
 
+            Player.instance.HUDController.OnHUDStateChanged += OnHUDStateChangedPerformed;
+            
             if (!_inventoryController)
                 Destroy(this);
+        }
+
+        private void OnDestroy()
+        {
+            Player.instance.HUDController.OnHUDStateChanged -= OnHUDStateChangedPerformed;
+        }
+
+        private void OnHUDStateChangedPerformed(bool state)
+        {
+            if (!state)
+            {
+                ForgetActions();
+                RefreshPromptLayout().Forget();
+            }
         }
 
         private async void Update()
@@ -84,6 +101,9 @@ namespace UI.Hotkey_Prompts
             
             foreach (InventoryItemAction itemAction in _inventoryController.onHoverInventoryItem.inventoryItemSO.actions)
             {
+                if (itemAction.onlyInGridMain && !_inventoryController.IsOnHoverGridMain())
+                    continue;
+                
                 InputBindingSpriteBinder.BindingSpritePreference spritePreference = Player.instance.inputBindingSpriteBinder.GetSpritePreference(itemAction.GetInputBindingPath());
 
                 if (!spritePreference.IsUnityNull())

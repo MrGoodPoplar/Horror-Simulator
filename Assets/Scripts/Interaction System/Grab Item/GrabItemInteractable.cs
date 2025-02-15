@@ -41,6 +41,7 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
     }
     #endregion
 
+    public InventoryItem insertedInventoryItem { get; private set; }
     public int quantity => _quantity;
     
     public event Action OnInteract;
@@ -71,9 +72,9 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
         if (_quantity <= 0)
             return new(_unsuccessfulMessage.GetLocalizedString(), false, true);
 
-        bool result = HandleInventoryItemInteraction();
+        insertedInventoryItem = HandleInventoryItemInteraction();
 
-        HandleInteractionResult(result);
+        HandleInteractionResult(insertedInventoryItem);
         OnInteract?.Invoke();
 
         if (_quantity > 0)
@@ -98,16 +99,16 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
         Forget();
     }
 
-    private bool HandleInventoryItemInteraction()
+    private InventoryItem HandleInventoryItemInteraction()
     {
-        bool result = _inventoryController.AddItemToInventory(inventoryItemSO, ref _quantity);
+        var result = _inventoryController.AddItemToInventory(inventoryItemSO, ref _quantity);
 
         if (_tempInventoryEnabled && _quantity > 0)
         {
             int dummyQuantity = _quantity;
             _isTempItemAdded = _inventoryController.AddItemToInventory(inventoryItemSO, ref dummyQuantity, true);
             
-            result = false;
+            result = null;
         }
 
         return result;

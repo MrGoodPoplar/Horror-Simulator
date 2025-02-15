@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UI.Inventory;
+using UI.Inventory.Actions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -108,19 +110,35 @@ namespace UI.Hotbar
             return false;
         }
 
-        public void EquipItem(InventoryItem inventoryItem, string hotbarSlotGuid)
+        public void EquipItem(InventoryItem inventoryItem, string hotbarSlotGuid, bool onlyEmpty = false)
         {
-            var hotbarSlot = _hotbarSlots.Find(slot => slot.guid == hotbarSlotGuid);
-            
-            if (hotbarSlot)
-                hotbarSlot.item = inventoryItem;
+            if (TryGetHotbarSlot(hotbarSlotGuid, out var hotbarSlot))
+            {
+                if (!onlyEmpty || !hotbarSlot.item)
+                {
+                    Debug.Log($"Equip: {inventoryItem.name}, OnlyEmpty: {onlyEmpty}");
+                    hotbarSlot.item = inventoryItem;
+                }
+            }
             else
                 Debug.LogWarning($"Hotbar Slot with guid {hotbarSlotGuid} doesn't exist!");
+        }
+
+        private bool TryGetHotbarSlot(string hotbarSlotGuid, out HotbarSlotSO hotbarSlot)
+        {
+            return hotbarSlot = _hotbarSlots.Find(slot => slot.guid == hotbarSlotGuid);
         }
         
         private void InteractControllerOnInteractPerformed(object sender, InteractController.InteractEventArgs e)
         {
-            // TODO: automatically handle hotbar slot matching on pick up
+            if (e.interactable is GrabItemInteractable { insertedInventoryItem: not null } grabItem)
+            {
+                if (grabItem.inventoryItemSO.actions.FirstOrDefault(action => action is EquipInventoryItemAction) is EquipInventoryItemAction equipAction)
+                {
+                    EquipItem(grabItem.insertedInventoryItem, equipAction.hotbarSlotSO.guid, true);
+                }
+
+            }
         }
     }
 }

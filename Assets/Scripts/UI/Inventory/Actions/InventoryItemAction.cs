@@ -11,6 +11,7 @@ namespace UI.Inventory.Actions
     {
         [SerializeField] protected LocalizedString LabelText;
         [SerializeField] protected InputActionReference InputActionReference;
+        [field: SerializeField] public bool onlyInGridMain { get; private set; }
         
         public string actionName => LabelText.GetLocalizedString();
         

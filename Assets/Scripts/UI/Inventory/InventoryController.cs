@@ -96,40 +96,45 @@ namespace UI.Inventory
             }
         }
 
-        public bool TryStackItem(string guid, ItemGrid itemGrid, ref int quantity)
+        public InventoryItem TryStackItem(string guid, ItemGrid itemGrid, ref int quantity)
         {
+            InventoryItem inventoryItem = null;
+
             while (quantity > 0)
             {
-                InventoryItem inventoryItem = itemGrid?.FindItem(guid, true);
+                inventoryItem = itemGrid?.FindItem(guid, true);
 
                 if (!inventoryItem)
-                    return false;
-                
+                    return null;
+
                 quantity = inventoryItem.AddQuantity(quantity);
             }
 
-            return true;
+            return inventoryItem;
         }
+
         
-        public bool AddItemToInventory(InventoryItemSO inventoryItemSO, ref int quantity, bool isTempInventory = false)
+        public InventoryItem AddItemToInventory(InventoryItemSO inventoryItemSO, ref int quantity, bool isTempInventory = false)
         {
-            if (inventoryItemSO.isStackable && TryStackItem(inventoryItemSO.guid, _inventoryItemGrid, ref quantity))
-                return true;
+            var inventoryItem = TryStackItem(inventoryItemSO.guid, _inventoryItemGrid, ref quantity);
+            
+            if (inventoryItemSO.isStackable && inventoryItem)
+                return inventoryItem;
             
             while (quantity > 0)
             {
-                int quantityToAdd = Mathf.Clamp(quantity, 1, inventoryItemSO.maxQuantity);
-                bool isInserted = InsertItemToInventory(inventoryItemSO, quantityToAdd, isTempInventory);
+                int quantityToAdd = Mathf.Clamp(quantity, 1, inventoryItemSO.maxQuantity); 
+                inventoryItem = InsertItemToInventory(inventoryItemSO, quantityToAdd, isTempInventory);
                 
-                if (!isInserted)
-                    return false;
+                if (!inventoryItem)
+                    return null;
 
                 quantity -= quantityToAdd;
             }
 
             quantity = 0;
 
-            return true;
+            return inventoryItem;
         }
 
         public bool RemoveInventoryItem(InventoryItemSO inventoryItemSO, int quantity = 1, bool isTempInventory = false)
@@ -138,7 +143,7 @@ namespace UI.Inventory
             return itemGrid.RemoveInventoryItem(inventoryItemSO.guid, quantity);
         }
         
-        private bool InsertItemToInventory(InventoryItemSO inventoryItemSO, int quantity, bool isTempInventory = false)
+        private InventoryItem InsertItemToInventory(InventoryItemSO inventoryItemSO, int quantity, bool isTempInventory = false)
         {
             ItemGrid itemGrid = isTempInventory ? _tempInventoryItemGrid : _inventoryItemGrid;
             Vector2Int? freeSlot = itemGrid.FindFreeSlotForItem(inventoryItemSO.size);
@@ -160,10 +165,10 @@ namespace UI.Inventory
                 inventoryItem.Set(inventoryItemSO, itemGrid, Mathf.Clamp(quantity, 1, inventoryItemSO.maxQuantity));
                 
                 PutItemInInventory(inventoryItem, freeSlot.Value, isTempInventory);
-                return true;
+                return inventoryItem;
             }
         
-            return false;
+            return null;
         }
 
         private void PutItemInInventory(InventoryItem inventoryItem, Vector2Int positionOnGrid, bool isTempInventory = false)

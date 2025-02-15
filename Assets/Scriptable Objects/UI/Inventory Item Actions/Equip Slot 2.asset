@@ -23,6 +23,7 @@ MonoBehaviour:
     m_LocalVariables: []
   InputActionReference: {fileID: 381872869675051440, guid: 0f82b09a99f0b644489bc61e81576ca8,
     type: 3}
+  <onlyInGridMain>k__BackingField: 1
   <hotbarSlotSO>k__BackingField: {fileID: 11400000, guid: e6af0d702db7ecd4babbf514a305d99d,
     type: 2}
   references:

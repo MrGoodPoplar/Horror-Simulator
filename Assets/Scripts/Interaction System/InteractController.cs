@@ -35,7 +35,7 @@ public class InteractController : MonoBehaviour
     public bool isInteractableInRange { get; private set; }
     public float holdingProgress { get; private set; }
     
-    private readonly Collider[] _colliders = new Collider[3];
+    private readonly Collider[] _colliders = new Collider[5];
     private IInteractable _interactable;
     private PlayerInput _playerInput;
     
@@ -58,7 +58,7 @@ public class InteractController : MonoBehaviour
 
     private void Update()
     {
-        if (!Player.instance.HUDController.isHUDView) // TODO: if player will move in HUD view a possible bug can occur
+        if (!Player.instance.HUDController.isHUDView)
             FindInteractable();
     }
 

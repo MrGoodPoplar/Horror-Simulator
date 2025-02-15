@@ -174,7 +174,7 @@ public class FirstPersonController : MonoBehaviour
 
         _isCrouchingTransition = true;
 
-        bool isCrouching = canCrouch && playerInput.isCrouching && isGrounded;
+        bool isCrouching = canCrouch && playerInput.isCrouching;
         float elapsedTime = 0f;
         float targetHeight = isCrouching ? _crouchingHeight : _standingHeight;
         Vector3 targetCenter = isCrouching ? _crouchingCenter : _standingCenter;
