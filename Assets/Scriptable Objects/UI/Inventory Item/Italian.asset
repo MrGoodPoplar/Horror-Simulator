@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80ffa02e96590e94cb2931812f425457, type: 3}
+  m_Name: Italian
+  m_EditorClassIdentifier: 
+  _itemName:
+    m_TableReference:
+      m_TableCollectionName: GUID:5ec60af363f68624abb221b4be7de683
+    m_TableEntryReference:
+      m_KeyId: 58609235260579840
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  <size>k__BackingField: {x: 1, y: 2}
+  <icon>k__BackingField: {fileID: -1971155438, guid: a55a80415dc11084aadd8b7aab26a4cc,
+    type: 3}
+  <maxQuantity>k__BackingField: 4
+  <prefab>k__BackingField: {fileID: 6555615452428553476, guid: d4f33a6abecc14b45a5fc3b8f3fce6df,
+    type: 3}
+  _actions:
+  - {fileID: 11400000, guid: e9dab7b9c6c3a8740a53df7d81581ea5, type: 2}
+  <guid>k__BackingField: 0d7f0376-0d84-4555-830f-4e0c4396db21
+  references:
+    version: 2
+    RefIds: []

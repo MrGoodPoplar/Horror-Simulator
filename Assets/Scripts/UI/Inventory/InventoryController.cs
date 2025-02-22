@@ -151,18 +151,17 @@ namespace UI.Inventory
             
             if (!freeSlot.HasValue && !inventoryItemSO.isSymmetrical)
             {
-                freeSlot = itemGrid.FindFreeSlotForItem(new (inventoryItemSO.size.y, inventoryItemSO.size.y));
+                freeSlot = itemGrid.FindFreeSlotForItem(new (inventoryItemSO.size.y, inventoryItemSO.size.x));
                 rotated = true;
             }
             
             if (freeSlot.HasValue)
             {
                 InventoryItem inventoryItem = Instantiate(_inventoryItemPrefab);
-
+                inventoryItem.Set(inventoryItemSO, itemGrid, Mathf.Clamp(quantity, 1, inventoryItemSO.maxQuantity));
+                
                 if (rotated)
                     inventoryItem.Rotate(itemGrid.tileSize);
-                
-                inventoryItem.Set(inventoryItemSO, itemGrid, Mathf.Clamp(quantity, 1, inventoryItemSO.maxQuantity));
                 
                 PutItemInInventory(inventoryItem, freeSlot.Value, isTempInventory);
                 return inventoryItem;

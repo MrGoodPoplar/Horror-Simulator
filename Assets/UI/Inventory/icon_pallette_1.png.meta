@@ -126,7 +126,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -134,6 +134,69 @@ TextureImporter:
       bones: []
       spriteID: 9aeef5babd4aeef44adc4cacecb7d803
       internalID: -1002449638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: honey-oat
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 211
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6c627e96aba20647a6295ffc5bf6353
+      internalID: -345946058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: italian
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 211
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 302cb952742dd1e48a4e8f47a3321db9
+      internalID: -1971155438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: parmesan-oregano
+      rect:
+        serializedVersion: 2
+        x: 117
+        y: 211
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94bcc5c60014b8f449aa6f2b2e31c282
+      internalID: -982949117
       vertices: []
       indices: 
       edges: []
@@ -151,6 +214,9 @@ TextureImporter:
     nameFileIdTable:
       German 130 Bullet Icon: -1002449638
       German 130 Icon: 2007263036
+      honey-oat: -345946058
+      italian: -1971155438
+      parmesan-oregano: -982949117
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

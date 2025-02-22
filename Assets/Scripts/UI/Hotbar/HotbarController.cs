@@ -15,7 +15,7 @@ namespace UI.Hotbar
         public bool canInteract { get; set; } = true;
         
         private readonly List<Action<InputAction.CallbackContext>> _delegates = new();
-        private readonly Dictionary<string, IHoldable> _holdableCache = new();
+        private readonly Dictionary<string, HoldableItem> _holdableCache = new();
         private HoldingItemController _holdingItemController;
 
         private void Awake()
@@ -83,7 +83,7 @@ namespace UI.Hotbar
             if (!canInteract || !hotbarSlot.item)
                 return;
             
-            if (TryGetHoldable(hotbarSlot.item.inventoryItemSO, out IHoldable holdable))
+            if (TryGetHoldable(hotbarSlot.item.inventoryItemSO, out HoldableItem holdable))
             {
                 if (holdable == _holdingItemController.currentHoldable)
                     await _holdingItemController.HideAsync();
@@ -91,11 +91,11 @@ namespace UI.Hotbar
                     await _holdingItemController.TakeAsync(holdable);
             }
             else
-                Debug.LogError($"{hotbarSlot.item.inventoryItemSO.name}'s prefab is not type of {typeof(IHoldable)}!");
+                Debug.LogError($"{hotbarSlot.item.inventoryItemSO.name}'s prefab is not type of {typeof(HoldableItem)}!");
         }
 
         // TODO: same items, but with different params should not be collided
-        private bool TryGetHoldable(InventoryItemSO inventoryItemSO, out IHoldable holdable)
+        private bool TryGetHoldable(InventoryItemSO inventoryItemSO, out HoldableItem holdable)
         {
             if (_holdableCache.TryGetValue(inventoryItemSO.guid, out holdable))
                 return true;
@@ -115,10 +115,7 @@ namespace UI.Hotbar
             if (TryGetHotbarSlot(hotbarSlotGuid, out var hotbarSlot))
             {
                 if (!onlyEmpty || !hotbarSlot.item)
-                {
-                    Debug.Log($"Equip: {inventoryItem.name}, OnlyEmpty: {onlyEmpty}");
                     hotbarSlot.item = inventoryItem;
-                }
             }
             else
                 Debug.LogWarning($"Hotbar Slot with guid {hotbarSlotGuid} doesn't exist!");
@@ -137,7 +134,6 @@ namespace UI.Hotbar
                 {
                     EquipItem(grabItem.insertedInventoryItem, equipAction.hotbarSlotSO.guid, true);
                 }
-
             }
         }
     }

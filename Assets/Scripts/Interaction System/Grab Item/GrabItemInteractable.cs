@@ -171,7 +171,7 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
             case CalculationType.Probabilistic: 
                 return GetProbabilisticQuantity();
             case CalculationType.Static:
-                return inventoryItemSO.maxQuantity;
+                return _quantityRange.x;
             default:
                 return 0;
         }

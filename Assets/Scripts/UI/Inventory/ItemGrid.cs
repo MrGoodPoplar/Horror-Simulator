@@ -373,7 +373,6 @@ namespace UI.Inventory
             _reservedItems.Add(inventoryItem);
             return true;
         }
-
         
         // Frees first found item from reserved list
         public void FreeItem(string guid)

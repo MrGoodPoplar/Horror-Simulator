@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -24,8 +25,13 @@ public class HoldingItemMovement : MonoBehaviour
     [Header("Recoil Settings")]
     [SerializeField, Range(0, 1)] private float _aimRecoilReducer = 0.7f;
 
+    [Header("Fade Settings")]
+    [SerializeField] private Vector3 _hidePosition;
+    [SerializeField] private float _itemIdlePositionThreshold = 0.1f;
+    
     private Quaternion _initialRotation;
     private Vector3 _initialPosition;
+    private Vector3 _idlePosition;
     private PlayerInput _playerInput;
     
     private FirstPersonController _firstPersonController;
@@ -43,9 +49,27 @@ public class HoldingItemMovement : MonoBehaviour
         _shooterController = Player.instance.shooterController;
         _firstPersonController = Player.instance.firstPersonController;
         
+        Player.instance.holdingItemController.OnTake += HoldingItemOnTakePerformed;
+        Player.instance.holdingItemController.OnHideBefore += HoldingItemOnHideBeforePerformed;
+        
         _initialPosition = transform.localPosition;
+        _idlePosition = Player.instance.holdingItemController.currentHoldable.IsUnityNull()
+            ? _hidePosition
+            : _idlePosition;
+        
         _initialRotation = transform.localRotation;
         _playerInput = _firstPersonController.playerInput;
+    }
+
+    private void HoldingItemOnTakePerformed(HoldableItem holdable)
+    {
+        _idlePosition = _initialPosition;
+    }
+    
+    private async UniTask HoldingItemOnHideBeforePerformed(HoldableItem holdable)
+    {
+        _idlePosition = _hidePosition;
+        await UniTask.WaitUntil(() => Vector3.Distance(transform.localPosition, _idlePosition) <= _itemIdlePositionThreshold);
     }
 
     private void Update()
@@ -91,11 +115,11 @@ public class HoldingItemMovement : MonoBehaviour
             _timer += Time.deltaTime * currentSpeed;
             float bobOffsetY = Mathf.Sin(_timer) * bobAmount;
             Vector3 bobOffset = new Vector3(0, bobOffsetY, 0);
-            transform.localPosition = Vector3.Lerp(transform.localPosition, _initialPosition + bobOffset, Time.deltaTime * currentSpeed);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, _idlePosition + bobOffset, Time.deltaTime * currentSpeed);
         }
         else
         {
-            transform.localPosition = Vector3.Lerp(transform.localPosition, _initialPosition, Time.deltaTime * bobSpeed);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, _idlePosition, Time.deltaTime * bobSpeed);
         }
     }
 
@@ -105,7 +129,7 @@ public class HoldingItemMovement : MonoBehaviour
         {
             _recoilTimer -= Time.deltaTime;
             float recoilForce = _shooterController.isAiming ? _recoilForce * _aimRecoilReducer : _recoilForce;
-            Vector3 targetPosition = _initialPosition + Vector3.back * recoilForce;
+            Vector3 targetPosition = _idlePosition + Vector3.back * recoilForce;
 
             transform.localPosition = Vector3.Lerp(transform.localPosition, targetPosition, Time.deltaTime * _recoilSpeed);
         }
@@ -132,12 +156,12 @@ public class HoldingItemMovement : MonoBehaviour
             float jumpSwayX = Mathf.Cos(_timer) * jumpSwayHorizontal;
 
             Vector3 jumpSwayOffset = new Vector3(jumpSwayX, jumpSwayY, 0);
-            transform.localPosition = Vector3.Lerp(transform.localPosition, _initialPosition + jumpSwayOffset, Time.deltaTime * jumpSwaySpeed);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, _idlePosition + jumpSwayOffset, Time.deltaTime * jumpSwaySpeed);
         }
         else if (_isAirborne)
         {
             _isAirborne = false;
-            transform.localPosition = Vector3.Lerp(transform.localPosition, _initialPosition, Time.deltaTime * _jumpSwaySpeed);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, _idlePosition, Time.deltaTime * _jumpSwaySpeed);
         }
     }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Pool;
 using Random = UnityEngine.Random;
 
-public class Weapon : MonoBehaviour, IHoldable
+public class Weapon : HoldableItem
 {
     [field: Header("Settings")]
     [field: SerializeField] public Vector3 aimPosition { get; private set; }
@@ -30,13 +30,13 @@ public class Weapon : MonoBehaviour, IHoldable
     [Header("Bullet Pool Settings")]
     [SerializeField] private int _poolDefaultSize = 10;
     [SerializeField] private int _poolMaxSize = 100;
-    [SerializeField] private bool _collectionCheck = false;
-    
+    [SerializeField] private bool _collectionCheck;
+
     [field: Header("Constraints")]
     [field: SerializeField] public InventoryItemSO bulletItemSO { get; private set; }
     [SerializeField, RequireInterface(typeof(IWeaponReloadHandler))] private MonoBehaviour _reloadHandler;
     [SerializeField] private Transform _bulletSpawn;
-
+    
     public event Func<UniTask> OnHide;
 
     public int bulletsInClip { get; private set; }
@@ -122,7 +122,7 @@ public class Weapon : MonoBehaviour, IHoldable
         bulletsInClip = Mathf.Clamp(value, 0, clipSize);
     }
 
-    public async UniTask HideAsync()
+    public override async UniTask HideAsync()
     {
         if (OnHide != null)
         {

@@ -45,7 +45,7 @@ public class ShooterController : MonoBehaviour
         _playerInput.OnReload += OnReloadPerformed;
         
         Player.instance.holdingItemController.OnTake += HoldingItemOnTakePerformed;
-        Player.instance.holdingItemController.OnHide += HoldingItemOnHidePerformed;
+        Player.instance.holdingItemController.OnHideAfter += HoldingItemOnHideAfterPerformed;
 
         _defaultFOV = _firstPersonController.playerCamera.fieldOfView;
         _defaultSensitivity = _firstPersonController.sensitivity;
@@ -57,7 +57,7 @@ public class ShooterController : MonoBehaviour
         _playerInput.OnReload -= OnReloadPerformed;
         
         Player.instance.holdingItemController.OnTake -= HoldingItemOnTakePerformed;
-        Player.instance.holdingItemController.OnHide -= HoldingItemOnHidePerformed;
+        Player.instance.holdingItemController.OnHideAfter -= HoldingItemOnHideAfterPerformed;
     }
 
     private void Update()
@@ -185,7 +185,7 @@ public class ShooterController : MonoBehaviour
         canFire = toggle && !isReloading;
     }
     
-    private void HoldingItemOnTakePerformed(IHoldable holdable)
+    private void HoldingItemOnTakePerformed(HoldableItem holdable)
     {
         if (holdable.transform.TryGetComponent(out Weapon weapon))
         {
@@ -196,7 +196,7 @@ public class ShooterController : MonoBehaviour
         }
     }
     
-    private void HoldingItemOnHidePerformed(IHoldable holdable)
+    private void HoldingItemOnHideAfterPerformed(HoldableItem holdable)
     {
         if (holdable.transform.TryGetComponent(out Weapon weapon))
         {

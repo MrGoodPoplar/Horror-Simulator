@@ -44,6 +44,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     private bool _isCylinderRotating;
     private bool _reloadingInterrupted;
     private bool _isHandlingReloadInterruption;
+    private bool _reloadProcess;
     
     private IObjectPool<BulletShell> _bulletShellPool;
 
@@ -219,6 +220,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     private async UniTaskVoid ReloadAsync(int totalToReload)
     {
         _animator.ResetTrigger(FORCE_STOP_RELOAD);
+        _reloadProcess = true;
         _reloadingInterrupted = false;
         isReloading = true;
         
@@ -236,6 +238,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
             _currentReloadAnimationState = clipInfo[0].clip.name;
 
         _isReloadAnimationPlaying = clipInfo.Length > 0;
+        _reloadProcess = false;
     }
 
     private async UniTask SmoothBulletsReverseAsync(float duration, float angleOffset = 0)
@@ -314,6 +317,6 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     private async UniTask InterruptReloadAnimationAsync()
     { 
         InterruptReloadAnimation();
-        await UniTask.WaitUntil(() => !_isReloadAnimationPlaying);
+        await UniTask.WaitUntil(() => !_isReloadAnimationPlaying && !_reloadProcess);
     }
 }
