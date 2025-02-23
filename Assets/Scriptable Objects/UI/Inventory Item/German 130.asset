@@ -21,7 +21,7 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <itemDescription>k__BackingField: 
+  <type>k__BackingField: 1
   <size>k__BackingField: {x: 2, y: 2}
   <icon>k__BackingField: {fileID: 2007263036, guid: a55a80415dc11084aadd8b7aab26a4cc,
     type: 3}

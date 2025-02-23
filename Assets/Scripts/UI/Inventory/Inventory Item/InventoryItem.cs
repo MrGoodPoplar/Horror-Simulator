@@ -1,9 +1,8 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Inventory
+namespace UI.Inventory.Inventory_Item
 {
     [RequireComponent(typeof(RectTransform), typeof(Image))]
     public class InventoryItem : MonoBehaviour
@@ -17,10 +16,12 @@ namespace UI.Inventory
 
         public Vector2Int gridPosition { get; set; }
         public bool reserved { get; set; }
-        public InventoryItemSO inventoryItemSO { get; private set; }
+        public InventoryItemSO inventoryItemSO { get; protected set; }
         public bool rotated { get; private set; }
         public int quantity { get; private set; }
 
+        protected GameObject item;
+        
         private RectTransform _rectTransform;
         private Vector2 _defaultPivot;
         private Vector3 _defaultScale;
@@ -67,7 +68,7 @@ namespace UI.Inventory
             ));
         }
 
-        public void Set(InventoryItemSO inventoryItemSO, ItemGrid itemGrid, int quantity = 1)
+        public virtual void Set(InventoryItemSO inventoryItemSO, ItemGrid itemGrid, int quantity = 1)
         {
             this.inventoryItemSO = inventoryItemSO;
             
@@ -149,6 +150,11 @@ namespace UI.Inventory
         public bool IsFullQuantity()
         {
             return quantity == inventoryItemSO.maxQuantity;
+        }
+
+        public virtual GameObject GetItem()
+        {
+            return item ? item : item = Instantiate(inventoryItemSO.prefab, Vector3.zero, Quaternion.identity);
         }
     }
 }

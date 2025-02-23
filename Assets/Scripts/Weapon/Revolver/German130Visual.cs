@@ -113,6 +113,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
             _reloadingInterrupted = false;
             _isHandlingReloadInterruption = false;
             
+            _shooterController.RetrieveReserve();
             _shooterController.ToggleWeaponInteraction(!Player.instance.HUDController.isHUDView);
         }
     }

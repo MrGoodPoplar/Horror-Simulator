@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UI.Inventory;
 using UI.Inventory.Actions;
+using UI.Inventory.Inventory_Item;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,7 +16,7 @@ namespace UI.Hotbar
         public bool canInteract { get; set; } = true;
         
         private readonly List<Action<InputAction.CallbackContext>> _delegates = new();
-        private readonly Dictionary<string, HoldableItem> _holdableCache = new();
+        private readonly Dictionary<GameObject, HoldableItem> _holdableCache = new();
         private HoldingItemController _holdingItemController;
 
         private void Awake()
@@ -83,7 +84,7 @@ namespace UI.Hotbar
             if (!canInteract || !hotbarSlot.item)
                 return;
             
-            if (TryGetHoldable(hotbarSlot.item.inventoryItemSO, out HoldableItem holdable))
+            if (TryGetHoldable(hotbarSlot.item, out HoldableItem holdable))
             {
                 if (holdable == _holdingItemController.currentHoldable)
                     await _holdingItemController.HideAsync();
@@ -94,16 +95,16 @@ namespace UI.Hotbar
                 Debug.LogError($"{hotbarSlot.item.inventoryItemSO.name}'s prefab is not type of {typeof(HoldableItem)}!");
         }
 
-        // TODO: same items, but with different params should not be collided
-        private bool TryGetHoldable(InventoryItemSO inventoryItemSO, out HoldableItem holdable)
+        // TODO: remove from cache if item not in inventory!
+        private bool TryGetHoldable(InventoryItem inventoryItem, out HoldableItem holdable)
         {
-            if (_holdableCache.TryGetValue(inventoryItemSO.guid, out holdable))
+            var item = inventoryItem.GetItem();
+            if (_holdableCache.TryGetValue(item, out holdable))
                 return true;
             
-            var item = Instantiate(inventoryItemSO.prefab, Vector3.zero, Quaternion.identity);
             if (item.TryGetComponent(out holdable))
             {
-                _holdableCache.Add(inventoryItemSO.guid, holdable);
+                _holdableCache.Add(item, holdable);
                 return true;
             }
 

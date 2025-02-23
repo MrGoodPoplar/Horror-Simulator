@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using UI.Inventory.Inventory_Item;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace UI.Inventory
@@ -10,7 +12,7 @@ namespace UI.Inventory
         [Header("Constraints")]
         [SerializeField] private PlayerInput _playerInput;
         [SerializeField] private List<InventoryItemSO> _inventoryItemSOs;
-        [SerializeField] private InventoryItem _inventoryItemPrefab;
+        [FormerlySerializedAs("_itemPrefabBinder")] [SerializeField] private InventoryItemBinder _inventoryItemBinder;
         [SerializeField] private InventoryItemHighlight _itemHighlight;
         [SerializeField] private ItemGrid _inventoryItemGrid;
         [SerializeField] private GrabOnlyItemGrid _tempInventoryItemGrid;
@@ -35,6 +37,7 @@ namespace UI.Inventory
             _inventoryItemGrid.OnItemInteract += OnItemInteractPerformed;
             _tempInventoryItemGrid.OnItemInteract += OnItemInteractPerformed;
             Player.instance.HUDController.OnHUDStateChanged += OnHUDStateChangedPerformed;
+            InventoryItemFactory.Initialize(_inventoryItemBinder);
         }
 
         private void OnDestroy()
@@ -48,52 +51,8 @@ namespace UI.Inventory
 
         private void Update()
         {
-            HandleDebug();
-        
             HandleItemHighlight();
             HandleItemDrag();
-        }
-
-        private void HandleDebug()
-        {
-            //Debug
-            if (Input.GetKeyDown(KeyCode.Q) && _itemGrid)
-            {
-                InventoryItem inventoryItem = Instantiate(_inventoryItemPrefab);
-                InventoryItemSO randomInventoryItemSO = _inventoryItemSOs[Random.Range(0, _inventoryItemSOs.Count)];
-                inventoryItem.Set(randomInventoryItemSO, _itemGrid, Random.Range(1, randomInventoryItemSO.maxQuantity));
-
-                Vector2Int? freeSlot = _itemGrid.FindFreeSlotForItem(inventoryItem.GetActualSize());
-
-                if (freeSlot.HasValue)
-                {
-                    _itemGrid.PlaceItem(inventoryItem, freeSlot.Value, ref _overlappedItem);
-                    inventoryItem.GetRectTransform().SetAsLastSibling();
-                }
-                else
-                {
-                    Debug.Log("No free slot available for the item.");
-                    Destroy(inventoryItem.gameObject);
-                }
-            }
-
-            //Debug
-            if (Input.GetKeyDown(KeyCode.T) && _itemGrid)
-            {
-                InventoryItemSO randomInventoryItemSO = _inventoryItemSOs[Random.Range(0, _inventoryItemSOs.Count)];
-                int quantity = Random.Range(1, 50);
-                Debug.Log($"Stack: {randomInventoryItemSO.name}, Qty: {quantity}");
-
-                if (TryStackItem(randomInventoryItemSO.guid, _itemGrid, ref quantity))
-                {
-                    Debug.Log($"Yep added! Left: [{quantity}]");
-                }
-                else
-                {
-                    bool resylt = AddItemToInventory(randomInventoryItemSO, ref quantity);
-                    Debug.Log($"Leftover... [{quantity}] BUT! : {resylt}");
-                }
-            }
         }
 
         public InventoryItem TryStackItem(string guid, ItemGrid itemGrid, ref int quantity)
@@ -139,13 +98,13 @@ namespace UI.Inventory
 
         public bool RemoveInventoryItem(InventoryItemSO inventoryItemSO, int quantity = 1, bool isTempInventory = false)
         {
-            ItemGrid itemGrid = isTempInventory ? _tempInventoryItemGrid : _inventoryItemGrid;
+            var itemGrid = isTempInventory ? _tempInventoryItemGrid : _inventoryItemGrid;
             return itemGrid.RemoveInventoryItem(inventoryItemSO.guid, quantity);
         }
         
         private InventoryItem InsertItemToInventory(InventoryItemSO inventoryItemSO, int quantity, bool isTempInventory = false)
         {
-            ItemGrid itemGrid = isTempInventory ? _tempInventoryItemGrid : _inventoryItemGrid;
+            var itemGrid = isTempInventory ? _tempInventoryItemGrid : _inventoryItemGrid;
             Vector2Int? freeSlot = itemGrid.FindFreeSlotForItem(inventoryItemSO.size);
             bool rotated = false;
             
@@ -157,8 +116,7 @@ namespace UI.Inventory
             
             if (freeSlot.HasValue)
             {
-                InventoryItem inventoryItem = Instantiate(_inventoryItemPrefab);
-                inventoryItem.Set(inventoryItemSO, itemGrid, Mathf.Clamp(quantity, 1, inventoryItemSO.maxQuantity));
+                var inventoryItem = InventoryItemFactory.CreateInventoryItem(inventoryItemSO, itemGrid, quantity);
                 
                 if (rotated)
                     inventoryItem.Rotate(itemGrid.tileSize);

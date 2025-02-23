@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using UI.Inventory.Inventory_Item;
 using UnityEngine;
 using UnityEngine.Pool;
 using Random = UnityEngine.Random;
@@ -38,6 +39,7 @@ public class Weapon : HoldableItem
     [SerializeField] private Transform _bulletSpawn;
     
     public event Func<UniTask> OnHide;
+    public event Action<int> OnAmmoChanged;
 
     public int bulletsInClip { get; private set; }
     public IWeaponReloadHandler reloadHandler => _reloadHandler as IWeaponReloadHandler;
@@ -120,6 +122,7 @@ public class Weapon : HoldableItem
     public void SetBulletsInClip(int value)
     {
         bulletsInClip = Mathf.Clamp(value, 0, clipSize);
+        OnAmmoChanged?.Invoke(bulletsInClip);
     }
 
     public override async UniTask HideAsync()

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UI.Inventory.Inventory_Item;
 using UnityEngine;
 
 namespace UI.Inventory

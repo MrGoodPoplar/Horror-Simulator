@@ -12,7 +12,6 @@ namespace UI.Inventory.Actions
         
         protected override void OnActionPerformed(InputAction.CallbackContext obj)
         {
-            Debug.Log($"{actionName} is clicked!");
             var currentItem = Player.instance.hotkeyPromptController?.currentOnHoverItem;
 
             if (currentItem)

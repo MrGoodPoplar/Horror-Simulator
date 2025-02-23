@@ -1,5 +1,6 @@
 using System;
 using UI.Inventory;
+using UI.Inventory.Inventory_Item;
 using UnityEngine;
 using UnityEngine.Localization;
 using Random = UnityEngine.Random;

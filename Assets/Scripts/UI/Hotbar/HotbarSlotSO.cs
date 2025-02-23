@@ -1,5 +1,6 @@
 using System;
 using UI.Inventory;
+using UI.Inventory.Inventory_Item;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,7 +14,7 @@ namespace UI.Hotbar
 
         public InventoryItem item { get; set; }
 
-        public void GenerateGUID()
+        public void GenerateGuid()
         {
             guid = Guid.NewGuid().ToString();
         }

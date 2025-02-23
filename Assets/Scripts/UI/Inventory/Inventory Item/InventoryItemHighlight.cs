@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Inventory
+namespace UI.Inventory.Inventory_Item
 {
     [RequireComponent(typeof(RectTransform), typeof(Image))]
     public class InventoryItemHighlight : MonoBehaviour

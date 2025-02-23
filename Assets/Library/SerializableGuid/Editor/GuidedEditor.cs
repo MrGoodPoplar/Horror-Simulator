@@ -14,7 +14,7 @@ public class GuidedScriptableObjectEditor : UnityEditor.Editor
 
             if (GUILayout.Button("Generate New GUID"))
             {
-                guidedObject.GenerateGUID();
+                guidedObject.GenerateGuid();
                 EditorUtility.SetDirty(target);
             }
         }

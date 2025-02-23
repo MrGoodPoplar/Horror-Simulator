@@ -149,7 +149,7 @@ public class ShooterController : MonoBehaviour
         }
     }
     
-    public bool TakeAmmo(int count)
+    public bool TakeAmmo(int count, bool reserveForNext = false)
     {
         if (!_currentWeapon)
             return false;
@@ -157,7 +157,7 @@ public class ShooterController : MonoBehaviour
         if (reservedBulletCount >= count)
         {
             reservedBulletCount -= count;
-            if (reservedBulletCount < count)
+            if (reserveForNext && reservedBulletCount < count)
                 ReserveBullets(count);
             
             return true;
