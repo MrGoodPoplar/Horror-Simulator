@@ -54,10 +54,16 @@ public class Weapon : HoldableItem
 
     public bool Fire(Vector3 target)
     {
-        if (Time.time >= _lastShotTime + _fireDelay && bulletsInClip > 0)
+        if (Time.time >= _lastShotTime + _fireDelay)
         {
             _lastShotTime = Time.time;
 
+            if (bulletsInClip == 0)
+            {
+                Player.Instance.shooterController.DryFire();
+                return false;
+            }
+            
             Vector3 direction = (target - _bulletSpawn.position).normalized;
             direction = ApplyAccuracyDeviation(direction, target);
 

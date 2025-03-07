@@ -1,11 +1,11 @@
+using Library.UnityUtils;
 using UI;
 using UI.Hotbar;
 using UI.Hotkey_Prompts;
 using UI.Inventory;
 using UnityEngine;
-using UnityEngine.ResourceManagement.Util;
 
-public class Player : ComponentSingleton<Player>
+public class Player : Singleton<Player>
 {
     [field: Header("Controllers")]
     [field: SerializeField] public FirstPersonController firstPersonController { get; private set; }

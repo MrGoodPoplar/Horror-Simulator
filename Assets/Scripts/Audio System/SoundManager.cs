@@ -1,12 +1,11 @@
-using System;
 using System.Collections.Generic;
+using Library.UnityUtils;
 using UnityEngine;
 using UnityEngine.Pool;
-using UnityEngine.ResourceManagement.Util;
 
 namespace Audio_System
 {
-    public class SoundManager : ComponentSingleton<SoundManager>
+    public class SoundManager : PersistentSingleton<SoundManager>
     {
         [SerializeField] private SoundEmitter _soundEmitterPrefab;
         [SerializeField] private bool _collectionCheck = true;
@@ -30,6 +29,14 @@ namespace Audio_System
 
         public void ReturnToPool(SoundEmitter soundEmitter) => _soundEmitterPool.Release(soundEmitter);
 
+        public void StopAll() {
+            foreach (var soundEmitter in _activeSoundEmitters) {
+                soundEmitter.Stop();
+            }
+
+            frequentSoundEmitters.Clear();
+        }
+        
         public bool CanPlaySound(SoundData data)
         {
             if (!data.isFrequent)

@@ -8,7 +8,9 @@ using UnityEngine;
 public class ShooterController : MonoBehaviour
 {
     public event Action OnFire;
+    public event Action OnDryFire;
     public event Action<int> OnReload;
+    public event Action OnReloadEnd;
     
     public bool canAim { get; set; } = true;
     public bool canFire { get; set; } = true;
@@ -183,6 +185,16 @@ public class ShooterController : MonoBehaviour
         canAim = toggle && !isReloading;
         canReload = toggle;
         canFire = toggle && !isReloading;
+    }
+
+    public void ReloadEnd()
+    {
+        OnReloadEnd?.Invoke();
+    }
+
+    public void DryFire()
+    {
+        OnDryFire?.Invoke();
     }
     
     private void HoldingItemOnTakePerformed(HoldableItem holdable)

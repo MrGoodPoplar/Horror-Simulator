@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Audio_System;
 using Cysharp.Threading.Tasks;
@@ -14,6 +15,9 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     private const string RELOAD = "reload";
     private const string FORCE_STOP_RELOAD = "forceStopReload";
 
+    public event Action OnBulletInsert;
+    public event Action OnCylinderSpin;
+    
     [Header("Animation Settings")]
     [SerializeField] private float _transitionDuration = 0.26f;
     [SerializeField, Range(-180, 180)] private float _rotationAngleOffset = -60.0f;
@@ -121,6 +125,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
             
             _shooterController.RetrieveReserve();
             _shooterController.ToggleWeaponInteraction(!Player.Instance.HUDController.isHUDView);
+            _shooterController.ReloadEnd();
         }
     }
 
@@ -154,7 +159,10 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
         bool isAmmoAvailable = _shooterController.TakeAmmo(1);
 
         if (isAmmoAvailable)
+        {
             _german130.SetBulletsInClip(_german130.bulletsInClip + 1);
+            OnBulletInsert?.Invoke();
+        }
         else
             InterruptReloadAnimation();
 
@@ -261,6 +269,9 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
 
     private async UniTask RotateByFullTurnsAsync(float fullTurns, float duration, float angleOffset = 0)
     {
+        if (angleOffset < 360)
+            OnCylinderSpin?.Invoke();
+        
         float totalRotation = fullTurns * 360f + angleOffset;
         float elapsedTime = 0f;
         float startRotationY = _cylinderRotationConstraint.localRotation.eulerAngles.y;
