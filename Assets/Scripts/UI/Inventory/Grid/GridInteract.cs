@@ -16,7 +16,7 @@ namespace UI.Inventory
 
         private void Start()
         {
-            _inventoryController = Player.instance.inventoryController;
+            _inventoryController = Player.Instance.inventoryController;
         }
 
         public void OnPointerEnter(PointerEventData eventData)

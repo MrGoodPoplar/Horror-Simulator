@@ -26,9 +26,9 @@ namespace UI.Hotbar
 
         private void Start()
         {
-            _holdingItemController = Player.instance.holdingItemController;
+            _holdingItemController = Player.Instance.holdingItemController;
             
-            Player.instance.interactController.OnInteract += InteractControllerOnInteractPerformed;
+            Player.Instance.interactController.OnInteract += InteractControllerOnInteractPerformed;
         }
 
         private void OnDestroy()

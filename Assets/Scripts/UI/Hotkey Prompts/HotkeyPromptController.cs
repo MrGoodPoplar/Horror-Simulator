@@ -35,9 +35,9 @@ namespace UI.Hotkey_Prompts
 
         private void Start()
         {
-            _inventoryController = Player.instance.inventoryController;
+            _inventoryController = Player.Instance.inventoryController;
 
-            Player.instance.HUDController.OnHUDStateChanged += OnHUDStateChangedPerformed;
+            Player.Instance.HUDController.OnHUDStateChanged += OnHUDStateChangedPerformed;
             
             if (!_inventoryController)
                 Destroy(this);
@@ -45,7 +45,7 @@ namespace UI.Hotkey_Prompts
 
         private void OnDestroy()
         {
-            Player.instance.HUDController.OnHUDStateChanged -= OnHUDStateChangedPerformed;
+            Player.Instance.HUDController.OnHUDStateChanged -= OnHUDStateChangedPerformed;
         }
 
         private void OnHUDStateChangedPerformed(bool state)
@@ -105,7 +105,7 @@ namespace UI.Hotkey_Prompts
                 if (itemAction.onlyInGridMain && !_inventoryController.IsOnHoverGridMain())
                     continue;
                 
-                InputBindingSpriteBinder.BindingSpritePreference spritePreference = Player.instance.inputBindingSpriteBinder.GetSpritePreference(itemAction.GetInputBindingPath());
+                InputBindingSpriteBinder.BindingSpritePreference spritePreference = Player.Instance.inputBindingSpriteBinder.GetSpritePreference(itemAction.GetInputBindingPath());
 
                 if (!spritePreference.IsUnityNull())
                 {

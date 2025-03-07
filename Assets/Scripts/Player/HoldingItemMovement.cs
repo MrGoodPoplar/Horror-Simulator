@@ -46,14 +46,14 @@ public class HoldingItemMovement : MonoBehaviour
 
     private void Start()
     {
-        _shooterController = Player.instance.shooterController;
-        _firstPersonController = Player.instance.firstPersonController;
+        _shooterController = Player.Instance.shooterController;
+        _firstPersonController = Player.Instance.firstPersonController;
         
-        Player.instance.holdingItemController.OnTake += HoldingItemOnTakePerformed;
-        Player.instance.holdingItemController.OnHideBefore += HoldingItemOnHideBeforePerformed;
+        Player.Instance.holdingItemController.OnTake += HoldingItemOnTakePerformed;
+        Player.Instance.holdingItemController.OnHideBefore += HoldingItemOnHideBeforePerformed;
         
         _initialPosition = transform.localPosition;
-        _idlePosition = Player.instance.holdingItemController.currentHoldable.IsUnityNull()
+        _idlePosition = Player.Instance.holdingItemController.currentHoldable.IsUnityNull()
             ? _hidePosition
             : _idlePosition;
         
@@ -98,7 +98,7 @@ public class HoldingItemMovement : MonoBehaviour
 
     private float GetSwayAmount()
     {
-        if (!Player.instance.HUDController.isHUDView)
+        if (!Player.Instance.HUDController.isHUDView)
             return _shooterController.isAiming ? _aimSwayAmount : _swayAmount;
 
         return 0;

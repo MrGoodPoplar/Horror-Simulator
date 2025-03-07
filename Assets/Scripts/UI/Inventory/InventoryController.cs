@@ -36,7 +36,7 @@ namespace UI.Inventory
 
             _inventoryItemGrid.OnItemInteract += OnItemInteractPerformed;
             _tempInventoryItemGrid.OnItemInteract += OnItemInteractPerformed;
-            Player.instance.HUDController.OnHUDStateChanged += OnHUDStateChangedPerformed;
+            Player.Instance.HUDController.OnHUDStateChanged += OnHUDStateChangedPerformed;
             InventoryItemFactory.Initialize(_inventoryItemBinder);
         }
 

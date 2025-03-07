@@ -60,7 +60,7 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
     private void Start()
     {
         _quantity = GetQuantity();
-        _inventoryController = Player.instance.inventoryController;
+        _inventoryController = Player.Instance.inventoryController;
         
         OnSet?.Invoke();
     }
@@ -86,8 +86,8 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
 
     private InteractionResponse HandleTemporaryItemInteraction()
     {
-        Player.instance.HUDController.ToggleHUDView(true);
-        Player.instance.HUDController.OnHUDStateChanged += OnHUDStateChangedPerformed;
+        Player.Instance.HUDController.ToggleHUDView(true);
+        Player.Instance.HUDController.OnHUDStateChanged += OnHUDStateChangedPerformed;
 
         return new(null, true);
     }
@@ -147,7 +147,7 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
         
         _isTempItemAdded = false;
         _isTempItemAdded = false;
-        Player.instance.HUDController.OnHUDStateChanged -= OnHUDStateChangedPerformed;
+        Player.Instance.HUDController.OnHUDStateChanged -= OnHUDStateChangedPerformed;
     }
     
     private void HandleSuccessfulInteraction()

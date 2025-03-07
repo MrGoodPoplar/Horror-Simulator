@@ -17,7 +17,7 @@ public class RigidBodyPush : MonoBehaviour
 
     private void Start()
     {
-        _firstPersonController = Player.instance.firstPersonController;
+        _firstPersonController = Player.Instance.firstPersonController;
     }
 
     private void Update()

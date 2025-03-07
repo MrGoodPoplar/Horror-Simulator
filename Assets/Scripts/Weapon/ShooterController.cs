@@ -37,15 +37,15 @@ public class ShooterController : MonoBehaviour
 
     private void Start()
     {
-        _playerInput = Player.instance.playerInput;
-        _inventoryController = Player.instance.inventoryController;
-        _firstPersonController = Player.instance.firstPersonController;
+        _playerInput = Player.Instance.playerInput;
+        _inventoryController = Player.Instance.inventoryController;
+        _firstPersonController = Player.Instance.firstPersonController;
 
         _playerInput.OnFire += OnFirePerformed;
         _playerInput.OnReload += OnReloadPerformed;
         
-        Player.instance.holdingItemController.OnTake += HoldingItemOnTakePerformed;
-        Player.instance.holdingItemController.OnHideAfter += HoldingItemOnHideAfterPerformed;
+        Player.Instance.holdingItemController.OnTake += HoldingItemOnTakePerformed;
+        Player.Instance.holdingItemController.OnHideAfter += HoldingItemOnHideAfterPerformed;
 
         _defaultFOV = _firstPersonController.playerCamera.fieldOfView;
         _defaultSensitivity = _firstPersonController.sensitivity;
@@ -56,8 +56,8 @@ public class ShooterController : MonoBehaviour
         _playerInput.OnFire -= OnFirePerformed;
         _playerInput.OnReload -= OnReloadPerformed;
         
-        Player.instance.holdingItemController.OnTake -= HoldingItemOnTakePerformed;
-        Player.instance.holdingItemController.OnHideAfter -= HoldingItemOnHideAfterPerformed;
+        Player.Instance.holdingItemController.OnTake -= HoldingItemOnTakePerformed;
+        Player.Instance.holdingItemController.OnHideAfter -= HoldingItemOnHideAfterPerformed;
     }
 
     private void Update()

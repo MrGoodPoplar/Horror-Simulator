@@ -12,10 +12,10 @@ namespace UI.Inventory.Actions
         
         protected override void OnActionPerformed(InputAction.CallbackContext obj)
         {
-            var currentItem = Player.instance.hotkeyPromptController?.currentOnHoverItem;
+            var currentItem = Player.Instance.hotkeyPromptController?.currentOnHoverItem;
 
             if (currentItem)
-                Player.instance.hotbarController.EquipItem(currentItem, hotbarSlotSO.guid);
+                Player.Instance.hotbarController.EquipItem(currentItem, hotbarSlotSO.guid);
         }
     }
 }

@@ -44,7 +44,7 @@ public class InteractController : MonoBehaviour
 
     private void Start()
     {
-        _playerInput = Player.instance.playerInput;
+        _playerInput = Player.Instance.playerInput;
         
         _playerInput.OnInteract += OnInteractPerformed;
         _playerInput.OnInteractCanceled += OnInteractCanceled;
@@ -58,7 +58,7 @@ public class InteractController : MonoBehaviour
 
     private void Update()
     {
-        if (!Player.instance.HUDController.isHUDView)
+        if (!Player.Instance.HUDController.isHUDView)
             FindInteractable();
     }
 
@@ -125,7 +125,7 @@ public class InteractController : MonoBehaviour
     
     private void OnInteractPerformed()
     {
-        if (_interactable != null && !Player.instance.HUDController.isHUDView)
+        if (_interactable != null && !Player.Instance.HUDController.isHUDView)
         {
             _isHolding = true;
 

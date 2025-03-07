@@ -1,7 +1,10 @@
 using System.Linq;
+using Audio_System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.Serialization;
+using UnityEngine.VFX;
 
 [RequireComponent(typeof(Animator), typeof(Weapon), typeof(German130BulletVisual))]
 public class German130Visual : MonoBehaviour, IWeaponReloadHandler
@@ -27,6 +30,9 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     [Header("Bullets Settings")]
     [SerializeField] private BulletShell _bulletShell;
     [SerializeField] private float _bulletShellLifeSpan = 10f;
+
+    [Header("Effects")]
+    [SerializeField] private VisualEffect _muzzleFlash;
     
     public bool isReloading { get; private set; }
     
@@ -59,9 +65,9 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
 
     private void Start()
     {
-        _shooterController = Player.instance.shooterController;
-        _firstPersonController = Player.instance.firstPersonController;
-        _playerInput = Player.instance.playerInput;
+        _shooterController = Player.Instance.shooterController;
+        _firstPersonController = Player.Instance.firstPersonController;
+        _playerInput = Player.Instance.playerInput;
         
         _shooterController.OnReload += OnReloadPerformed;
         _shooterController.OnFire += OnFirePerformed;
@@ -71,7 +77,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
         _firstPersonController.playerInput.OnFire += OnInputFirePerformed;
         
         _german130.OnHide += InterruptReloadAnimationAsync;
-
+        
         _emptyShellsInside = _german130.bulletsInClip;
         _bulletVisual.HideBullets(_german130.clipSize - _german130.bulletsInClip);
     }
@@ -114,7 +120,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
             _isHandlingReloadInterruption = false;
             
             _shooterController.RetrieveReserve();
-            _shooterController.ToggleWeaponInteraction(!Player.instance.HUDController.isHUDView);
+            _shooterController.ToggleWeaponInteraction(!Player.Instance.HUDController.isHUDView);
         }
     }
 
@@ -205,6 +211,8 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     
     private void OnFirePerformed()
     {
+        _muzzleFlash.Play();
+        
         _emptyShellsInside++;
         _currentChamberIndex = (_currentChamberIndex + 1) % 6;
         RotateCylinder(_currentChamberIndex, true, _rotationAngleOffset).Forget();;

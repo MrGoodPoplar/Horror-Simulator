@@ -24,7 +24,7 @@ public class InteractionPromptUI : MonoBehaviour
     
     private void Start()
     {
-        _interactController = Player.instance.interactController;
+        _interactController = Player.Instance.interactController;
         
         _originalScale = _promptUI.transform.localScale;
         
@@ -73,7 +73,7 @@ public class InteractionPromptUI : MonoBehaviour
     
     private void OnInteractPerformed(object sender, InteractController.InteractEventArgs e)
     {
-        if (!e.interactable.IsUnityNull() && !Player.instance.HUDController.isHUDView)
+        if (!e.interactable.IsUnityNull() && !Player.Instance.HUDController.isHUDView)
         {
             _currentInteractable = e.interactable;
             

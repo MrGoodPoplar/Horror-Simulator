@@ -12,7 +12,7 @@ public class HUDController : MonoBehaviour
     
     private void Start()
     {
-        _player = Player.instance;
+        _player = Player.Instance;
         _playerInput = _player.playerInput;
         
         _playerInput.OnOpenHUD += OnOpenHUDPerformed;

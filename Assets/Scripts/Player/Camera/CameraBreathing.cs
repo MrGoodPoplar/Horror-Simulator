@@ -43,8 +43,8 @@ public class CameraBreathing : MonoBehaviour
 
     private void Start()
     {
-        _firstPersonController = Player.instance.firstPersonController;
-        _shooterController = Player.instance.shooterController;
+        _firstPersonController = Player.Instance.firstPersonController;
+        _shooterController = Player.Instance.shooterController;
 
         _initialRotation = transform.localEulerAngles;
         _firstPersonController.OnExhausted += OnExhaustedPerformed;

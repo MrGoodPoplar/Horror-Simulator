@@ -3,8 +3,9 @@ using UI.Hotbar;
 using UI.Hotkey_Prompts;
 using UI.Inventory;
 using UnityEngine;
+using UnityEngine.ResourceManagement.Util;
 
-public class Player : MonoBehaviour
+public class Player : ComponentSingleton<Player>
 {
     [field: Header("Controllers")]
     [field: SerializeField] public FirstPersonController firstPersonController { get; private set; }
@@ -19,14 +20,4 @@ public class Player : MonoBehaviour
     
     [field: Header("Configurations")]
     [field: SerializeField] public InputBindingSpriteBinder inputBindingSpriteBinder { get; private set; }
-    
-    public static Player instance { get; private set; }
-    
-    private void Awake()
-    {
-        if (instance)
-            Destroy(gameObject);
-        else
-            instance = this;
-    }
 }
