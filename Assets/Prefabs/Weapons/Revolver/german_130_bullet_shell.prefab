@@ -171,3 +171,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7e48e87b23a42df8617038189b4c1d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fallSounds:
+    mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
+    loop: 0
+    playOnAwake: 0
+    isFrequent: 0
+    _clips:
+    - {fileID: 8300000, guid: b0be08d7b8f4add44adc2ff0e75f0d60, type: 3}
+    - {fileID: 8300000, guid: cb303c6195a3193499ffad0179986f06, type: 3}
+    - {fileID: 8300000, guid: 40f7166849dc1bb4887f31b1b14f06c9, type: 3}
+    - {fileID: 8300000, guid: 4d1d5b8b14b900c44ab23a213182f8ab, type: 3}
+    - {fileID: 8300000, guid: fc2cb9e0f6b17bb4db2a1f9665a29586, type: 3}
+    - {fileID: 8300000, guid: 085bdb1d7a6de0246a8c56be0d961a5b, type: 3}
+    - {fileID: 8300000, guid: aa0605bbc24e7624682f9055a9e50d38, type: 3}
+    - {fileID: 8300000, guid: d675aa76c3694204f9897848d1d586bd, type: 3}
+    - {fileID: 8300000, guid: f6528d0bf00f43a4c8b1e474410c4112, type: 3}

@@ -1065,6 +1065,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <holdingPosition>k__BackingField: {x: 0, y: 0, z: 0}
   <holdingRotation>k__BackingField: {x: 0, y: 0, z: 0}
+  <bounds>k__BackingField:
+    m_Center: {x: 0, y: -0.02, z: 0.025}
+    m_Extent: {x: 0.0125, y: 0.0875, z: 0.125}
   <aimPosition>k__BackingField: {x: -0.2, y: 0.0475, z: -0.2}
   <aimRotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
   <clipSize>k__BackingField: 6
@@ -1105,6 +1108,10 @@ MonoBehaviour:
   _bulletShell: {fileID: -1944557716087236587, guid: d9b7c355a64dc1647afd1385d7e15796,
     type: 3}
   _bulletShellLifeSpan: 30
+  _trigger: {fileID: 5184183390383517464}
+  _pressedRotation: {x: 64.91684, y: 161.53517, z: 162.42075}
+  _pressInsideDuration: 0.1
+  _pressOutsideDuration: 0.2
   _muzzleFlash: {fileID: 2066552167117454233}
 --- !u!114 &2842959436164432950
 MonoBehaviour:
@@ -1184,6 +1191,7 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 2e247f97111c6c74e8117d2721121d11, type: 3}
       - {fileID: 8300000, guid: 4fa4777a1b5bb5b49bbc00db97244471, type: 3}
       - {fileID: 8300000, guid: aecd8e417dc42cd4c9acd65ed945b9b6, type: 3}
+      - {fileID: 8300000, guid: df245f9882319f44da09800c900fb030, type: 3}
     cylinderSpinSounds:
       mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
       loop: 0
@@ -1191,6 +1199,16 @@ MonoBehaviour:
       isFrequent: 0
       _clips:
       - {fileID: 8300000, guid: e38243da2eb6526408fedbc746105686, type: 3}
+    dropShellSounds:
+      mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
+      loop: 0
+      playOnAwake: 0
+      isFrequent: 0
+      _clips:
+      - {fileID: 8300000, guid: 05d68cb7e42340e43a656bcae462702c, type: 3}
+      - {fileID: 8300000, guid: 1b4b5b489f669f648a36f2bac486dc2f, type: 3}
+      - {fileID: 8300000, guid: 6c5d16184092dd248a5a37015abfad93, type: 3}
+  _dropShellsDelay: {x: 0, y: 0.05}
 --- !u!4 &4031959376805466031 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -7639252054734127673, guid: befeec2e6508be9418b6111b6a14a4ff,
@@ -1225,6 +1243,12 @@ Transform:
 --- !u!4 &5148104352457686511 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7313340750019448711, guid: befeec2e6508be9418b6111b6a14a4ff,
+    type: 3}
+  m_PrefabInstance: {fileID: 2454331006248661608}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5184183390383517464 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7349419774006762864, guid: befeec2e6508be9418b6111b6a14a4ff,
     type: 3}
   m_PrefabInstance: {fileID: 2454331006248661608}
   m_PrefabAsset: {fileID: 0}

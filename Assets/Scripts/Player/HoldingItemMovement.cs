@@ -1,9 +1,14 @@
+using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class HoldingItemMovement : MonoBehaviour
 {
+    [Header("Overlap Settings")]
+    [SerializeField] private HitPointer _hitPointer;
+
     [Header("Sway Settings")]
     [SerializeField, Range(0, 1)] private float _swayAmount = 0.5f;
     [SerializeField] private float _swaySpeed = 1f;
@@ -33,7 +38,8 @@ public class HoldingItemMovement : MonoBehaviour
     private Vector3 _initialPosition;
     private Vector3 _idlePosition;
     private PlayerInput _playerInput;
-    
+
+    private HoldingItemController _holdingItemController;
     private FirstPersonController _firstPersonController;
     private ShooterController _shooterController;
     
@@ -48,9 +54,10 @@ public class HoldingItemMovement : MonoBehaviour
     {
         _shooterController = Player.Instance.shooterController;
         _firstPersonController = Player.Instance.firstPersonController;
+        _holdingItemController = Player.Instance.holdingItemController;
         
-        Player.Instance.holdingItemController.OnTake += HoldingItemOnTakePerformed;
-        Player.Instance.holdingItemController.OnHideBefore += HoldingItemOnHideBeforePerformed;
+        _holdingItemController.OnTake += HoldingItemOnTakePerformed;
+        _holdingItemController.OnHideBefore += HoldingItemOnHideBeforePerformed;
         
         _initialPosition = transform.localPosition;
         _idlePosition = Player.Instance.holdingItemController.currentHoldable.IsUnityNull()
@@ -59,6 +66,24 @@ public class HoldingItemMovement : MonoBehaviour
         
         _initialRotation = transform.localRotation;
         _playerInput = _firstPersonController.playerInput;
+    }
+
+    private void OnDestroy()
+    {
+        _holdingItemController.OnTake -= HoldingItemOnTakePerformed;
+        _holdingItemController.OnHideBefore -= HoldingItemOnHideBeforePerformed;
+    }
+
+    private void Update()
+    {
+        HandleSway();
+
+        if (_firstPersonController.isGrounded)
+            HandleBobbing();
+        
+        HandleRecoil();
+        HandleJumpSway();
+        HandleOverlap();
     }
 
     private void HoldingItemOnTakePerformed(HoldableItem holdable)
@@ -72,17 +97,11 @@ public class HoldingItemMovement : MonoBehaviour
         await UniTask.WaitUntil(() => Vector3.Distance(transform.localPosition, _idlePosition) <= _itemIdlePositionThreshold);
     }
 
-    private void Update()
+    private void HandleOverlap()
     {
-        HandleSway();
-
-        if (_firstPersonController.isGrounded)
-            HandleBobbing();
-        
-        HandleRecoil();
-        HandleJumpSway();
+        _holdingItemController.currentHoldable?.CheckCollisions(_hitPointer.layer);
     }
-
+    
     private void HandleSway()
     {
         Vector2 lookInput = _playerInput.look;

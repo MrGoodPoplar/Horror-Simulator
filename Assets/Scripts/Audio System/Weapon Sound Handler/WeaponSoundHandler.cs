@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Audio_System
@@ -59,6 +60,12 @@ namespace Audio_System
                 .WithRandomPitch()
                 .WithPosition(_constraints.weapon.transform.position)
                 .Play();
+        }
+
+        protected async UniTask PlaySoundOnWeaponAsync(SoundData soundData, float delay = 0f)
+        {
+            await UniTask.WaitForSeconds(delay);
+            PlaySoundOnWeapon(soundData);
         }
     }
 }

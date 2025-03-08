@@ -1,10 +1,8 @@
 using System;
 using System.Linq;
-using Audio_System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Pool;
-using UnityEngine.Serialization;
 using UnityEngine.VFX;
 
 [RequireComponent(typeof(Animator), typeof(Weapon), typeof(German130BulletVisual))]
@@ -17,6 +15,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
 
     public event Action OnBulletInsert;
     public event Action OnCylinderSpin;
+    public event Action<int> OnDropShells;
     
     [Header("Animation Settings")]
     [SerializeField] private float _transitionDuration = 0.26f;
@@ -34,6 +33,12 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     [Header("Bullets Settings")]
     [SerializeField] private BulletShell _bulletShell;
     [SerializeField] private float _bulletShellLifeSpan = 10f;
+
+    [Header("Trigger Settings")]
+    [SerializeField] private Transform _trigger;
+    [SerializeField] private Vector3 _pressedRotation;
+    [SerializeField] private float _pressInsideDuration = 0.1f;
+    [SerializeField] private float _pressOutsideDuration = 0.2f;
 
     [Header("Effects")]
     [SerializeField] private VisualEffect _muzzleFlash;
@@ -75,6 +80,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
         
         _shooterController.OnReload += OnReloadPerformed;
         _shooterController.OnFire += OnFirePerformed;
+        _shooterController.OnDryFire += OnDryFirePerformed;
         
         _playerInput.OnOpenHUD += OnOpenHudPerformed;
         
@@ -89,8 +95,9 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     private void OnDestroy()
     {
         _shooterController.OnReload -= OnReloadPerformed;
-        
         _shooterController.OnFire -= OnFirePerformed;
+        _shooterController.OnDryFire -= OnDryFirePerformed;
+
         _playerInput.OnOpenHUD -= OnOpenHudPerformed;
         
         _firstPersonController.playerInput.OnFire -= OnInputFirePerformed;
@@ -172,9 +179,11 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     
     private void DropShells(int count) // Animation Event
     {
-        _bulletVisual.HideBullets(count);
+        _bulletVisual.HideBullets(_emptyShellsInside, _german130.bulletsInClip);
         German130Bullet[] bullets = _bulletVisual.bullets.Take(_emptyShellsInside).ToArray();
 
+        OnDropShells?.Invoke(_emptyShellsInside);
+        
         foreach (German130Bullet bullet in bullets)
         {
             bullet.Hide();
@@ -219,11 +228,17 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     
     private void OnFirePerformed()
     {
+        PressTriggerAnimationAsync().Forget();
         _muzzleFlash.Play();
         
         _emptyShellsInside++;
         _currentChamberIndex = (_currentChamberIndex + 1) % 6;
         RotateCylinder(_currentChamberIndex, true, _rotationAngleOffset).Forget();;
+    }
+
+    private void OnDryFirePerformed()
+    {
+        PressTriggerAnimationAsync().Forget();
     }
 
     private void OnReloadPerformed(int totalToReload)
@@ -338,5 +353,27 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     { 
         InterruptReloadAnimation();
         await UniTask.WaitUntil(() => !_isReloadAnimationPlaying && !_reloadProcess);
+    }
+
+    private async UniTaskVoid PressTriggerAnimationAsync()
+    {
+        Quaternion initialRotation = _trigger.localRotation;
+        Quaternion targetRotation = Quaternion.Euler(_pressedRotation);
+        
+        float elapsedTime = 0;
+        while (elapsedTime < _pressInsideDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            _trigger.localRotation = Quaternion.Lerp(initialRotation, targetRotation, elapsedTime / _pressInsideDuration);
+            await UniTask.Yield();
+        }
+        
+        elapsedTime = 0;
+        while (elapsedTime < _pressOutsideDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            _trigger.localRotation = Quaternion.Lerp(targetRotation, initialRotation, elapsedTime / _pressOutsideDuration);
+            await UniTask.Yield();
+        }
     }
 }

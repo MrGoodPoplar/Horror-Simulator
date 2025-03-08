@@ -67,11 +67,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: german_130_idle
-      takeName: german_130_idle
+      name: idle
+      takeName: Gun Rig|idle
       internalID: 7159150451752837578
       firstFrame: 0
-      lastFrame: 59
+      lastFrame: 151
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -97,7 +97,7 @@ ModelImporter:
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: german_130_reload_1
-      takeName: german_130_reload_1
+      takeName: Gun Rig|german_130_reload_1
       internalID: -4465491541578590257
       firstFrame: 0
       lastFrame: 44
@@ -154,7 +154,7 @@ ModelImporter:
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: german_130_reload_2
-      takeName: german_130_reload_2
+      takeName: Gun Rig|german_130_reload_2
       internalID: -4654520881521702929
       firstFrame: 0
       lastFrame: 64
@@ -225,7 +225,7 @@ ModelImporter:
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: german_130_reload_3
-      takeName: german_130_reload_3
+      takeName: Gun Rig|german_130_reload_3
       internalID: 5364051775353692411
       firstFrame: 0
       lastFrame: 84
@@ -310,7 +310,7 @@ ModelImporter:
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: german_130_reload_4
-      takeName: german_130_reload_4
+      takeName: Gun Rig|german_130_reload_4
       internalID: -1702369908583630356
       firstFrame: 0
       lastFrame: 104
@@ -409,7 +409,7 @@ ModelImporter:
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: german_130_reload_5
-      takeName: german_130_reload_5
+      takeName: Gun Rig|german_130_reload_5
       internalID: 4241091352426137503
       firstFrame: 0
       lastFrame: 124
@@ -522,7 +522,7 @@ ModelImporter:
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: german_130_reload_6
-      takeName: german_130_reload_6
+      takeName: Gun Rig|german_130_reload_6
       internalID: -4197786879695551477
       firstFrame: 0
       lastFrame: 144
@@ -649,7 +649,7 @@ ModelImporter:
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: german_130_reload_end
-      takeName: german_130_reload_end
+      takeName: Gun Rig|german_130_reload_end
       internalID: 1395424082897629426
       firstFrame: 0
       lastFrame: 10

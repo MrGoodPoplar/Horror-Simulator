@@ -4,8 +4,9 @@ using UnityEngine;
 public class German130BulletVisual : MonoBehaviour
 {
     [field: Header("Constraints")]
-    [field: SerializeField] public German130Bullet[] bullets { get; private set; }
-    
+    [field: SerializeField]
+    public German130Bullet[] bullets { get; private set; }
+
     public void ShowBullets(int count)
     {
         foreach (German130Bullet bullet in bullets.Take(count).ToArray())
@@ -14,11 +15,13 @@ public class German130BulletVisual : MonoBehaviour
         }
     }
 
-    public void HideBullets(int count)
+    public void HideBullets(int count, int inside = 0)
     {
-        foreach (German130Bullet bullet in bullets.Take(count).ToArray())
+        int bulletsToHide = Mathf.Min(count, bullets.Length - inside);
+
+        for (int i = bullets.Length - 1 - inside; i >= bullets.Length - bulletsToHide - inside; i--)
         {
-            bullet.Hide();
+            bullets[i].Hide();
         }
     }
 }

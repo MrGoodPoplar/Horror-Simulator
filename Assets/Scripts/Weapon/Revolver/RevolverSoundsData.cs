@@ -6,4 +6,5 @@ public record RevolverSoundsData : WeaponSoundsData
 {
     public ArraySoundData bulletInsertSounds;
     public ArraySoundData cylinderSpinSounds;
+    public ArraySoundData dropShellSounds;
 }

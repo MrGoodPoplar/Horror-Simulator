@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using UI.Inventory;
 using UI.Inventory.Actions;
 using UI.Inventory.Inventory_Item;
@@ -86,7 +87,7 @@ namespace UI.Hotbar
             
             if (TryGetHoldable(hotbarSlot.item, out HoldableItem holdable))
             {
-                if (holdable == _holdingItemController.currentHoldable)
+                if (_holdingItemController.currentHoldable)
                     await _holdingItemController.HideAsync();
                 else
                     await _holdingItemController.TakeAsync(holdable);
@@ -111,15 +112,20 @@ namespace UI.Hotbar
             return false;
         }
 
-        public void EquipItem(InventoryItem inventoryItem, string hotbarSlotGuid, bool onlyEmpty = false)
+        public bool EquipItem(InventoryItem inventoryItem, string hotbarSlotGuid, bool onlyEmpty = false)
         {
             if (TryGetHotbarSlot(hotbarSlotGuid, out var hotbarSlot))
             {
                 if (!onlyEmpty || !hotbarSlot.item)
                     hotbarSlot.item = inventoryItem;
+
+                // If this item already equipped
+                return inventoryItem == hotbarSlot.item;
             }
             else
                 Debug.LogWarning($"Hotbar Slot with guid {hotbarSlotGuid} doesn't exist!");
+
+            return false;
         }
 
         private bool TryGetHotbarSlot(string hotbarSlotGuid, out HotbarSlotSO hotbarSlot)
@@ -133,7 +139,10 @@ namespace UI.Hotbar
             {
                 if (grabItem.inventoryItemSO.actions.FirstOrDefault(action => action is EquipInventoryItemAction) is EquipInventoryItemAction equipAction)
                 {
-                    EquipItem(grabItem.insertedInventoryItem, equipAction.hotbarSlotSO.guid, true);
+                    bool equipped = EquipItem(grabItem.insertedInventoryItem, equipAction.hotbarSlotSO.guid, true);
+                    
+                    if (!_holdingItemController.currentHoldable && TryGetHoldable(grabItem.insertedInventoryItem, out HoldableItem holdable) && equipped)
+                        _holdingItemController.TakeAsync(holdable).Forget();
                 }
             }
         }
