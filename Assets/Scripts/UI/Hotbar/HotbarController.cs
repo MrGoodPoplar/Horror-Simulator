@@ -87,7 +87,9 @@ namespace UI.Hotbar
             
             if (TryGetHoldable(hotbarSlot.item, out HoldableItem holdable))
             {
-                if (_holdingItemController.currentHoldable)
+                holdable.hotbarSlotSO = hotbarSlot;
+
+                if (_holdingItemController.currentHoldable?.hotbarSlotSO == hotbarSlot)
                     await _holdingItemController.HideAsync();
                 else
                     await _holdingItemController.TakeAsync(holdable);
@@ -140,9 +142,12 @@ namespace UI.Hotbar
                 if (grabItem.inventoryItemSO.actions.FirstOrDefault(action => action is EquipInventoryItemAction) is EquipInventoryItemAction equipAction)
                 {
                     bool equipped = EquipItem(grabItem.insertedInventoryItem, equipAction.hotbarSlotSO.guid, true);
-                    
+
                     if (!_holdingItemController.currentHoldable && TryGetHoldable(grabItem.insertedInventoryItem, out HoldableItem holdable) && equipped)
+                    {
+                        holdable.hotbarSlotSO = equipAction.hotbarSlotSO;
                         _holdingItemController.TakeAsync(holdable).Forget();
+                    }
                 }
             }
         }

@@ -36,14 +36,14 @@ namespace UI.Hotkey_Prompts
         private void Start()
         {
             _inventoryController = Player.Instance.inventoryController;
-
-            Player.Instance.HUDController.OnHUDStateChanged += OnHUDStateChangedPerformed;
             
+            Player.Instance.HUDController.OnHUDStateChanged += OnHUDStateChangedPerformed;
+
             if (!_inventoryController)
                 Destroy(this);
         }
-
-        private void OnDestroy()
+        
+        private void OnDisable()
         {
             Player.Instance.HUDController.OnHUDStateChanged -= OnHUDStateChangedPerformed;
         }

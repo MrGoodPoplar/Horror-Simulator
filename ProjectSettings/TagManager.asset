@@ -8,7 +8,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Aim Pointer
+  - Overlap Pointer
   - Water
   - UI
   - Holding Item

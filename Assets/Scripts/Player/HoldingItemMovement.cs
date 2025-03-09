@@ -7,8 +7,10 @@ using UnityEngine;
 public class HoldingItemMovement : MonoBehaviour
 {
     [Header("Overlap Settings")]
-    [SerializeField] private HitPointer _hitPointer;
-
+    [SerializeField] private OverlapPointer _overlapPointer;
+    [SerializeField] private float _overlapMoveSpeed = 5f;
+    [SerializeField, Range(0, 1)] private float _overlapMaxPushBack = 0.15f;
+    
     [Header("Sway Settings")]
     [SerializeField, Range(0, 1)] private float _swayAmount = 0.5f;
     [SerializeField] private float _swaySpeed = 1f;
@@ -38,6 +40,7 @@ public class HoldingItemMovement : MonoBehaviour
     private Vector3 _initialPosition;
     private Vector3 _idlePosition;
     private PlayerInput _playerInput;
+    private Collider[] _collisions = new Collider[4];
 
     private HoldingItemController _holdingItemController;
     private FirstPersonController _firstPersonController;
@@ -96,10 +99,30 @@ public class HoldingItemMovement : MonoBehaviour
         _idlePosition = _hidePosition;
         await UniTask.WaitUntil(() => Vector3.Distance(transform.localPosition, _idlePosition) <= _itemIdlePositionThreshold);
     }
-
+    
     private void HandleOverlap()
     {
-        _holdingItemController.currentHoldable?.CheckCollisions(_hitPointer.layer);
+        if (!_holdingItemController.currentHoldable)
+            return;
+
+        if (_holdingItemController.currentHoldable.IsColliding(_overlapPointer.layer))
+            _idlePosition.z = Mathf.Max(_idlePosition.z - _overlapMoveSpeed * Time.deltaTime, _initialPosition.z - _overlapMaxPushBack);
+        else if (!IsColliding(_holdingItemController.currentHoldable))
+            _idlePosition = Vector3.MoveTowards(_idlePosition, _initialPosition, _overlapMoveSpeed * Time.deltaTime);
+    }
+    
+    private bool IsColliding(HoldableItem holdableItem)
+    {
+        if (!transform.parent)
+            return false;
+        
+        Vector3 localDefaultPosition = _initialPosition + _holdingItemController.currentHoldable.transform.localPosition + _holdingItemController.currentHoldable.bounds.center;
+        Vector3 boxCenter = transform.parent.TransformPoint( localDefaultPosition);
+        Vector3 boxSize = holdableItem.bounds.extents * 2;
+        Quaternion rotation = holdableItem.transform.rotation;
+
+        int hits = Physics.OverlapBoxNonAlloc(boxCenter, boxSize / 2, _collisions, rotation, _overlapPointer.layer);
+        return hits > 0 && _collisions[0].gameObject != gameObject;
     }
     
     private void HandleSway()
@@ -191,4 +214,21 @@ public class HoldingItemMovement : MonoBehaviour
         _recoilForce = recoilForce;
         _recoilTimer = _recoilDuration;
     }
+    
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        if (_holdingItemController?.currentHoldable)
+        {
+            Vector3 localDefaultPosition = _initialPosition + _holdingItemController.currentHoldable.transform.localPosition + _holdingItemController.currentHoldable.bounds.center;
+            Vector3 boxCenter = transform.parent.TransformPoint( localDefaultPosition);
+            Vector3 boxSize = _holdingItemController.currentHoldable.bounds.size; 
+        
+            Gizmos.color = Color.red;
+            Gizmos.matrix = Matrix4x4.TRS(boxCenter, _holdingItemController.currentHoldable.transform.rotation, Vector3.one);
+            Gizmos.DrawWireCube(Vector3.zero, boxSize);
+            Gizmos.matrix = Matrix4x4.identity;
+        }
+    }
+#endif
 }
