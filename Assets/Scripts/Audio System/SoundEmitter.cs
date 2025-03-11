@@ -53,6 +53,7 @@ namespace Audio_System
             _audioSource.outputAudioMixerGroup = data.mixerGroup;
             _audioSource.loop = data.loop;
             _audioSource.playOnAwake = data.playOnAwake;
+            _audioSource.spatialBlend = data.spatialBlend;
             
             this.data = data;
         }

@@ -172,6 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fallSounds:
+    spatialBlend: 0
     mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
     loop: 0
     playOnAwake: 0
@@ -186,3 +187,5 @@ MonoBehaviour:
     - {fileID: 8300000, guid: aa0605bbc24e7624682f9055a9e50d38, type: 3}
     - {fileID: 8300000, guid: d675aa76c3694204f9897848d1d586bd, type: 3}
     - {fileID: 8300000, guid: f6528d0bf00f43a4c8b1e474410c4112, type: 3}
+  _targetScale: {x: 2, y: 2, z: 2}
+  _scalingSpeed: 0.5

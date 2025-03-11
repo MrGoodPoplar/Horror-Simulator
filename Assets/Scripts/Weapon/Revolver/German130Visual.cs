@@ -190,9 +190,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
 
             if (_emptyShellsInside - 1 >= 0)
             {
-                _bulletShell = _bulletShellPool.Get();
-                _bulletShell.DropAsync(bullet.transform.position, _bulletShellLifeSpan).Forget();
-                
+                _bulletShellPool.Get().DropAsync(bullet.transform.position, _bulletShellLifeSpan).Forget();
                 _emptyShellsInside --;
             }
         }

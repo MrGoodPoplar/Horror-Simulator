@@ -7,6 +7,7 @@ namespace Audio_System
     [Serializable]
     public abstract class SoundData
     {
+        [Range(0, 1)] public float spatialBlend;
         public AudioMixerGroup mixerGroup;
         public bool loop;
         public bool playOnAwake;

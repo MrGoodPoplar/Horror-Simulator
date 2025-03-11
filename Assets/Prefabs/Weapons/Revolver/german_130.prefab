@@ -1149,6 +1149,7 @@ MonoBehaviour:
     revolverVisual: {fileID: 1005982092262914977}
   _soundsData:
     fireSounds:
+      spatialBlend: 0
       mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
       loop: 0
       playOnAwake: 0
@@ -1157,6 +1158,7 @@ MonoBehaviour:
       - {fileID: 8300000, guid: e272f4820a4242242b9165aadff3d4ab, type: 3}
       - {fileID: 8300000, guid: 02b2428ec75c71940b5995d103d8ba12, type: 3}
     dryFireSounds:
+      spatialBlend: 0
       mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
       loop: 0
       playOnAwake: 0
@@ -1165,6 +1167,7 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 2a0517b2c1dbc2c48b21c45a080dbf4c, type: 3}
       - {fileID: 8300000, guid: 144ca6815c62a044ca4df39d3b82c4a9, type: 3}
     reloadStartSounds:
+      spatialBlend: 0
       mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
       loop: 0
       playOnAwake: 0
@@ -1174,6 +1177,7 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 7ec03bc3877d68541a1b1b3f84523307, type: 3}
       - {fileID: 8300000, guid: 0eb4cb02c31748948950e465b05c6e9d, type: 3}
     reloadEndSounds:
+      spatialBlend: 0
       mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
       loop: 0
       playOnAwake: 0
@@ -1183,6 +1187,7 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 75653d6c8bc63c44bae7f40e523de4d1, type: 3}
       - {fileID: 8300000, guid: 8f2ffd9729d980d4c98e713f84688098, type: 3}
     bulletInsertSounds:
+      spatialBlend: 0
       mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
       loop: 0
       playOnAwake: 0
@@ -1193,6 +1198,7 @@ MonoBehaviour:
       - {fileID: 8300000, guid: aecd8e417dc42cd4c9acd65ed945b9b6, type: 3}
       - {fileID: 8300000, guid: df245f9882319f44da09800c900fb030, type: 3}
     cylinderSpinSounds:
+      spatialBlend: 0
       mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
       loop: 0
       playOnAwake: 0
@@ -1200,6 +1206,7 @@ MonoBehaviour:
       _clips:
       - {fileID: 8300000, guid: e38243da2eb6526408fedbc746105686, type: 3}
     dropShellSounds:
+      spatialBlend: 1
       mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
       loop: 0
       playOnAwake: 0
