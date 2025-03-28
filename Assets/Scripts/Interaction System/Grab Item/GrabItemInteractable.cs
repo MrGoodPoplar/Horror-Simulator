@@ -9,6 +9,7 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
 {
     [field: Header("Settings")]
     [field: SerializeField] public float holdDuration { get; protected set; }
+    [field: SerializeField] public SpriteAlignment spriteAlignment { get; private set; }
     [SerializeField] private bool _tempInventoryEnabled = true;
     [SerializeField] private CalculationType _calculationType = CalculationType.Exponential;
     [SerializeField] private OnGrabType _onGrabType = OnGrabType.Deactivate;

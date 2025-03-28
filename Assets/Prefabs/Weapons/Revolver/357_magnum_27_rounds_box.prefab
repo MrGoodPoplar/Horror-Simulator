@@ -269,6 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0.3
+  <spriteAlignment>k__BackingField: 6
   _tempInventoryEnabled: 0
   _calculationType: 1
   _onGrabType: 2

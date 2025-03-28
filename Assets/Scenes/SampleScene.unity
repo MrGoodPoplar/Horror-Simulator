@@ -241,6 +241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -409,6 +410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -681,6 +683,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -977,6 +980,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -1041,6 +1045,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -1857,6 +1862,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
         type: 3}
+      propertyPath: <spriteAlignment>k__BackingField
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
       propertyPath: <InteractableVisualSO>k__BackingField
       value: 
       objectReference: {fileID: 11400000, guid: af9beeb91967110499fe90c8b4c4b2a1,
@@ -2359,7 +2369,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bcc138b2cb555874bb81e3469368d388,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1639336549}
   m_SourcePrefab: {fileID: 100100000, guid: bcc138b2cb555874bb81e3469368d388, type: 3}
 --- !u!1 &330585543
 GameObject:
@@ -2676,6 +2690,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -3007,6 +3022,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -3244,6 +3260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: 78b9ac0108da87a409f4b740117f9f52,
     type: 2}
   _pickupText: Test Interactable
@@ -3452,9 +3469,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tempMessageDuration: 1
   _camera: {fileID: 330585545}
-  _promptUI: {fileID: 1898805524}
-  _promptText: {fileID: 430660917}
   _promptImage: {fileID: 1314547442}
+  _promptLabel: {fileID: 1898805527}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!1001 &410023311
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3706,7 +3723,7 @@ MonoBehaviour:
   m_text: Label Text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d6854196e1ce86a4e9d1bfc0af74f075, type: 2}
-  m_sharedMaterial: {fileID: -8402795843764482426, guid: d6854196e1ce86a4e9d1bfc0af74f075,
+  m_sharedMaterial: {fileID: -8557317836227644440, guid: d6854196e1ce86a4e9d1bfc0af74f075,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -3980,6 +3997,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -4873,6 +4891,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -5068,6 +5087,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -5576,6 +5596,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -6024,6 +6045,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -6326,6 +6348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -6632,6 +6655,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 6
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -6978,6 +7002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -7427,6 +7452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -8186,6 +8212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -8305,6 +8332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -9143,6 +9171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -9758,6 +9787,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -9943,6 +9973,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -10094,6 +10125,34 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 488290167}
   m_SourcePrefab: {fileID: 100100000, guid: 52d5e1772ac2bdd4b8de366f654b76c6, type: 3}
+--- !u!1 &1639336546 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: bcc138b2cb555874bb81e3469368d388,
+    type: 3}
+  m_PrefabInstance: {fileID: 318344331}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &1639336549
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639336546}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8108563764783910780, guid: bcc138b2cb555874bb81e3469368d388, type: 3}
 --- !u!1001 &1651733601
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10249,6 +10308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -11008,6 +11068,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -11859,6 +11920,7 @@ GameObject:
   - component: {fileID: 1898805524}
   - component: {fileID: 1898805526}
   - component: {fileID: 1898805525}
+  - component: {fileID: 1898805527}
   m_Layer: 11
   m_Name: Prompt Label
   m_TagString: Untagged
@@ -11924,6 +11986,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1898805523}
   m_CullTransparentMesh: 1
+--- !u!114 &1898805527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898805523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e030341757e44368bd1cda31a8846de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _promptLabel: {fileID: 1898805524}
+  _promptText: {fileID: 430660917}
 --- !u!1 &1902487652
 GameObject:
   m_ObjectHideFlags: 0
@@ -12131,6 +12207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 6
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -12575,6 +12652,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -12985,6 +13063,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -13299,6 +13378,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
         type: 3}
+      propertyPath: <spriteAlignment>k__BackingField
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
       propertyPath: <InteractableVisualSO>k__BackingField
       value: 
       objectReference: {fileID: 11400000, guid: af9beeb91967110499fe90c8b4c4b2a1,
@@ -13443,6 +13527,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -13556,6 +13641,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdDuration>k__BackingField: 0
+  <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
   _calculationType: 2
   _onGrabType: 0
@@ -14023,6 +14109,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _tempInventoryEnabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: <spriteAlignment>k__BackingField
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8560400406037196625, guid: 076dd4a74cbac204faed828c12561ee2,
         type: 3}

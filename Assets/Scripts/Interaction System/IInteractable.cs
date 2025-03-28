@@ -6,6 +6,7 @@ public interface IInteractable
     public Transform transform { get; }
     public InteractableVisualSO interactableVisualSO { get; }
     public float holdDuration { get; }
+    public SpriteAlignment spriteAlignment { get; }
     
     public bool instant => holdDuration <= 0;
     

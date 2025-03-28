@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Cysharp.Threading.Tasks;
 using TMPro;
+using UI;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,22 +14,22 @@ public class InteractionPromptUI : MonoBehaviour
 
     [Header("Constraints")]
     [SerializeField] private Camera _camera;
-    [SerializeField] private Transform _promptUI;
-    [SerializeField] private TextMeshProUGUI _promptText;
     [SerializeField] private ProgressImage _promptImage;
-    
+    [SerializeField] private PromptLabel _promptLabel;
+
+    public Vector3 offset;
     private InteractController _interactController;
     private Vector3 _originalScale;
     private IInteractable _currentInteractable;
-    private Transform _visualPrompt;
+    private Transform _currentVisual;
     
     private void Start()
     {
         _interactController = Player.Instance.interactController;
         
-        _originalScale = _promptUI.transform.localScale;
+        _originalScale = _promptLabel.transform.localScale;
         
-        _promptUI.gameObject.SetActive(false);
+        _promptLabel.gameObject.SetActive(false);
         _promptImage.gameObject.SetActive(false);
         
         _interactController.OnInteract += OnInteractPerformed;
@@ -49,16 +50,16 @@ public class InteractionPromptUI : MonoBehaviour
     {
         if (!_currentInteractable.IsUnityNull())
         {
-            _visualPrompt.position = _currentInteractable.GetAnchorPosition();
-
+            _currentVisual.position = _currentInteractable.GetAnchorPosition() + offset;
+                
             if (!_currentInteractable.instant && _promptImage.active)
             {
                 _promptImage.SetProgress(_interactController.holdingProgress);
             }
         }
-        else if (_visualPrompt && _visualPrompt.gameObject.activeSelf)
+        else if (_currentVisual && _currentVisual.gameObject.activeSelf)
         {
-            _visualPrompt.gameObject.SetActive(false);
+            _currentVisual.gameObject.SetActive(false);
         }
     }
 
@@ -100,26 +101,31 @@ public class InteractionPromptUI : MonoBehaviour
 
     private void SetVisualPrompt(IInteractable interactable)
     {
-        _visualPrompt?.gameObject.SetActive(false);
-
+        _currentVisual?.gameObject.SetActive(false);
+        Vector2 pivot = PivotUtility.GetPivotFromAlignment(interactable.spriteAlignment);
+        
         if (interactable.interactableVisualSO.visualType == InteractableVisualSO.VisualType.Icon)
         {
-            _visualPrompt = _promptImage.transform;
-            _promptImage.Toggle(true);
-            _promptImage.Set(_currentInteractable.interactableVisualSO.sprite, interactable.GetInteractableName());
-            _promptImage.SetProgress(interactable.instant ? 1 : 0);
+            _promptImage
+                .Toggle(true)
+                .Set(_currentInteractable.interactableVisualSO.sprite, interactable.GetInteractableName())
+                .SetPivot(pivot)
+                .SetProgress(interactable.instant ? 1 : 0);
+            
+            _currentVisual = _promptImage.transform;
         }
         else
         {
-            _promptImage.Toggle(false);
+            _promptLabel
+                .SetText(interactable.GetInteractableName())
+                .SetPivot(pivot);
             
-            _promptText.text = interactable.GetInteractableName();
-            _visualPrompt = _promptUI;
+            _currentVisual = _promptLabel.transform;
         }
 
-        _visualPrompt.transform.localScale = _originalScale;
-        _visualPrompt.position = _currentInteractable.GetAnchorPosition();
-        _visualPrompt.gameObject.SetActive(true);
+        _currentVisual.transform.localScale = _originalScale;
+        _currentVisual.position = _currentInteractable.GetAnchorPosition();
+        _currentVisual.gameObject.SetActive(true);
     }
 
 
@@ -130,8 +136,8 @@ public class InteractionPromptUI : MonoBehaviour
             _currentInteractable = null;
             
             _promptImage.Toggle(false);
-            _visualPrompt.gameObject.SetActive(false);
-            _visualPrompt = null;
+            _currentVisual.gameObject.SetActive(false);
+            _currentVisual = null;
         }
     }
     
@@ -156,17 +162,17 @@ public class InteractionPromptUI : MonoBehaviour
             {
                 if (triggeredInteractable != _currentInteractable)
                 {
-                    if (_visualPrompt)
-                        _visualPrompt.transform.localScale = _originalScale;
+                    if (_currentVisual)
+                        _currentVisual.transform.localScale = _originalScale;
                     yield break;
                 }
 
-                _visualPrompt.transform.localScale = Vector3.Lerp(fromScale, toScale, elapsed / duration);
+                _currentVisual.transform.localScale = Vector3.Lerp(fromScale, toScale, elapsed / duration);
                 elapsed += Time.deltaTime;
                 yield return null;
             }
 
-            _visualPrompt.transform.localScale = toScale;
+            _currentVisual.transform.localScale = toScale;
         }
     }
 }
