@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace UI
 {
-    [CreateAssetMenu(menuName = "UI/InputBindingSpriteBinder")]
+    [CreateAssetMenu(menuName = "UI/Input Binding Sprite Binder")]
     public class InputBindingSpriteBinder : ScriptableObject
     {
         [System.Serializable]

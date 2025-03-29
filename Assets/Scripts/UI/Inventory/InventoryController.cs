@@ -12,7 +12,7 @@ namespace UI.Inventory
         [Header("Constraints")]
         [SerializeField] private PlayerInput _playerInput;
         [SerializeField] private List<InventoryItemSO> _inventoryItemSOs;
-        [FormerlySerializedAs("_itemPrefabBinder")] [SerializeField] private InventoryItemBinder _inventoryItemBinder;
+        [SerializeField] private InventoryItemBinder _inventoryItemBinder;
         [SerializeField] private InventoryItemHighlight _itemHighlight;
         [SerializeField] private ItemGrid _inventoryItemGrid;
         [SerializeField] private GrabOnlyItemGrid _tempInventoryItemGrid;

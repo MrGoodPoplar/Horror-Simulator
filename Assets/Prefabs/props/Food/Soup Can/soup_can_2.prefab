@@ -63,6 +63,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1618373377311863037, guid: ffb62205729d7084f8c4d87e7b66866a,
+        type: 3}
+      propertyPath: _impactSoundSO
+      value: 
+      objectReference: {fileID: 11400000, guid: ed3ca21686b14854ebf9c2319a30f015,
+        type: 2}
     - target: {fileID: 2118807325410182183, guid: ffb62205729d7084f8c4d87e7b66866a,
         type: 3}
       propertyPath: m_Name
@@ -73,7 +79,8 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

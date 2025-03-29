@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d775a4430b44e3b43a9a579aca15653d, type: 3}
+  m_Name: Metal
+  m_EditorClassIdentifier: 
+  <textures>k__BackingField:
+  - {fileID: 2800000, guid: 633201a70afb55848b6c33f7ff10aba7, type: 3}
+  - {fileID: 2800000, guid: dbc4445e2653aa54cb103c2a04cc3b2c, type: 3}
+  - {fileID: 2800000, guid: 71920d0bdacfd20409514892d2a6a779, type: 3}
+  <surfaceImpactSound>k__BackingField:
+    bulletImpactSounds:
+      spatialBlend: 1
+      mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
+      loop: 0
+      playOnAwake: 0
+      isFrequent: 0
+      _clips:
+      - {fileID: 8300000, guid: 05a416c0407dddd4a8f83d0dbeed402e, type: 3}
+      - {fileID: 8300000, guid: dc15ca849a1c49f4ba9b2cf1ca5d6612, type: 3}
+      - {fileID: 8300000, guid: 5d5b6d8e583385a439aa7171b9ddb086, type: 3}
+      - {fileID: 8300000, guid: 4ee7af2fd333d17419e7aa945f082359, type: 3}
+      - {fileID: 8300000, guid: 29700a5166eeb4a498e8663cc0e4a065, type: 3}
+      - {fileID: 8300000, guid: 47c3193a540ce064aaf10eebaa6ab1c9, type: 3}
+      - {fileID: 8300000, guid: 8f80ddf822f9bf94a979d899d1db9a9d, type: 3}
+      - {fileID: 8300000, guid: b2439db4cf30d3d45ad128febaa63623, type: 3}
+    stepImpactSounds:
+      spatialBlend: 1
+      mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
+      loop: 0
+      playOnAwake: 0
+      isFrequent: 0
+      _clips:
+      - {fileID: 8300000, guid: b3f8e5e54674a9743b07c7a8bd26aa0f, type: 3}
+      - {fileID: 8300000, guid: 998bae5d786eea047a5cc55c11a93a61, type: 3}
+      - {fileID: 8300000, guid: 311efaeb18a86d443854217284647af5, type: 3}
+      - {fileID: 8300000, guid: a0129465f266ea4418dfa3e1f34d2b9e, type: 3}
+      - {fileID: 8300000, guid: 2e160d35a998a3b4fabb465330de48c1, type: 3}
+      - {fileID: 8300000, guid: 8eb023fe4b0a2fa429c4dd3c4e167794, type: 3}
+      - {fileID: 8300000, guid: 2f2bed85b591448458ad316686e8bfb6, type: 3}
+    landingImpactSounds:
+      spatialBlend: 1
+      mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
+      loop: 0
+      playOnAwake: 0
+      isFrequent: 0
+      _clips:
+      - {fileID: 8300000, guid: 2e8aa662364fe254eb647d074533542b, type: 3}
+      - {fileID: 8300000, guid: 34d1d86cf297c744495c3ad1da1b0b7f, type: 3}
+      - {fileID: 8300000, guid: 4464f65aa7c9c8343885078657ea3e4c, type: 3}
+    bulletDropImpactSounds:
+      spatialBlend: 1
+      mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
+      loop: 0
+      playOnAwake: 0
+      isFrequent: 0
+      _clips:
+      - {fileID: 8300000, guid: 7e7f3ff9a6dc0c5418d69cdd17811aca, type: 3}
+      - {fileID: 8300000, guid: 87b2a1042aae7304f993cc2938513278, type: 3}
+      - {fileID: 8300000, guid: 1df32a7ee57985f44a34d6e8c8ad5a27, type: 3}
+      - {fileID: 8300000, guid: f19d9ac4d8d0fe541bfa74064787dffc, type: 3}
+      - {fileID: 8300000, guid: dc1884e5d9469ff4e832dbe89f54155a, type: 3}

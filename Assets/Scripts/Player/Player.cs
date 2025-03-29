@@ -1,4 +1,5 @@
 using Library.UnityUtils;
+using Surface_System;
 using UI;
 using UI.Hotbar;
 using UI.Hotkey_Prompts;
@@ -17,6 +18,7 @@ public class Player : Singleton<Player>
     [field: SerializeField] public HotbarController hotbarController { get; private set; }
     [field: SerializeField] public HotkeyPromptController hotkeyPromptController { get; private set; }
     [field: SerializeField] public HoldingItemController holdingItemController { get; private set; }
+    [field: SerializeField] public SurfaceManager surfaceManager { get; private set; }
     
     [field: Header("Configurations")]
     [field: SerializeField] public InputBindingSpriteBinder inputBindingSpriteBinder { get; private set; }

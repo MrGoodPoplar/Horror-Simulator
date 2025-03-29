@@ -1,4 +1,6 @@
 using System;
+using Surface_System;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -37,8 +39,15 @@ public class Bullet : MonoBehaviour
         _destroyDistance = destroyDistance;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        _bulletPool.Release(this);
+        var data = Player.Instance.surfaceManager.GetImpactDetails(collision);
+        var surfaceImpactHandler = new SurfaceImpactHandler(data);
+
+        surfaceImpactHandler
+            .PlaySound(data?.surfaceImpactSound.bulletImpactSounds)
+            .PlayVfx();
+        
+        _bulletPool.Release(this);    
     }
 }

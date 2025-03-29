@@ -23,7 +23,7 @@ namespace Audio_System
             InitializePool();
         }
 
-        public SoundBuilder CreateSound() => new SoundBuilder(this);
+        public SoundBuilder CreateSound() => new (this);
         
         public SoundEmitter Get() => _soundEmitterPool.Get();
 
@@ -39,6 +39,9 @@ namespace Audio_System
         
         public bool CanPlaySound(SoundData data)
         {
+            if (data == null)
+                return false;
+            
             if (!data.isFrequent)
                 return true;
             

@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d775a4430b44e3b43a9a579aca15653d, type: 3}
+  m_Name: Wet Mud
+  m_EditorClassIdentifier: 
+  <textures>k__BackingField: []
+  <surfaceImpactSound>k__BackingField:
+    bulletImpactSounds:
+      spatialBlend: 1
+      mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
+      loop: 0
+      playOnAwake: 0
+      isFrequent: 0
+      _clips:
+      - {fileID: 8300000, guid: 05cf82ba1ae1a6f4faabf2f6428511d0, type: 3}
+      - {fileID: 8300000, guid: c9f5a96bd7e29cb48902ad700e492c42, type: 3}
+      - {fileID: 8300000, guid: 37387b52b88a55a4693fda7168f5aa03, type: 3}
+      - {fileID: 8300000, guid: cf514c6636c9cbb47811e5dbe1b2bbc9, type: 3}
+      - {fileID: 8300000, guid: 42c4c212cce1efe48a21590453f2881e, type: 3}
+      - {fileID: 8300000, guid: 6c02f20a48471ee4c8be2ab0d801dcd4, type: 3}
+      - {fileID: 8300000, guid: c193c79466e226740b478830ed3c450b, type: 3}
+      - {fileID: 8300000, guid: d782ba6418ea65a46b6356997dbb3c40, type: 3}
+    stepImpactSounds:
+      spatialBlend: 1
+      mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
+      loop: 0
+      playOnAwake: 0
+      isFrequent: 0
+      _clips:
+      - {fileID: 8300000, guid: e347b4e1204f2e147b04111b5e4013db, type: 3}
+      - {fileID: 8300000, guid: cfabd0f07ab072a458af0785ba92b616, type: 3}
+      - {fileID: 8300000, guid: 7bcebf4eee5d1dd43959c944b0812bec, type: 3}
+    landingImpactSounds:
+      spatialBlend: 1
+      mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
+      loop: 0
+      playOnAwake: 0
+      isFrequent: 0
+      _clips:
+      - {fileID: 8300000, guid: 96c3400ba98d0484a9ba3d6c89582f6b, type: 3}
+    bulletDropImpactSounds:
+      spatialBlend: 0
+      mixerGroup: {fileID: 0}
+      loop: 0
+      playOnAwake: 0
+      isFrequent: 0
+      _clips: []

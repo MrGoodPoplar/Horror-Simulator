@@ -5,9 +5,10 @@ using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
-public class FirstPersonController : MonoBehaviour
+public class FirstPersonController : MonoBehaviour, IMoveable
 {
     public event Action OnExhausted;
+    public event Action OnLanded;
     
     public bool canSprint { get; set; } = true;
     public bool canMove { get; set; } = true;
@@ -60,6 +61,7 @@ public class FirstPersonController : MonoBehaviour
     private bool _isCrouching;
     private bool _isCrouchingTransition;
     private bool _isStaminaPenalty;
+    private bool _jumped;
     private float _standingHeight;
     private float _stepOffset;
     private float _currentStamina;
@@ -213,11 +215,18 @@ public class FirstPersonController : MonoBehaviour
     {
         if (!isGrounded)
         {
+            _jumped = true;
             _moveDirection.y -= _gravity * Time.deltaTime;
             _characterController.stepOffset = 0;
         }
         else
         {
+            if (_jumped)
+            {
+                OnLanded?.Invoke();
+                _jumped = false;
+            }
+            
             _characterController.stepOffset = canStepOffset ? _stepOffset : 0;
         }
 

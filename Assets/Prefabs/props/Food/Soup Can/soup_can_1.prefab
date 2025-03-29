@@ -11,17 +11,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 1e3928e96d256ea4ebf8af9340c15937,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.171
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1e3928e96d256ea4ebf8af9340c15937,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.824
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1e3928e96d256ea4ebf8af9340c15937,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.963
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1e3928e96d256ea4ebf8af9340c15937,
         type: 3}
@@ -75,6 +75,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1e3928e96d256ea4ebf8af9340c15937,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1618373377311863037}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1e3928e96d256ea4ebf8af9340c15937,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: 3537953600935071105}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1e3928e96d256ea4ebf8af9340c15937,
         type: 3}
@@ -87,6 +91,19 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1271965459945421174}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1618373377311863037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118807325410182183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0790b97062dd4332a7245b02caa17d55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _impactSoundSO: {fileID: 11400000, guid: ed3ca21686b14854ebf9c2319a30f015, type: 2}
 --- !u!54 &3537953600935071105
 Rigidbody:
   m_ObjectHideFlags: 0

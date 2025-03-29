@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d775a4430b44e3b43a9a579aca15653d, type: 3}
+  m_Name: Stone
+  m_EditorClassIdentifier: 
+  <textures>k__BackingField:
+  - {fileID: 2800000, guid: 35e0556a1d827a646bbd25156b7027e4, type: 3}
+  <surfaceImpactSound>k__BackingField:
+    bulletImpactSounds:
+      spatialBlend: 1
+      mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
+      loop: 0
+      playOnAwake: 0
+      isFrequent: 0
+      _clips:
+      - {fileID: 8300000, guid: fc86ebc95ea023542a3e3224aaa6cefe, type: 3}
+      - {fileID: 8300000, guid: 3d597786d44eb054a9c240b8d6ee8ae6, type: 3}
+      - {fileID: 8300000, guid: 27f7843aba3f35746a2fec2d847d4d2a, type: 3}
+      - {fileID: 8300000, guid: 45528aac8cd5d0b49beb69f05b303b44, type: 3}
+      - {fileID: 8300000, guid: 24f4429e63c1aa047b1e533bd5a2b4d1, type: 3}
+      - {fileID: 8300000, guid: e1b2f3386e855d741b3b2e79ead84542, type: 3}
+      - {fileID: 8300000, guid: e6126c60263c6ec48b10b7610a828945, type: 3}
+      - {fileID: 8300000, guid: f8ff49ee525fa184f9e9ab41a70276d1, type: 3}
+    stepImpactSounds:
+      spatialBlend: 1
+      mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
+      loop: 0
+      playOnAwake: 0
+      isFrequent: 0
+      _clips:
+      - {fileID: 8300000, guid: c202d7d8b7d30654fa73021a492477cd, type: 3}
+      - {fileID: 8300000, guid: 9ee10db0108e93b449ede3ea076b2b50, type: 3}
+      - {fileID: 8300000, guid: 6931832a925485b40b8fb302eb889048, type: 3}
+      - {fileID: 8300000, guid: 2802f9fa2d5172a4badf710cbb383211, type: 3}
+    landingImpactSounds:
+      spatialBlend: 1
+      mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
+      loop: 0
+      playOnAwake: 0
+      isFrequent: 0
+      _clips:
+      - {fileID: 8300000, guid: b6fb4133285e38b49aeb1951d199fa81, type: 3}
+      - {fileID: 8300000, guid: deb7d3acd58a28e43b6039c6c0007984, type: 3}
+      - {fileID: 8300000, guid: 6e84cf3a68cb00f4fbc64df9e969279e, type: 3}
+      - {fileID: 8300000, guid: 900052c6813701245a1cd7e3de8581b5, type: 3}
+    bulletDropImpactSounds:
+      spatialBlend: 0
+      mixerGroup: {fileID: 0}
+      loop: 0
+      playOnAwake: 0
+      isFrequent: 0
+      _clips: []

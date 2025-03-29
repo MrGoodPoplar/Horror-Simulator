@@ -130,7 +130,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 44
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d69a34a257f2bb4884cd075b82358ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testObj: {fileID: 4073054864030650343, guid: 21db832d1b4b4b448b7435ee985f6059, type: 3}
 --- !u!65 &2119944141990537366
 BoxCollider:
   m_ObjectHideFlags: 0

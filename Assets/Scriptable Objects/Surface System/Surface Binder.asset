@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37cd4446483b3034a881a2f97a6fc72d, type: 3}
+  m_Name: Surface Binder
+  m_EditorClassIdentifier: 
+  _surfaceGroups:
+  - {fileID: 11400000, guid: 07f814e9cd39d3e4e95960aaa3972541, type: 2}
+  - {fileID: 11400000, guid: 846a0bbf12bd7324091819efa1d7a255, type: 2}
+  - {fileID: 11400000, guid: 59963140ec67ddd45a9e8e32b4cea84a, type: 2}
+  - {fileID: 11400000, guid: d03adf4275afe5e4184f191973f3a147, type: 2}
+  - {fileID: 11400000, guid: 383d76736b8e8bc4f982820064aaae40, type: 2}
+  - {fileID: 11400000, guid: d1aedcd3a17f1d14d8ebd1000b9d7465, type: 2}
+  - {fileID: 11400000, guid: 58f9ec909470cb842b6886a9d0115b6f, type: 2}
+  - {fileID: 11400000, guid: 38a822c37fa58144aabe7a98a0d042c8, type: 2}

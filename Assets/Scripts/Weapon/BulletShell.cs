@@ -1,12 +1,12 @@
 using System;
 using Audio_System;
 using Cysharp.Threading.Tasks;
+using Surface_System;
 using UnityEngine;
 using UnityEngine.Pool;
 
 public class BulletShell : MonoBehaviour
 {
-    [SerializeField] private ArraySoundData _fallSounds;
     [SerializeField] private Vector3 _targetScale = new (1, 1, 1);
     [SerializeField] private float _scalingSpeed = 0.5f;
     private IObjectPool<BulletShell> _bulletShellPool;
@@ -18,17 +18,17 @@ public class BulletShell : MonoBehaviour
         _initialScale = transform.localScale;
     }
 
-    // TODO: proper surface type system
-    private void OnCollisionEnter(Collision other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.TryGetComponent(out BulletShell _))
+        if (collision.gameObject.TryGetComponent(out BulletShell _))
             return;
-        
-        SoundManager.Instance.CreateSound()
-            .WithSoundData(_fallSounds)
-            .WithPosition(transform.position)
-            .WithRandomPitch()
-            .Play();
+     
+        var data = Player.Instance.surfaceManager.GetImpactDetails(collision);
+        var surfaceImpactHandler = new SurfaceImpactHandler(data);
+
+        surfaceImpactHandler
+            .PlaySound(data?.surfaceImpactSound.bulletDropImpactSounds)
+            .PlayVfx();
     }
 
     public void SetBulletShellPool(IObjectPool<BulletShell> bulletShellPool)
