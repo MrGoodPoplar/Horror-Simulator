@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Audio_System;
+using Prop;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator), typeof(OpenGrabItemInteractable))]
@@ -27,7 +29,7 @@ public class Mag357AmmoBoxVisual : MonoBehaviour
         _openGrabItemInteractable = GetComponent<OpenGrabItemInteractable>();
 
         _openGrabItemInteractable.OnOpen += OnOpenPerformed;
-        _openGrabItemInteractable.OnInteract += OnInteractPerformed;
+        _openGrabItemInteractable.OnInteract += OnQuantityUpdatePerformed;
         _openGrabItemInteractable.OnSet += OnSetPerformed;
         _openGrabItemInteractable.OnQuantityUpdate += OnQuantityUpdatePerformed;
     }
@@ -35,7 +37,7 @@ public class Mag357AmmoBoxVisual : MonoBehaviour
     private void OnDestroy()
     {
         _openGrabItemInteractable.OnOpen -= OnOpenPerformed;
-        _openGrabItemInteractable.OnInteract -= OnInteractPerformed;
+        _openGrabItemInteractable.OnInteract -= OnQuantityUpdatePerformed;
         _openGrabItemInteractable.OnSet -= OnSetPerformed;
         _openGrabItemInteractable.OnQuantityUpdate -= OnQuantityUpdatePerformed;
     }
@@ -44,17 +46,13 @@ public class Mag357AmmoBoxVisual : MonoBehaviour
     {
         GenerateAmmo(_openGrabItemInteractable.quantity);
     }
-
-    private void OnInteractPerformed()
-    {
-        if (_rounds.Count > 0)
-            ClearAmmo(_rounds.Count - _openGrabItemInteractable.quantity);
-    }
     
     private void OnQuantityUpdatePerformed()
     {
         if (_rounds.Count > 0)
+        {
             ClearAmmo(_rounds.Count - _openGrabItemInteractable.quantity);
+        }
     }
 
     private void OnOpenPerformed()

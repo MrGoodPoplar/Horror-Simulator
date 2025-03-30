@@ -47,10 +47,10 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     
     private Animator _animator;
     private ShooterController _shooterController;
-    private FirstPersonController _firstPersonController;
     private German130BulletVisual _bulletVisual;
     private PlayerInput _playerInput;
     private Weapon _german130;
+    private IMoveable _moveable;
 
     private int _currentChamberIndex;
     private int _emptyShellsInside;
@@ -75,7 +75,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     private void Start()
     {
         _shooterController = Player.Instance.shooterController;
-        _firstPersonController = Player.Instance.firstPersonController;
+        _moveable = Player.Instance.firstPersonController;
         _playerInput = Player.Instance.playerInput;
         
         _shooterController.OnReload += OnReloadPerformed;
@@ -84,7 +84,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
         
         _playerInput.OnOpenHUD += OnOpenHudPerformed;
         
-        _firstPersonController.playerInput.OnFire += OnInputFirePerformed;
+        Player.Instance.playerInput.OnFire += OnInputFirePerformed;
         
         _german130.OnHide += InterruptReloadAnimationAsync;
         
@@ -100,7 +100,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
 
         _playerInput.OnOpenHUD -= OnOpenHudPerformed;
         
-        _firstPersonController.playerInput.OnFire -= OnInputFirePerformed;
+        Player.Instance.playerInput.OnFire -= OnInputFirePerformed;
         
         _german130.OnHide -= InterruptReloadAnimationAsync;
     }
@@ -116,7 +116,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
             return;
         
         _animator.SetBool(IS_AIMING, _shooterController.isAiming);
-        _animator.SetFloat(VELOCITY, _firstPersonController.velocity);
+        _animator.SetFloat(VELOCITY, _moveable.speedVertical);
 
         if (_isReloadAnimationPlaying && !AnimatorIsPlaying(_currentReloadAnimationState))
         {

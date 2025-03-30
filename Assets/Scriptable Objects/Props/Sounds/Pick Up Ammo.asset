@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72642bf89caa430a8387d2e06ee1a309, type: 3}
+  m_Name: Pick Up Ammo
+  m_EditorClassIdentifier: 
+  <sounds>k__BackingField:
+    spatialBlend: 1
+    mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
+    loop: 0
+    playOnAwake: 0
+    isFrequent: 0
+    _clips:
+    - {fileID: 8300000, guid: 884c962588563ce448eae7cdb0658175, type: 3}
+    - {fileID: 8300000, guid: 44a50636a870ebe46869b7a35ba791e0, type: 3}
+    - {fileID: 8300000, guid: b1121d5900630ac45ab4f6bf0de84a67, type: 3}

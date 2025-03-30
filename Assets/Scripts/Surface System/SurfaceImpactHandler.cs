@@ -14,11 +14,14 @@ namespace Surface_System
 
         public SurfaceImpactHandler PlaySound(SoundData soundData)
         {
-            SoundManager.Instance.CreateSound()
-                .WithSoundData(soundData)
-                .WithRandomPitch()
-                .WithPosition(_data.position)
-                .Play();
+            if (soundData != null)
+            {
+                SoundManager.Instance.CreateSound()
+                    .WithSoundData(soundData)
+                    .WithRandomPitch()
+                    .WithPosition(_data.position)
+                    .Play();
+            }
             
             return this;
         }

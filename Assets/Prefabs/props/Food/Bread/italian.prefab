@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <holdingPosition>k__BackingField: {x: 0, y: 0, z: -0.1}
-  <holdingRotation>k__BackingField: {x: 0, y: -20, z: 0}
+  <holdingRotation>k__BackingField: {x: 0, y: 0, z: 0}
   <bounds>k__BackingField:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.05, y: 0.06, z: 0.375}

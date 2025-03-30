@@ -42,11 +42,13 @@ public class Bullet : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         var data = Player.Instance.surfaceManager.GetImpactDetails(collision);
-        var surfaceImpactHandler = new SurfaceImpactHandler(data);
 
-        surfaceImpactHandler
-            .PlaySound(data?.surfaceImpactSound.bulletImpactSounds)
-            .PlayVfx();
+        if (data != null)
+        {
+            new SurfaceImpactHandler(data)
+                .PlaySound(data.surfaceImpactSound.bulletImpactSounds)
+                .PlayVfx();  
+        }
         
         _bulletPool.Release(this);    
     }

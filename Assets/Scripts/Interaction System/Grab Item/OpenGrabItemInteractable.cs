@@ -1,11 +1,17 @@
 using System;
+using Audio_System;
 using Cysharp.Threading.Tasks;
+using Prop;
 using UnityEngine;
 
 public class OpenGrabItemInteractable : GrabItemInteractable
 {
+    // TODO: refactor on SoundData example
     [field: Header("Constraints")]
     [field: SerializeField] public InteractableVisualSO openInteractableVisualSO { get; private set; }
+    
+    [Header("Sounds")]
+    [SerializeField] private SoundSO _changeStateSoundSO;
     
     public bool opened { get; private set; }
     
@@ -47,6 +53,12 @@ public class OpenGrabItemInteractable : GrabItemInteractable
             holdDuration = 0;
             interactableVisualSO = _defaultInteractableVisualSO;
         }
+        
+        SoundManager.Instance.CreateSound()
+            .WithSoundData(_changeStateSoundSO.sounds)
+            .WithRandomPitch()
+            .WithPosition(transform.position)
+            .Play();
         
         opened = !opened;
     }

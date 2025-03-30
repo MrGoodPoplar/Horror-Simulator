@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72642bf89caa430a8387d2e06ee1a309, type: 3}
+  m_Name: Open Small Cardboard
+  m_EditorClassIdentifier: 
+  <sounds>k__BackingField:
+    spatialBlend: 1
+    mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
+    loop: 0
+    playOnAwake: 0
+    isFrequent: 0
+    _clips:
+    - {fileID: 8300000, guid: 1c1b0562a8dec62479845722c30acb95, type: 3}
+    - {fileID: 8300000, guid: 243c10e94d122d4449d84a63844e7893, type: 3}
+    - {fileID: 8300000, guid: 6c4f063f7405297439b964c5bb66a2ca, type: 3}
+    - {fileID: 8300000, guid: c83f2c155007b4e459a71a914790d3ee, type: 3}

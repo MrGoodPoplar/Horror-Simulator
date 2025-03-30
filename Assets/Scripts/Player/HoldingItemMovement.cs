@@ -43,7 +43,7 @@ public class HoldingItemMovement : MonoBehaviour
     private Collider[] _collisions = new Collider[4];
 
     private HoldingItemController _holdingItemController;
-    private FirstPersonController _firstPersonController;
+    private IMoveable _moveable;
     private ShooterController _shooterController;
     
     private float _timer;
@@ -56,7 +56,7 @@ public class HoldingItemMovement : MonoBehaviour
     private void Start()
     {
         _shooterController = Player.Instance.shooterController;
-        _firstPersonController = Player.Instance.firstPersonController;
+        _moveable = Player.Instance.firstPersonController;
         _holdingItemController = Player.Instance.holdingItemController;
         
         _holdingItemController.OnTake += HoldingItemOnTakePerformed;
@@ -68,7 +68,7 @@ public class HoldingItemMovement : MonoBehaviour
             : _idlePosition;
         
         _initialRotation = transform.localRotation;
-        _playerInput = _firstPersonController.playerInput;
+        _playerInput = Player.Instance.playerInput;
     }
 
     private void OnDestroy()
@@ -81,7 +81,7 @@ public class HoldingItemMovement : MonoBehaviour
     {
         HandleSway();
 
-        if (_firstPersonController.isGrounded)
+        if (_moveable.isGrounded)
             HandleBobbing();
         
         HandleRecoil();
@@ -153,7 +153,7 @@ public class HoldingItemMovement : MonoBehaviour
 
         if (_playerInput.move.magnitude > 0)
         {
-            float currentSpeed = bobSpeed * _firstPersonController.velocity;
+            float currentSpeed = bobSpeed * _moveable.speed;
             _timer += Time.deltaTime * currentSpeed;
             float bobOffsetY = Mathf.Sin(_timer) * bobAmount;
             Vector3 bobOffset = new Vector3(0, bobOffsetY, 0);
@@ -179,7 +179,7 @@ public class HoldingItemMovement : MonoBehaviour
 
     private void HandleJumpSway()
     {
-        if (!_firstPersonController.isGrounded)
+        if (!_moveable.isGrounded)
         {
             if (!_isAirborne)
             {

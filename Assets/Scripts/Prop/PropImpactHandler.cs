@@ -5,12 +5,12 @@ namespace Prop
 {
     public class PropImpactHandler : MonoBehaviour
     {
-        [SerializeField] private PropSoundSO _impactSoundSO;
+        [SerializeField] private SoundSO _impactSoundSO;
         
         private void OnCollisionEnter(Collision collision)
         {
             SoundManager.Instance.CreateSound()
-                .WithSoundData(_impactSoundSO.impactSounds)
+                .WithSoundData(_impactSoundSO.sounds)
                 .WithRandomPitch()
                 .WithPosition(collision.GetContact(0).point)
                 .Play();

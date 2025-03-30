@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72642bf89caa430a8387d2e06ee1a309, type: 3}
+  m_Name: Pick Up Rough Item
+  m_EditorClassIdentifier: 
+  <sounds>k__BackingField:
+    spatialBlend: 1
+    mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
+    loop: 0
+    playOnAwake: 0
+    isFrequent: 0
+    _clips:
+    - {fileID: 8300000, guid: 578be8b4fd32b3743a8e9f29d1ebe624, type: 3}
+    - {fileID: 8300000, guid: 72b2c16ea5994f0429e3c435a22e6f4f, type: 3}
+    - {fileID: 8300000, guid: ace81962e0fc045409280be0e730d851, type: 3}
+    - {fileID: 8300000, guid: fdc006e979f64bb4baf252ff9971feb5, type: 3}
+    - {fileID: 8300000, guid: 344bc3de9b75ce54cba55c5dab4ac1d9, type: 3}

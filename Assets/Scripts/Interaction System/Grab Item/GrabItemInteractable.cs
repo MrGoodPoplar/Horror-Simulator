@@ -1,4 +1,6 @@
 using System;
+using Audio_System;
+using Prop;
 using UI.Inventory;
 using UI.Inventory.Inventory_Item;
 using UnityEngine;
@@ -26,6 +28,9 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
     [field: Header("Constraints")]
     [field: SerializeField] public InteractableVisualSO interactableVisualSO { get; protected set; }
     [field: SerializeField] public InventoryItemSO inventoryItemSO { get; private set; }
+    
+    [Header("Sounds")]
+    [SerializeField] protected SoundSO _pickUpSoundSO;
     
     #region Enums
     enum CalculationType
@@ -121,6 +126,14 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
         if (result)
         {
             HandleSuccessfulInteraction();
+            
+            // TODO: no sound when half qty was added
+            // TODO: sound bug when walking towards the wall
+            SoundManager.Instance.CreateSound()
+                .WithSoundData(_pickUpSoundSO.sounds)
+                .WithRandomPitch()
+                .WithPosition(transform.position)
+                .Play();
         }
     }
     

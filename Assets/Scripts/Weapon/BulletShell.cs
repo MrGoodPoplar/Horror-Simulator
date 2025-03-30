@@ -1,5 +1,3 @@
-using System;
-using Audio_System;
 using Cysharp.Threading.Tasks;
 using Surface_System;
 using UnityEngine;
@@ -24,10 +22,12 @@ public class BulletShell : MonoBehaviour
             return;
      
         var data = Player.Instance.surfaceManager.GetImpactDetails(collision);
-        var surfaceImpactHandler = new SurfaceImpactHandler(data);
 
-        surfaceImpactHandler
-            .PlaySound(data?.surfaceImpactSound.bulletDropImpactSounds)
+        if (data == null)
+            return;
+        
+        new SurfaceImpactHandler(data)
+            .PlaySound(data.surfaceImpactSound.bulletDropImpactSounds)
             .PlayVfx();
     }
 

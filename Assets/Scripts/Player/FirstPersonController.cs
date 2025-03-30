@@ -18,7 +18,9 @@ public class FirstPersonController : MonoBehaviour, IMoveable
     
     public PlayerInput playerInput { get; private set; }
     public bool isGrounded => _characterController.isGrounded;
-    public float velocity => Mathf.Clamp01(_characterController.velocity.magnitude / _sprintSpeed);
+    public float speed => GetSpeed(_characterController.velocity);
+    public float speedHorizontal => GetSpeed(new Vector3(_characterController.velocity.x, 0, _characterController.velocity.z));
+    public float speedVertical => GetSpeed(new Vector3(0, _characterController.velocity.y, 0));
     public float height => _characterController.height;
     public Vector3 characterControllerCenter => _characterController.center;
     public Vector3 moveDirection => _moveDirection;
@@ -215,7 +217,9 @@ public class FirstPersonController : MonoBehaviour, IMoveable
     {
         if (!isGrounded)
         {
-            _jumped = true;
+            if (!_isCrouchingTransition)
+                _jumped = true;
+            
             _moveDirection.y -= _gravity * Time.deltaTime;
             _characterController.stepOffset = 0;
         }
@@ -239,5 +243,10 @@ public class FirstPersonController : MonoBehaviour, IMoveable
         {
             _moveDirection.y = _jumpForce;
         }
+    }
+    
+    private float GetSpeed(Vector3 velocity)
+    {
+        return (float)Math.Round(Mathf.Clamp01(velocity.magnitude / _sprintSpeed), 3);
     }
 }

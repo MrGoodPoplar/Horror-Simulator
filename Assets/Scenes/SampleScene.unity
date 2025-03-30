@@ -278,6 +278,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 5cc36b674912462439e26a3a30099417,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -447,6 +448,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 5cc36b674912462439e26a3a30099417,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -720,6 +722,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 666fe4b5175934245bf961989d6adad9,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -1017,6 +1020,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 5cc36b674912462439e26a3a30099417,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -1082,6 +1086,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -1844,11 +1849,35 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 383534598}
     m_Modifications:
+    - target: {fileID: 665502676205198130, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _openSoundSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 19be107509d1d82458d27b658efa69c5,
+        type: 2}
+    - target: {fileID: 665502676205198130, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _pickUpSoundSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ff720f0039ccca42b9b10f27d318d1c,
+        type: 2}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _pickUpSoundSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ff720f0039ccca42b9b10f27d318d1c,
+        type: 2}
     - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
         type: 3}
       propertyPath: _maxQuantityChance
       value: 0.8
       objectReference: {fileID: 0}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _changeStateSoundSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 19be107509d1d82458d27b658efa69c5,
+        type: 2}
     - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
         type: 3}
       propertyPath: _tempInventoryEnabled
@@ -2727,6 +2756,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -3059,6 +3089,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 666fe4b5175934245bf961989d6adad9,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -4079,6 +4110,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -4633,7 +4665,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveableReference: {fileID: 1902487653}
-  _playRate: 0.3
+  _playRateModifier: 0.3
+  _threshold: {x: 0.1, y: 0.6}
   _groundCheckDistance: 1.5
 --- !u!1 &612450454
 GameObject:
@@ -5020,6 +5053,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -5216,6 +5250,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 666fe4b5175934245bf961989d6adad9,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -5725,6 +5760,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -6174,6 +6210,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -6477,6 +6514,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 5cc36b674912462439e26a3a30099417,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -6784,6 +6822,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 95e33fc5f2172594680da48a42ba4688,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: 9d885b596a331854da413824a5646234, type: 2}
   references:
     version: 2
     RefIds: []
@@ -7131,6 +7170,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 666fe4b5175934245bf961989d6adad9,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -7581,6 +7621,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 666fe4b5175934245bf961989d6adad9,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -8341,6 +8382,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 666fe4b5175934245bf961989d6adad9,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -8461,6 +8503,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -9300,6 +9343,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -9916,6 +9960,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 666fe4b5175934245bf961989d6adad9,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -10102,6 +10147,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -10437,6 +10483,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -10792,7 +10839,7 @@ PrefabInstance:
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 449.2448
+      value: 449.43427
       objectReference: {fileID: 0}
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
@@ -11197,6 +11244,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -11728,7 +11776,7 @@ PrefabInstance:
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 556.61475
+      value: 556.8042
       objectReference: {fileID: 0}
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
@@ -12339,6 +12387,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 95e33fc5f2172594680da48a42ba4688,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: 9d885b596a331854da413824a5646234, type: 2}
   references:
     version: 2
     RefIds: []
@@ -12784,6 +12833,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 5cc36b674912462439e26a3a30099417,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -13195,6 +13245,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 5cc36b674912462439e26a3a30099417,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -13450,6 +13501,24 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 383534598}
     m_Modifications:
+    - target: {fileID: 665502676205198130, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _openSoundSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 19be107509d1d82458d27b658efa69c5,
+        type: 2}
+    - target: {fileID: 665502676205198130, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _pickUpSoundSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ff720f0039ccca42b9b10f27d318d1c,
+        type: 2}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _pickUpSoundSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ff720f0039ccca42b9b10f27d318d1c,
+        type: 2}
     - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
         type: 3}
       propertyPath: _calculationType
@@ -13460,6 +13529,12 @@ PrefabInstance:
       propertyPath: _maxQuantityChance
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _changeStateSoundSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 19be107509d1d82458d27b658efa69c5,
+        type: 2}
     - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
         type: 3}
       propertyPath: _tempInventoryEnabled
@@ -13659,6 +13734,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -13773,6 +13849,7 @@ MonoBehaviour:
     type: 2}
   <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 5cc36b674912462439e26a3a30099417,
     type: 2}
+  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
   references:
     version: 2
     RefIds: []
@@ -13868,7 +13945,7 @@ PrefabInstance:
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 629.5148
+      value: 629.7042
       objectReference: {fileID: 0}
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
@@ -14200,6 +14277,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 383534598}
     m_Modifications:
+    - target: {fileID: 665502676205198130, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _openSoundSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 19be107509d1d82458d27b658efa69c5,
+        type: 2}
+    - target: {fileID: 665502676205198130, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _pickUpSoundSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ff720f0039ccca42b9b10f27d318d1c,
+        type: 2}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _pickUpSoundSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ff720f0039ccca42b9b10f27d318d1c,
+        type: 2}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _changeStateSoundSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 19be107509d1d82458d27b658efa69c5,
+        type: 2}
     - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
         type: 3}
       propertyPath: _tempInventoryEnabled
@@ -14845,7 +14946,7 @@ PrefabInstance:
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 279.3298
+      value: 279.51926
       objectReference: {fileID: 0}
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
