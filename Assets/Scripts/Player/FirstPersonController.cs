@@ -36,6 +36,7 @@ public class FirstPersonController : MonoBehaviour, IMoveable
     [Header("Jump Settings")]
     [SerializeField] private float _gravity = 30.0f;
     [SerializeField] private float _jumpForce = 8.0f;
+    [SerializeField] private float _minLevitateTimeForJump = 0.15f;
     
     [Header("Crouch Settings")]
     [SerializeField] private float _crouchSpeed = 1.5f;
@@ -67,6 +68,7 @@ public class FirstPersonController : MonoBehaviour, IMoveable
     private float _standingHeight;
     private float _stepOffset;
     private float _currentStamina;
+    private float _levitateTimer;
 
     private void Awake()
     {
@@ -217,10 +219,11 @@ public class FirstPersonController : MonoBehaviour, IMoveable
     {
         if (!isGrounded)
         {
-            if (!_isCrouchingTransition)
+            if (!_isCrouchingTransition && _levitateTimer > _minLevitateTimeForJump)
                 _jumped = true;
             
             _moveDirection.y -= _gravity * Time.deltaTime;
+            _levitateTimer += Time.deltaTime;
             _characterController.stepOffset = 0;
         }
         else
@@ -232,6 +235,7 @@ public class FirstPersonController : MonoBehaviour, IMoveable
             }
             
             _characterController.stepOffset = canStepOffset ? _stepOffset : 0;
+            _levitateTimer = 0;
         }
 
         _characterController.Move(_moveDirection * Time.deltaTime);

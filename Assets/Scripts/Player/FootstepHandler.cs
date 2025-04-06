@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using Audio_System;
 using JetBrains.Annotations;
 using Surface_System;
 using UnityEngine;
@@ -55,7 +53,7 @@ public class FootstepHandler : MonoBehaviour
                 var surfaceData = GetSurfaceData();
                 var surfaceImpactHandler = new SurfaceImpactHandler(surfaceData);
         
-                if (surfaceData != null)
+                if (surfaceData != null && !surfaceData.textureSound.ignoreStepSound)
                     surfaceImpactHandler.PlaySound(surfaceData.surfaceImpactSound.stepImpactSounds);
             }
 

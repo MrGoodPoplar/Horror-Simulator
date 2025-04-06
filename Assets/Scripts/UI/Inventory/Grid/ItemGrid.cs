@@ -46,7 +46,6 @@ namespace UI.Inventory
         private Vector2Int _tileGridPosition;
 
         private InventoryItem[,] _inventoryItemSlot;
-        private List<InventoryItem> _reservedItems;
     
         private void Awake()
         {
@@ -111,7 +110,7 @@ namespace UI.Inventory
 
             if (overlappedItem)
             {
-                if (!overlappedItem.IsFullQuantity() && inventoryItem.inventoryItemSO.guid == overlappedItem.inventoryItemSO.guid)
+                if (!overlappedItem.IsFullQuantity() && !inventoryItem.IsFullQuantity() && inventoryItem.inventoryItemSO.guid == overlappedItem.inventoryItemSO.guid)
                     return false;
             
                 ForgetItem(overlappedItem);
@@ -119,11 +118,11 @@ namespace UI.Inventory
             }
 
             OnItemInteract?.Invoke(this, new (inventoryItem));
-            SetInventoryItemSlot(inventoryItem, position, true);
+            SetInventoryItemSlot(inventoryItem, position);
 
             inventoryItem.gridPosition = position;
             inventoryItem.transform.localPosition = GetPositionOnGrid(position);
-
+            
             return true;
         }
         
@@ -150,12 +149,11 @@ namespace UI.Inventory
         
             if (IsOverlapping(position, inventoryItem.GetActualSize(), ref dummy))
                 return false;
-        
 
             return true;
         }
 
-        private void SetInventoryItemSlot(InventoryItem inventoryItem, Vector2Int position, bool set)
+        private void SetInventoryItemSlot(InventoryItem inventoryItem, Vector2Int position, bool set = true)
         {
             for (int x = 0; x < inventoryItem.GetActualSize().x; x++)
             {
@@ -228,12 +226,26 @@ namespace UI.Inventory
             {
                 for (int y = 0; y < size.y; y++)
                 {
-                    InventoryItem inventoryItem = GetItem(new Vector2Int(position.x + x, position.y + y));
+                    InventoryItem tileInventoryItem = GetItem(new Vector2Int(position.x + x, position.y + y));
             
-                    if (inventoryItem != null)
-                    {
+                    if (tileInventoryItem != null)
                         return true;
-                    }
+                }
+            }
+    
+            return false;
+        }
+        
+        private bool IsOverlapping(Vector2Int position, InventoryItem inventoryItem)
+        {
+            for (int x = 0; x < inventoryItem.GetActualSize().x; x++)
+            {
+                for (int y = 0; y < inventoryItem.GetActualSize().y; y++)
+                {
+                    InventoryItem tileInventoryItem = GetItem(new Vector2Int(position.x + x, position.y + y));
+
+                    if (tileInventoryItem != null && tileInventoryItem != inventoryItem)
+                        return true;
                 }
             }
     
@@ -362,30 +374,25 @@ namespace UI.Inventory
             return total;
         }
 
-        // Reserves first found item in inventory
-        public bool ReserveItem(string guid)
+        public bool TryReplaceItem(InventoryItem inventoryItem, Vector2Int newPosition)
         {
-            InventoryItem inventoryItem = FindItem(guid);
-
-            if (!inventoryItem)
-                return false;
+            Debug.Log($"Item: {inventoryItem.inventoryItemSO.name}, Pos: {newPosition}");
+            Debug.Log($"Contains?: {Contains(inventoryItem)} Overlap?: {IsOverlapping(newPosition, inventoryItem)}");
             
-            inventoryItem.reserved = true;
-            _reservedItems.Add(inventoryItem);
-            return true;
-        }
-        
-        // Frees first found item from reserved list
-        public void FreeItem(string guid)
-        {
-            foreach (InventoryItem inventoryItem in _reservedItems)
+            if (Contains(inventoryItem) && !IsOverlapping(newPosition, inventoryItem))
             {
-                if (inventoryItem.inventoryItemSO.guid == guid)
-                {
-                    inventoryItem.reserved = false;
-                    break;
-                }
+                Debug.Log("DO!");
+                ForgetItem(inventoryItem);
+                SetInventoryItemSlot(inventoryItem, newPosition);
+
+                inventoryItem.gridPosition = newPosition;
+                inventoryItem.transform.localPosition = GetPositionOnGrid(newPosition);
+                Debug.Log($"send: {newPosition} get: {GetPositionOnGrid(newPosition)}");
+                
+                return true;
             }
+
+            return false;
         }
     }
 }

@@ -20,14 +20,17 @@ namespace UI.Inventory
     
         public InventoryItem onHoverInventoryItem { get; private set; }
         
-        private ItemGrid _itemGrid;
+        private ItemGrid _currentItemGrid;
         private InventoryItem _selectedItem;
         private InventoryItem _overlappedItem;
         private InventoryItem _addedItemFromTempInventory;
+        private InventoryItem _lastMovedItem;
         
         private Vector2Int _positionOnGrid;
         private Vector2Int _tileSize;
+        private Vector2Int _lastMovedItemGridPos;
         private bool _itemStateUpdated;
+        private bool _lastMovedItemRotated;
 
         private void Start()
         {
@@ -141,15 +144,15 @@ namespace UI.Inventory
 
         public void SetItemGrid(ItemGrid newItemGrid)
         {
-            if (_itemGrid)
-                _itemGrid.OnItemInteract -= OnItemInteractPerformed;
+            if (_currentItemGrid)
+                _currentItemGrid.OnItemInteract -= OnItemInteractPerformed;
             
-            _itemGrid = newItemGrid;
+            _currentItemGrid = newItemGrid;
 
-            if (_itemGrid)
+            if (_currentItemGrid)
             {
-                _tileSize = _itemGrid.tileSize;
-                _itemGrid.OnItemInteract += OnItemInteractPerformed;
+                _tileSize = _currentItemGrid.tileSize;
+                _currentItemGrid.OnItemInteract += OnItemInteractPerformed;
             }
         }
         
@@ -184,7 +187,7 @@ namespace UI.Inventory
 
         private void HandleItemHighlight()
         {
-            if (!_itemGrid)
+            if (!_currentItemGrid)
             {
                 _itemHighlight.Hide();
                 _itemStateUpdated = true;
@@ -203,7 +206,7 @@ namespace UI.Inventory
             
             if (!_selectedItem)
             {
-                onHoverInventoryItem = _itemGrid.GetItem(_positionOnGrid);
+                onHoverInventoryItem = _currentItemGrid.GetItem(_positionOnGrid);
 
                 if (onHoverInventoryItem)
                 {
@@ -222,12 +225,12 @@ namespace UI.Inventory
             }
             else
             {
-                _itemHighlight.SetColor(_itemGrid.CanPlaceItem(_selectedItem, _positionOnGrid)
+                _itemHighlight.SetColor(_currentItemGrid.CanPlaceItem(_selectedItem, _positionOnGrid)
                     ? _itemHighlight.allowedColor
                     : _itemHighlight.forbiddenColor);
             
                 ToggleItemHighlight(
-                    _itemGrid.IsItemInsideBoundary(_positionOnGrid, _selectedItem.GetActualSize()),
+                    _currentItemGrid.IsItemInsideBoundary(_positionOnGrid, _selectedItem.GetActualSize()),
                     _selectedItem.GetActualSize(),
                     _positionOnGrid
                 );
@@ -239,9 +242,9 @@ namespace UI.Inventory
             if (toggle)
             {
                 _itemHighlight.Show();
-                _itemHighlight.SetParent(_itemGrid, true);
-                _itemHighlight.SetSize(highlightSize, _itemGrid.tileSize);
-                _itemHighlight.SetPosition(_itemGrid, position);
+                _itemHighlight.SetParent(_currentItemGrid, true);
+                _itemHighlight.SetSize(highlightSize, _currentItemGrid.tileSize);
+                _itemHighlight.SetPosition(_currentItemGrid, position);
             }
             else
             {
@@ -251,7 +254,7 @@ namespace UI.Inventory
     
         private void OnClickPerformed()
         {
-            if (!_itemGrid)
+            if (!_currentItemGrid)
                 return;
         
             Vector2Int positionOnGrid = GetTileGridPosition();
@@ -269,16 +272,16 @@ namespace UI.Inventory
         
             if (_selectedItem)
             {
-                pointerPosition.x -= _selectedItem.GetActualSize().x * (float)_itemGrid.tileSize.x / 2;
-                pointerPosition.y += _selectedItem.GetActualSize().y * (float)_itemGrid.tileSize.y / 2;
+                pointerPosition.x -= _selectedItem.GetActualSize().x * (float)_currentItemGrid.tileSize.x / 2;
+                pointerPosition.y += _selectedItem.GetActualSize().y * (float)_currentItemGrid.tileSize.y / 2;
             }
             
-            return _itemGrid.GetTileGridPosition(pointerPosition);
+            return _currentItemGrid.GetTileGridPosition(pointerPosition);
         }
 
         private void PlaceSelectedItem(Vector2Int positionOnGrid)
         {
-            if (_itemGrid.PlaceItem(_selectedItem, positionOnGrid, ref _overlappedItem))
+            if (_currentItemGrid.PlaceItem(_selectedItem, positionOnGrid, ref _overlappedItem))
             {
                 _selectedItem = null;
                 _itemStateUpdated = true;
@@ -291,7 +294,7 @@ namespace UI.Inventory
                     _selectedItem.GetRectTransform().SetAsLastSibling();
                     _selectedItem.SetPivotCenter();
                     
-                    if (_itemGrid == _tempInventoryItemGrid)
+                    if (_currentItemGrid == _tempInventoryItemGrid)
                         _addedItemFromTempInventory = _selectedItem;
                 }
             }
@@ -306,16 +309,20 @@ namespace UI.Inventory
 
         private void PickUpItem(Vector2Int positionOnGrid)
         {
-            _selectedItem = _itemGrid.PickUpItem(positionOnGrid);
+            _selectedItem = _currentItemGrid.PickUpItem(positionOnGrid);
 
             if (_selectedItem)
             {
                 _itemStateUpdated = true;
                 _selectedItem.GetRectTransform().SetAsLastSibling();
                 _selectedItem.SetPivotCenter();
+                
+                _lastMovedItemGridPos = _selectedItem.gridPosition;
+                _lastMovedItem = _selectedItem;
+                _lastMovedItemRotated = _selectedItem.rotated;
             }
 
-            if (_itemGrid == _tempInventoryItemGrid)
+            if (_currentItemGrid == _tempInventoryItemGrid)
                 _addedItemFromTempInventory = _selectedItem;
         }
         
@@ -341,39 +348,88 @@ namespace UI.Inventory
         
         private void OnHUDStateChangedPerformed(bool state)
         {
+            if (!state)
+                HandleSelectedItemReturn();
+        }
+
+        private void HandleSelectedItemReturn()
+        {
             if (_addedItemFromTempInventory && !_selectedItem)
                 _tempInventoryItemGrid.RemoveRelativeItem(_addedItemFromTempInventory);
 
-            if (state || !_selectedItem)
+            if (!_selectedItem)
                 return;
 
+            bool putSucceed = false;
+            
+            if (_selectedItem != _addedItemFromTempInventory)
+                putSucceed = TryPutSelectedItemToInventory();
+
+            if (!putSucceed)
+            {
+                if (_addedItemFromTempInventory)
+                    HandleSelectedItemReturnAsTemp();
+                else
+                    HandleSelectedItemReturnAsMain();
+            }
+            
+            _tempInventoryItemGrid.ClearRelatives();
+        }
+
+        private void HandleSelectedItemReturnAsMain()
+        {
+            if (_lastMovedItem)
+            {
+                if (_lastMovedItem.rotated != _lastMovedItemRotated)
+                {
+                    _lastMovedItem.Rotate(_tileSize);
+                    _lastMovedItem.SetPivotToDefault();
+                }
+
+                if (_inventoryItemGrid.TryReplaceItem(_lastMovedItem, _lastMovedItemGridPos))
+                {
+                    TryPutSelectedItemToInventory();
+                }
+            }
+            else
+            {
+                Debug.LogError("Couldn't fit selected item back to main inventory!");
+            }
+        }
+        
+        private void HandleSelectedItemReturnAsTemp()
+        {
             if (_selectedItem == _addedItemFromTempInventory)
             {
                 PutItemInInventory(_addedItemFromTempInventory, _selectedItem.gridPosition, true);
             }
-            else if (!PutSelectedItemToInventory())
+            else
             {
                 Vector2Int? freeSlot = _tempInventoryItemGrid.FindFreeSlotForItem(_selectedItem.GetActualSize());
-
+                
                 if (freeSlot.HasValue)
                 {
                     _inventoryItemGrid.ForgetItem(_addedItemFromTempInventory);
                     PutItemInInventory(_addedItemFromTempInventory, freeSlot.Value, true);
-                    PutSelectedItemToInventory();
+                    TryPutSelectedItemToInventory();
                 }
                 else
                 {
                     Debug.LogWarning("Couldn't find free slot for item in the temporary inventory!");
                 }
             }
-            
-            _tempInventoryItemGrid.ClearRelatives();
         }
         
-        private bool PutSelectedItemToInventory()
+        private bool TryPutSelectedItemToInventory()
         {
             Vector2Int? freeSlot = _inventoryItemGrid.FindFreeSlotForItem(_selectedItem.GetActualSize());
 
+            if (!freeSlot.HasValue && !_selectedItem.inventoryItemSO.isSymmetrical)
+            {
+                _selectedItem.Rotate(_tileSize);
+                freeSlot = _inventoryItemGrid.FindFreeSlotForItem(_selectedItem.GetActualSize());
+            }
+            
             if (freeSlot.HasValue)
             {
                 PutItemInInventory(_selectedItem, freeSlot.Value);
@@ -385,7 +441,7 @@ namespace UI.Inventory
 
         public bool IsOnHoverGridMain()
         {
-            return _itemGrid == _inventoryItemGrid;
+            return _currentItemGrid == _inventoryItemGrid;
         }
     }
 }

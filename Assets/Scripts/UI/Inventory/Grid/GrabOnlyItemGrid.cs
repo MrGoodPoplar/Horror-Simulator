@@ -6,8 +6,8 @@ namespace UI.Inventory
 {
     public class GrabOnlyItemGrid : ItemGrid
     {
-        [SerializeField] private List<InventoryItem> _relativeItems = new();
-
+        private readonly List<InventoryItem> _relativeItems = new();
+        
         public override bool PlaceItem(InventoryItem inventoryItem, Vector2Int position, ref InventoryItem overlappedItem)
         {
             if (!IsRelativeItem(inventoryItem))

@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d775a4430b44e3b43a9a579aca15653d, type: 3}
   m_Name: Dirt
   m_EditorClassIdentifier: 
-  <textures>k__BackingField: []
+  <textureSounds>k__BackingField:
+  - texture: {fileID: 2800000, guid: 5cb944a91a9d49149b899c62d94d861b, type: 3}
+    ignoreStepSound: 0
   <surfaceImpactSound>k__BackingField:
     bulletImpactSounds:
       spatialBlend: 1
@@ -27,7 +29,7 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 101e0bc9e8d6afb4796be71c27733cbf, type: 3}
       - {fileID: 8300000, guid: 2ea88fdae8877964d88d3c94aba19c59, type: 3}
     stepImpactSounds:
-      spatialBlend: 1
+      spatialBlend: 0
       mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
       loop: 0
       playOnAwake: 0
@@ -44,7 +46,7 @@ MonoBehaviour:
       - {fileID: 8300000, guid: fc3c91d37e82f004ea4a8478698655de, type: 3}
       - {fileID: 8300000, guid: 969fcf7d7a02a794894a78376441eee0, type: 3}
     landingImpactSounds:
-      spatialBlend: 1
+      spatialBlend: 0
       mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
       loop: 0
       playOnAwake: 0

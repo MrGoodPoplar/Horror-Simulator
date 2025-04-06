@@ -14,10 +14,10 @@ namespace Surface_System
         {
             foreach (var group in _surfaceGroups)
             {
-                foreach (var texture in group.textures)
+                foreach (var textureSound in group.textureSounds)
                 {
-                    if (texture == checkTexture)
-                        return new SurfaceData(texture, group.surfaceImpactSound);
+                    if (textureSound.texture == checkTexture)
+                        return new SurfaceData(textureSound.texture, textureSound, group.surfaceImpactSound);
                 }
             }
 

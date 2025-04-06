@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d775a4430b44e3b43a9a579aca15653d, type: 3}
   m_Name: Wood
   m_EditorClassIdentifier: 
-  <textures>k__BackingField:
-  - {fileID: 2800000, guid: 3a16702fb9855d349848ca2d89b8279e, type: 3}
-  - {fileID: 2800000, guid: e8b081dda2482154bad2d49738a5b216, type: 3}
+  <textureSounds>k__BackingField:
+  - texture: {fileID: 2800000, guid: 3a16702fb9855d349848ca2d89b8279e, type: 3}
+    ignoreStepSound: 0
   <surfaceImpactSound>k__BackingField:
     bulletImpactSounds:
       spatialBlend: 1
@@ -32,7 +32,7 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 66a58e992599b374db91cc4d93c81491, type: 3}
       - {fileID: 8300000, guid: 441108c91cd032943a54a67bc0628ba7, type: 3}
     stepImpactSounds:
-      spatialBlend: 1
+      spatialBlend: 0
       mixerGroup: {fileID: 0}
       loop: 0
       playOnAwake: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
       - {fileID: 8300000, guid: e0043ed918489d24cada178bc60e0d0b, type: 3}
       - {fileID: 8300000, guid: 07a54f9ac947089428ac9b37db925454, type: 3}
     landingImpactSounds:
-      spatialBlend: 1
+      spatialBlend: 0
       mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
       loop: 0
       playOnAwake: 0

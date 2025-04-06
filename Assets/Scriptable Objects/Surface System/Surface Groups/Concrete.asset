@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d775a4430b44e3b43a9a579aca15653d, type: 3}
   m_Name: Concrete
   m_EditorClassIdentifier: 
-  <textures>k__BackingField:
-  - {fileID: 2800000, guid: d9c0dd5cdac07b145be73329e489869a, type: 3}
-  - {fileID: 2800000, guid: 37920ac3813690349a856bbe19a86e2b, type: 3}
-  - {fileID: 2800000, guid: 36ee091b92c4c1f4d951bc8e4835168b, type: 3}
-  - {fileID: 2800000, guid: 17198718c5735204999fb13dc36e290f, type: 3}
+  <textureSounds>k__BackingField:
+  - texture: {fileID: 2800000, guid: d9c0dd5cdac07b145be73329e489869a, type: 3}
+    ignoreStepSound: 0
+  - texture: {fileID: 2800000, guid: 37920ac3813690349a856bbe19a86e2b, type: 3}
+    ignoreStepSound: 0
+  - texture: {fileID: 2800000, guid: 3fe239e19d10e284cb9bb5a748ecb82e, type: 3}
+    ignoreStepSound: 0
   <surfaceImpactSound>k__BackingField:
     bulletImpactSounds:
       spatialBlend: 1
@@ -32,7 +34,7 @@ MonoBehaviour:
       - {fileID: 8300000, guid: cda1ab59953010540b354f4040f953e9, type: 3}
       - {fileID: 8300000, guid: 0ab0c9de69a31ea4c8b0bfe8d8c4f971, type: 3}
     stepImpactSounds:
-      spatialBlend: 1
+      spatialBlend: 0
       mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
       loop: 0
       playOnAwake: 0
@@ -49,7 +51,7 @@ MonoBehaviour:
       - {fileID: 8300000, guid: b0ce6df4239e2e44cb0a55e75336b424, type: 3}
       - {fileID: 8300000, guid: a8cac9b4ee5f63649940b3fb79689c61, type: 3}
     landingImpactSounds:
-      spatialBlend: 1
+      spatialBlend: 0
       mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
       loop: 0
       playOnAwake: 0

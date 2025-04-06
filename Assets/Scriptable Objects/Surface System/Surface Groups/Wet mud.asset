@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d775a4430b44e3b43a9a579aca15653d, type: 3}
   m_Name: Wet Mud
   m_EditorClassIdentifier: 
-  <textures>k__BackingField: []
+  <textureSounds>k__BackingField: []
   <surfaceImpactSound>k__BackingField:
     bulletImpactSounds:
       spatialBlend: 1
@@ -30,7 +30,7 @@ MonoBehaviour:
       - {fileID: 8300000, guid: c193c79466e226740b478830ed3c450b, type: 3}
       - {fileID: 8300000, guid: d782ba6418ea65a46b6356997dbb3c40, type: 3}
     stepImpactSounds:
-      spatialBlend: 1
+      spatialBlend: 0
       mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
       loop: 0
       playOnAwake: 0
@@ -40,7 +40,7 @@ MonoBehaviour:
       - {fileID: 8300000, guid: cfabd0f07ab072a458af0785ba92b616, type: 3}
       - {fileID: 8300000, guid: 7bcebf4eee5d1dd43959c944b0812bec, type: 3}
     landingImpactSounds:
-      spatialBlend: 1
+      spatialBlend: 0
       mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
       loop: 0
       playOnAwake: 0

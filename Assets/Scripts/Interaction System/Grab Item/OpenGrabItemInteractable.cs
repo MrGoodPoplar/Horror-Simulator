@@ -47,7 +47,7 @@ public class OpenGrabItemInteractable : GrabItemInteractable
             holdDuration = _defaultHoldDuration;
             interactableVisualSO = openInteractableVisualSO;
         }
-        else
+        else // TODO: unreacheable state
         {
             OnOpen?.Invoke();
             holdDuration = 0;

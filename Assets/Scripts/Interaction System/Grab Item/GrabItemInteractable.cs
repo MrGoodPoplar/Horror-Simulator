@@ -109,7 +109,7 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
     private InventoryItem HandleInventoryItemInteraction()
     {
         var result = _inventoryController.AddItemToInventory(inventoryItemSO, ref _quantity);
-
+        
         if (_tempInventoryEnabled && _quantity > 0)
         {
             int dummyQuantity = _quantity;
@@ -126,14 +126,9 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
         if (result)
         {
             HandleSuccessfulInteraction();
-            
+            PlayPickUpSound();
             // TODO: no sound when half qty was added
             // TODO: sound bug when walking towards the wall
-            SoundManager.Instance.CreateSound()
-                .WithSoundData(_pickUpSoundSO.sounds)
-                .WithRandomPitch()
-                .WithPosition(transform.position)
-                .Play();
         }
     }
     
@@ -146,9 +141,12 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
         {
             int added = _quantity - _inventoryController.GetItemCountInInventory(inventoryItemSO, true);
             _quantity -= added;
-            
+
             if (added > 0)
+            {
+                PlayPickUpSound();
                 OnQuantityUpdate?.Invoke();
+            }
 
             _inventoryController.RemoveInventoryItem(inventoryItemSO, _quantity, true);
         }
@@ -217,5 +215,14 @@ public class GrabItemInteractable : MonoBehaviour, IInteractable
         int rangeDelta = _quantityRange.y - _quantityRange.x;
         
         return (int)(_quantityRange.x + adjustedValue * rangeDelta);
+    }
+
+    private void PlayPickUpSound()
+    {
+        SoundManager.Instance.CreateSound()
+            .WithSoundData(_pickUpSoundSO.sounds)
+            .WithRandomPitch()
+            .WithPosition(transform.position)
+            .Play();
     }
 }

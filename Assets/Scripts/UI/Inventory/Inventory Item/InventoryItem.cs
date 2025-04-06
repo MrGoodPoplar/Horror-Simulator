@@ -15,7 +15,6 @@ namespace UI.Inventory.Inventory_Item
         [SerializeField] private Image _quantityBackground;
 
         public Vector2Int gridPosition { get; set; }
-        public bool reserved { get; set; }
         public InventoryItemSO inventoryItemSO { get; protected set; }
         public bool rotated { get; private set; }
         public int quantity { get; private set; }
@@ -111,7 +110,7 @@ namespace UI.Inventory.Inventory_Item
             return leftover > 0 ? leftover : 0;
         }
 
-        public void UpdateQuantityText(int value)
+        protected void UpdateQuantityText(int value)
         {
             value = value > _maxQuantityValueText ? _maxQuantityValueText : value;
             _quantityText.text = value.ToString();
@@ -155,6 +154,11 @@ namespace UI.Inventory.Inventory_Item
         public virtual GameObject GetItem()
         {
             return item ? item : item = Instantiate(inventoryItemSO.prefab, Vector3.zero, Quaternion.identity);
+        }
+        
+        public void RefreshVisual()
+        {
+            UpdateQuantityText(quantity);
         }
     }
 }

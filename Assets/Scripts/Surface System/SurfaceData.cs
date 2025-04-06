@@ -7,11 +7,13 @@ namespace Surface_System
     {
         public Texture texture;
         public Vector3 position;
+        public TextureSound textureSound;
         public readonly SurfaceImpactSound surfaceImpactSound;
 
-        public SurfaceData(Texture texture, SurfaceImpactSound surfaceImpactSound)
+        public SurfaceData(Texture texture, TextureSound textureSound, SurfaceImpactSound surfaceImpactSound)
         {
             this.texture = texture;
+            this.textureSound = textureSound;
             this.surfaceImpactSound = surfaceImpactSound;
             
             position = Vector3.zero;

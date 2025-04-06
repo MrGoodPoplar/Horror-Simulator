@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d775a4430b44e3b43a9a579aca15653d, type: 3}
   m_Name: Gravel
   m_EditorClassIdentifier: 
-  <textures>k__BackingField:
-  - {fileID: 2800000, guid: 5cb944a91a9d49149b899c62d94d861b, type: 3}
+  <textureSounds>k__BackingField: []
   <surfaceImpactSound>k__BackingField:
     bulletImpactSounds:
       spatialBlend: 1
@@ -30,7 +29,7 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 3d2b1dbfcf6759d40b6f19abd3bd0836, type: 3}
       - {fileID: 8300000, guid: c2f11affa0f9a1347aa3b64876a9d271, type: 3}
     stepImpactSounds:
-      spatialBlend: 1
+      spatialBlend: 0
       mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
       loop: 0
       playOnAwake: 0
@@ -42,7 +41,7 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 62159d65d0afb3142bb39aaf1ec510a2, type: 3}
       - {fileID: 8300000, guid: 3449c3431d01e6f46ae450aea3e8e2cb, type: 3}
     landingImpactSounds:
-      spatialBlend: 1
+      spatialBlend: 0
       mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
       loop: 0
       playOnAwake: 0
