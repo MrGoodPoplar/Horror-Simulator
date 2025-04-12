@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72642bf89caa430a8387d2e06ee1a309, type: 3}
   m_Name: Pick Up Rough Item
   m_EditorClassIdentifier: 
-  <sounds>k__BackingField:
+  <soundData>k__BackingField:
     spatialBlend: 1
     mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
     loop: 0

@@ -1,10 +1,11 @@
 using System;
+using UnityEngine;
 
 namespace Audio_System
 {
     [Serializable]
     public record WeaponSoundConstraints
     {
-        public Weapon weapon;
+        [field: SerializeField] public Weapon weapon { get; protected set; }
     }
 }

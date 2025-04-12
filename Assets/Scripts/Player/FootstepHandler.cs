@@ -51,10 +51,12 @@ public class FootstepHandler : MonoBehaviour
                 _timer = _currentPlayRate;
                 
                 var surfaceData = GetSurfaceData();
-                var surfaceImpactHandler = new SurfaceImpactHandler(surfaceData);
-        
+                
                 if (surfaceData != null && !surfaceData.textureSound.ignoreStepSound)
-                    surfaceImpactHandler.PlaySound(surfaceData.surfaceImpactSound.stepImpactSounds);
+                {
+                    new SurfaceImpactHandler(surfaceData)
+                        .PlaySound(surfaceData.surfaceImpactSound.stepImpactSounds);
+                }
             }
 
             _timer -= Time.deltaTime;

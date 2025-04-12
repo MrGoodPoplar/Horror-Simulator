@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72642bf89caa430a8387d2e06ee1a309, type: 3}
   m_Name: Metal Can
   m_EditorClassIdentifier: 
-  <sounds>k__BackingField:
+  <soundData>k__BackingField:
     spatialBlend: 1
-    mixerGroup: {fileID: 24300002, guid: e656850f4dc11d0498324b402d333aae, type: 2}
+    mixerGroup: {fileID: 24300002, guid: 2a157d0059c841f42b822c2830466136, type: 2}
     loop: 0
     playOnAwake: 0
     isFrequent: 0

@@ -13,24 +13,10 @@ public class InteractController : MonoBehaviour
     [Header("Constraints")]
     [SerializeField] private HitPointer _hitPointer;
 
-    public event EventHandler<InteractEventArgs> OnInteract;
-    public event EventHandler<InteractEventArgs> OnInteractCancelled;
-    public event EventHandler<InteractEventArgs> OnInteractHover;
-    public event EventHandler<InteractEventArgs> OnInteractUnhover;
-    
-    #region InteractEventArgs Class
-    public class InteractEventArgs : EventArgs // TODO: maybe convert to Action class instead of EventHandler
-    {
-        public IInteractable interactable { get; private set; }
-        public InteractionResponse response { get; private set; }
-        
-        public InteractEventArgs(IInteractable interactable, InteractionResponse response = default)
-        {
-            this.interactable = interactable;
-            this.response = response;
-        }
-    }
-    #endregion
+    public event Action<IInteractable, InteractionResponse> OnInteract;
+    public event Action<IInteractable, InteractionResponse> OnInteractCancelled;
+    public event Action<IInteractable, InteractionResponse> OnInteractHover;
+    public event Action<IInteractable, InteractionResponse> OnInteractUnhover;
 
     public bool isInteractableInRange { get; private set; }
     public float holdingProgress { get; private set; }
@@ -68,7 +54,7 @@ public class InteractController : MonoBehaviour
         {
             if (!_interactable.IsUnityNull())
             {
-                OnInteractUnhover?.Invoke(null, new InteractEventArgs(_interactable));
+                OnInteractUnhover?.Invoke(_interactable, new InteractionResponse());
                 _interactable.Forget();
                 _interactable = null;
             }
@@ -82,13 +68,13 @@ public class InteractController : MonoBehaviour
             {
                 _interactable?.Forget();
                 _interactable = closestInteractable;
-                OnInteractHover?.Invoke(null, new InteractEventArgs(_interactable));
+                OnInteractHover?.Invoke(_interactable, new InteractionResponse());
                 OnInteractCanceled();
             }
         }
         else if (_interactable != null)
         {
-            OnInteractUnhover?.Invoke(null, new InteractEventArgs(_interactable));
+            OnInteractUnhover?.Invoke(_interactable, new InteractionResponse());
             OnInteractCanceled();
             _interactable.Forget();
             _interactable = null;
@@ -150,7 +136,7 @@ public class InteractController : MonoBehaviour
             _holdCoroutine = null;
         }
         
-        OnInteractCancelled?.Invoke(this, new (_interactable));
+        OnInteractCancelled?.Invoke(_interactable, new InteractionResponse());
     }
 
     private IEnumerator HoldInteractionCoroutine(float duration)
@@ -176,7 +162,7 @@ public class InteractController : MonoBehaviour
         if (!response.message.IsUnityNull())
             Debug.Log($"{response.message} -> {response.result}");
             
-        OnInteract?.Invoke(null, new InteractEventArgs(interactable, response));
+        OnInteract?.Invoke(interactable, response);
     }
     
     private void OnDrawGizmos()

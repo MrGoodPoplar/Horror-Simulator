@@ -168,9 +168,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -199,11 +199,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 5cc36b674912462439e26a3a30099417,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 5cc36b674912462439e26a3a30099417,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -338,9 +341,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -369,11 +372,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 5cc36b674912462439e26a3a30099417,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 5cc36b674912462439e26a3a30099417,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -612,9 +618,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -643,11 +649,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 666fe4b5175934245bf961989d6adad9,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 666fe4b5175934245bf961989d6adad9,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -910,9 +919,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -941,11 +950,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 5cc36b674912462439e26a3a30099417,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 5cc36b674912462439e26a3a30099417,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -976,9 +988,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -1007,11 +1019,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -1833,7 +1848,37 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
         type: 3}
+      propertyPath: _sounds.<pickUpSoundSO>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ff720f0039ccca42b9b10f27d318d1c,
+        type: 2}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
       propertyPath: <openInteractableVisualSO>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: af9beeb91967110499fe90c8b4c4b2a1,
+        type: 2}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _sounds.<changeStateSoundSO>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 19be107509d1d82458d27b658efa69c5,
+        type: 2}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _constraints.<inventoryItemSO>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 4578cb31cc64eb445a72f8c18a533647,
+        type: 2}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _constraints.<interactableVisualSO>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+        type: 2}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _constraints.<openInteractableVisualSO>k__BackingField
       value: 
       objectReference: {fileID: 11400000, guid: af9beeb91967110499fe90c8b4c4b2a1,
         type: 2}
@@ -2646,9 +2691,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -2677,11 +2722,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -2979,9 +3027,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -3010,11 +3058,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 666fe4b5175934245bf961989d6adad9,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 666fe4b5175934245bf961989d6adad9,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -4000,9 +4051,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -4031,11 +4082,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -4943,9 +4997,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -4974,11 +5028,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -5140,9 +5197,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -5171,11 +5228,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 666fe4b5175934245bf961989d6adad9,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 666fe4b5175934245bf961989d6adad9,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -5650,9 +5710,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -5681,11 +5741,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -6100,9 +6163,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -6131,11 +6194,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -6404,9 +6470,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -6435,11 +6501,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 5cc36b674912462439e26a3a30099417,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 5cc36b674912462439e26a3a30099417,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -6743,11 +6812,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 95e33fc5f2172594680da48a42ba4688,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: 9d885b596a331854da413824a5646234, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 95e33fc5f2172594680da48a42ba4688,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: 9d885b596a331854da413824a5646234,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -7060,9 +7132,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -7091,11 +7163,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 666fe4b5175934245bf961989d6adad9,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 666fe4b5175934245bf961989d6adad9,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -7510,9 +7585,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -7541,11 +7616,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 666fe4b5175934245bf961989d6adad9,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 666fe4b5175934245bf961989d6adad9,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -8163,9 +8241,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -8194,11 +8272,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 666fe4b5175934245bf961989d6adad9,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 666fe4b5175934245bf961989d6adad9,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -8284,9 +8365,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -8315,11 +8396,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -9124,9 +9208,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -9155,11 +9239,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -9704,9 +9791,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -9735,11 +9822,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 666fe4b5175934245bf961989d6adad9,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 666fe4b5175934245bf961989d6adad9,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -9891,9 +9981,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -9922,11 +10012,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -10227,9 +10320,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -10258,11 +10351,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -10618,7 +10714,7 @@ PrefabInstance:
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 449.47504
+      value: 449.3421
       objectReference: {fileID: 0}
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
@@ -10988,9 +11084,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -11019,11 +11115,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -11554,7 +11653,7 @@ PrefabInstance:
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 556.845
+      value: 556.71204
       objectReference: {fileID: 0}
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
@@ -11989,7 +12088,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
-  m_Radius: 0.4
+  m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.4
   m_SkinWidth: 0.08
@@ -12162,11 +12261,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 95e33fc5f2172594680da48a42ba4688,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: 9d885b596a331854da413824a5646234, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 95e33fc5f2172594680da48a42ba4688,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: 9d885b596a331854da413824a5646234,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -12263,7 +12365,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.4
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -12577,9 +12679,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -12608,11 +12710,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 5cc36b674912462439e26a3a30099417,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 5cc36b674912462439e26a3a30099417,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -12989,9 +13094,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -13020,11 +13125,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 5cc36b674912462439e26a3a30099417,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 5cc36b674912462439e26a3a30099417,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -13344,7 +13452,37 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
         type: 3}
+      propertyPath: _sounds.<pickUpSoundSO>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ff720f0039ccca42b9b10f27d318d1c,
+        type: 2}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
       propertyPath: <openInteractableVisualSO>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: af9beeb91967110499fe90c8b4c4b2a1,
+        type: 2}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _sounds.<changeStateSoundSO>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 19be107509d1d82458d27b658efa69c5,
+        type: 2}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _constraints.<inventoryItemSO>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 4578cb31cc64eb445a72f8c18a533647,
+        type: 2}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _constraints.<interactableVisualSO>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+        type: 2}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _constraints.<openInteractableVisualSO>k__BackingField
       value: 
       objectReference: {fileID: 11400000, guid: af9beeb91967110499fe90c8b4c4b2a1,
         type: 2}
@@ -13478,9 +13616,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -13509,11 +13647,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 50d735ca2a62f484bbe6012aff697e45,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -13593,9 +13734,9 @@ MonoBehaviour:
   <holdDuration>k__BackingField: 0
   <spriteAlignment>k__BackingField: 0
   _tempInventoryEnabled: 1
-  _calculationType: 2
-  _onGrabType: 0
-  _maxQuantityChance: 1
+  _calculationType: 1
+  _onGrabType: 1
+  _maxQuantityChance: 0.2
   _quantityRange: {x: 1, y: 1}
   _unsuccessfulMessage:
     m_TableReference:
@@ -13624,11 +13765,14 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
-    type: 2}
-  <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 5cc36b674912462439e26a3a30099417,
-    type: 2}
-  _pickUpSoundSO: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2, type: 2}
+  _constraints:
+    <interactableVisualSO>k__BackingField: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+      type: 2}
+    <inventoryItemSO>k__BackingField: {fileID: 11400000, guid: 5cc36b674912462439e26a3a30099417,
+      type: 2}
+  _sounds:
+    <pickUpSoundSO>k__BackingField: {fileID: 11400000, guid: b8137cf484ec992498c493934854a9c2,
+      type: 2}
   references:
     version: 2
     RefIds: []
@@ -13724,7 +13868,7 @@ PrefabInstance:
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 629.745
+      value: 629.61206
       objectReference: {fileID: 0}
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
@@ -14090,6 +14234,36 @@ PrefabInstance:
       propertyPath: <spriteAlignment>k__BackingField
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _sounds.<pickUpSoundSO>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ff720f0039ccca42b9b10f27d318d1c,
+        type: 2}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _sounds.<changeStateSoundSO>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 19be107509d1d82458d27b658efa69c5,
+        type: 2}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _constraints.<inventoryItemSO>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 4578cb31cc64eb445a72f8c18a533647,
+        type: 2}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _constraints.<interactableVisualSO>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: c8c4c0d7d86d50c4592845825890a899,
+        type: 2}
+    - target: {fileID: 7794295788924009240, guid: 076dd4a74cbac204faed828c12561ee2,
+        type: 3}
+      propertyPath: _constraints.<openInteractableVisualSO>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: af9beeb91967110499fe90c8b4c4b2a1,
+        type: 2}
     - target: {fileID: 8560400406037196625, guid: 076dd4a74cbac204faed828c12561ee2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -14725,7 +14899,7 @@ PrefabInstance:
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 279.56003
+      value: 279.4271
       objectReference: {fileID: 0}
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}

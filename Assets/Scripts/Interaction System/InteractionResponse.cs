@@ -1,7 +1,7 @@
 
 using Unity.VisualScripting;
 
-public struct InteractionResponse
+public class InteractionResponse
 {
     public string message { get; private set; }
     public bool result { get; private set; }
@@ -10,7 +10,7 @@ public struct InteractionResponse
 
     public bool hasMessage => !message.IsUnityNull() && message.Length > 0;
 
-    public InteractionResponse(string message, bool result, bool display = false, bool updateVisual = false)
+    public InteractionResponse(string message = "", bool result = true, bool display = false, bool updateVisual = false)
     {
         this.message = message;
         this.result = result;

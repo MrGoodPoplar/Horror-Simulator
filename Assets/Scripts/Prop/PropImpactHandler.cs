@@ -10,7 +10,7 @@ namespace Prop
         private void OnCollisionEnter(Collision collision)
         {
             SoundManager.Instance.CreateSound()
-                .WithSoundData(_impactSoundSO.sounds)
+                .WithSoundData(_impactSoundSO.soundData)
                 .WithRandomPitch()
                 .WithPosition(collision.GetContact(0).point)
                 .Play();

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
-using UI.Inventory;
+using Interaction_System.Grab_Item;
 using UI.Inventory.Actions;
 using UI.Inventory.Inventory_Item;
 using UnityEngine;
@@ -135,11 +135,11 @@ namespace UI.Hotbar
             return hotbarSlot = _hotbarSlots.Find(slot => slot.guid == hotbarSlotGuid);
         }
         
-        private void InteractControllerOnInteractPerformed(object sender, InteractController.InteractEventArgs e)
+        private void InteractControllerOnInteractPerformed(IInteractable interactable, InteractionResponse response)
         {
-            if (e.interactable is GrabItemInteractable { insertedInventoryItem: not null } grabItem)
+            if (interactable is GrabItemInteractable<GrabInteractableConstraints, GrabInteractableSounds> grabItem && grabItem.insertedInventoryItem != null)
             {
-                if (grabItem.inventoryItemSO.actions.FirstOrDefault(action => action is EquipInventoryItemAction) is EquipInventoryItemAction equipAction)
+                if (grabItem.GetActions().FirstOrDefault(action => action is EquipInventoryItemAction) is EquipInventoryItemAction equipAction)
                 {
                     bool equipped = EquipItem(grabItem.insertedInventoryItem, equipAction.hotbarSlotSO.guid, true);
 

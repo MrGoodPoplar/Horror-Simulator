@@ -17,7 +17,9 @@ public class TestInteractable : MonoBehaviour, IInteractable
     {
         
     }
-    
+
+    public InteractableVisualSO GetInteractableVisualSO() => interactableVisualSO;
+
     public virtual string GetInteractableName() => _pickupText;
 
 }

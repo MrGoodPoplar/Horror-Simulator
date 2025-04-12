@@ -1,13 +1,14 @@
 using System;
+using UnityEngine;
 
 namespace Audio_System
 {
     [Serializable]
     public record WeaponSoundsData
     {
-        public ArraySoundData fireSounds;
-        public ArraySoundData dryFireSounds;
-        public ArraySoundData reloadStartSounds;
-        public ArraySoundData reloadEndSounds;
+        [field: SerializeField] public ArraySoundData fireSounds { get; protected set; }
+        [field: SerializeField] public ArraySoundData dryFireSounds { get; protected set; }
+        [field: SerializeField] public ArraySoundData reloadStartSounds { get; protected set; }
+        [field: SerializeField] public ArraySoundData reloadEndSounds { get; protected set; }
     }
 }

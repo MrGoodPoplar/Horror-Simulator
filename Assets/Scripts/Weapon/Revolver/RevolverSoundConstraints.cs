@@ -1,8 +1,9 @@
 using System;
 using Audio_System;
+using UnityEngine;
 
 [Serializable]
 public record RevolverSoundConstraints : WeaponSoundConstraints
 {
-    public German130Visual revolverVisual;
+    [field: SerializeField] public German130Visual revolverVisual { get; protected set; }
 }

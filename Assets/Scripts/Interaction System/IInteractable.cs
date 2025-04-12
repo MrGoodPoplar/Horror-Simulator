@@ -4,7 +4,6 @@ using UnityEngine;
 public interface IInteractable
 {
     public Transform transform { get; }
-    public InteractableVisualSO interactableVisualSO { get; }
     public float holdDuration { get; }
     public SpriteAlignment spriteAlignment { get; }
     
@@ -13,8 +12,10 @@ public interface IInteractable
     public InteractionResponse Interact();
 
     public void Forget();
+
+    public InteractableVisualSO GetInteractableVisualSO();
     
     public Vector3 GetAnchorPosition() => transform.position;
 
-    public string GetInteractableName() => interactableVisualSO.interactLabelText;
+    public string GetInteractableName() => GetInteractableVisualSO().interactLabelText;
 }

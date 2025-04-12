@@ -72,30 +72,31 @@ public class InteractionPromptUI : MonoBehaviour
         }
     }
     
-    private void OnInteractPerformed(object sender, InteractController.InteractEventArgs e)
+    private void OnInteractPerformed(IInteractable interactable, InteractionResponse response)
     {
-        if (!e.interactable.IsUnityNull() && !Player.Instance.HUDController.isHUDView)
+        if (!interactable.IsUnityNull() && !Player.Instance.HUDController.isHUDView)
         {
-            _currentInteractable = e.interactable;
+            _currentInteractable = interactable;
             
-            if (e.response.updateVisual)
+            if (response.updateVisual)
                 SetVisualPrompt(_currentInteractable);
-            else if (e.response.hasMessage)
-                _promptImage.ShowTemporaryMessageAsync(e.response.message, _tempMessageDuration).Forget();
-            else if (_currentInteractable.interactableVisualSO.interactEffectEnabled)
+            else if (response.hasMessage)
+                _promptImage.ShowTemporaryMessageAsync(response.message, _tempMessageDuration).Forget();
+            else if (_currentInteractable.GetInteractableVisualSO().interactEffectEnabled)
                 StartCoroutine(InteractPressedCoroutine());
         }
     }
     
-    private void OnInteractCancelled(object sender, InteractController.InteractEventArgs e)
+    private void OnInteractCancelled(IInteractable interactable, InteractionResponse response)
     {
-        if (!e.interactable.IsUnityNull() && !e.interactable.instant)
+        if (!interactable.IsUnityNull() && !interactable.instant)
             _promptImage.SetProgress(0);
     }
     
-    private void OnInteractHover(object sender, InteractController.InteractEventArgs e)
+    private void OnInteractHover(IInteractable interactable, InteractionResponse response)
     {
-        _currentInteractable = e.interactable;
+        _currentInteractable = interactable;
+        
         SetVisualPrompt(_currentInteractable);
     }
 
@@ -104,11 +105,11 @@ public class InteractionPromptUI : MonoBehaviour
         _currentVisual?.gameObject.SetActive(false);
         Vector2 pivot = PivotUtility.GetPivotFromAlignment(interactable.spriteAlignment);
         
-        if (interactable.interactableVisualSO.visualType == InteractableVisualSO.VisualType.Icon)
+        if (interactable.GetInteractableVisualSO().visualType == InteractableVisualSO.VisualType.Icon)
         {
             _promptImage
                 .Toggle(true)
-                .Set(_currentInteractable.interactableVisualSO.sprite, interactable.GetInteractableName())
+                .Set(_currentInteractable.GetInteractableVisualSO().sprite, interactable.GetInteractableName())
                 .SetPivot(pivot)
                 .SetProgress(interactable.instant ? 1 : 0);
             
@@ -129,7 +130,7 @@ public class InteractionPromptUI : MonoBehaviour
     }
 
 
-    private void OnInteractUnhover(object sender, InteractController.InteractEventArgs e)
+    private void OnInteractUnhover(IInteractable interactable, InteractionResponse response)
     {
         if (!_currentInteractable.IsUnityNull())
         {
@@ -143,8 +144,8 @@ public class InteractionPromptUI : MonoBehaviour
     
     private IEnumerator InteractPressedCoroutine()
     {
-        float scale = _currentInteractable.interactableVisualSO.interactScaleEffect;
-        float duration = _currentInteractable.interactableVisualSO.interactDurationEffect;
+        float scale = _currentInteractable.GetInteractableVisualSO().interactScaleEffect;
+        float duration = _currentInteractable.GetInteractableVisualSO().interactDurationEffect;
         Vector3 targetScale = _originalScale * scale;
         IInteractable triggeredInteractable = _currentInteractable;
 
