@@ -35,14 +35,14 @@ public class Weapon : HoldableItem
 
     [field: Header("Constraints")]
     [field: SerializeField] public InventoryItemSO bulletItemSO { get; private set; }
-    [SerializeField, RequireInterface(typeof(IWeaponReloadHandler))] private MonoBehaviour _reloadHandler;
+    [SerializeField, RequireInterface(typeof(IReloadHandler))] private MonoBehaviour _reloadHandler;
     [SerializeField] private Transform _bulletSpawn;
     
     public event Func<UniTask> OnHide;
     public event Action<int> OnAmmoChanged;
 
     public int bulletsInClip { get; private set; }
-    public IWeaponReloadHandler reloadHandler => _reloadHandler as IWeaponReloadHandler;
+    public IReloadHandler reloadHandler => _reloadHandler as IReloadHandler;
     
     private float _lastShotTime;
     private IObjectPool<Bullet> _bulletPool;

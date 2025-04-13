@@ -6,7 +6,7 @@ using UnityEngine.Pool;
 using UnityEngine.VFX;
 
 [RequireComponent(typeof(Animator), typeof(Weapon), typeof(German130BulletVisual))]
-public class German130Visual : MonoBehaviour, IWeaponReloadHandler
+public class German130Visual : MonoBehaviour, IReloadHandler
 {
     private const string IS_AIMING = "isAiming";
     private const string VELOCITY = "velocity";
@@ -44,7 +44,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     [SerializeField] private VisualEffect _muzzleFlash;
     
     public bool isReloading { get; private set; }
-    
+
     private Animator _animator;
     private ShooterController _shooterController;
     private German130BulletVisual _bulletVisual;
@@ -78,7 +78,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
         _moveable = Player.Instance.firstPersonController;
         _playerInput = Player.Instance.playerInput;
         
-        _shooterController.OnReload += OnReloadPerformed;
+        _shooterController.OnReloadStart += OnReloadStartPerformed;
         _shooterController.OnFire += OnFirePerformed;
         _shooterController.OnDryFire += OnDryFirePerformed;
         
@@ -94,7 +94,7 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
     
     private void OnDestroy()
     {
-        _shooterController.OnReload -= OnReloadPerformed;
+        _shooterController.OnReloadStart -= OnReloadStartPerformed;
         _shooterController.OnFire -= OnFirePerformed;
         _shooterController.OnDryFire -= OnDryFirePerformed;
 
@@ -129,10 +129,6 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
             _isReloadAnimationPlaying = false;
             _reloadingInterrupted = false;
             _isHandlingReloadInterruption = false;
-            
-            _shooterController.RetrieveReserve();
-            _shooterController.ToggleWeaponInteraction(!Player.Instance.HUDController.isHUDView);
-            _shooterController.ReloadEnd();
         }
     }
 
@@ -239,25 +235,22 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
         PressTriggerAnimationAsync().Forget();
     }
 
-    private void OnReloadPerformed(int totalToReload)
+    private void OnReloadStartPerformed(int toReload)
     {
         if (_shooterController.reservedBulletCount == 0)
             _shooterController.ReserveBullets(1);
-        
-        ReloadAsync(totalToReload).Forget();
     }
 
-    private async UniTaskVoid ReloadAsync(int totalToReload)
+    public async UniTask ReloadAsync(int toReload)
     {
         _animator.ResetTrigger(FORCE_STOP_RELOAD);
         _reloadProcess = true;
         _reloadingInterrupted = false;
         isReloading = true;
         
-        _shooterController.ToggleWeaponInteraction(false);
         RotateCylinder(_currentChamberIndex = 0, false).Forget();;
         
-        _animator.SetTrigger(GetReloadAnimationTrigger(totalToReload));
+        _animator.SetTrigger(GetReloadAnimationTrigger(toReload));
 
         await UniTask.WaitForSeconds(_transitionDuration);
         
@@ -269,6 +262,8 @@ public class German130Visual : MonoBehaviour, IWeaponReloadHandler
 
         _isReloadAnimationPlaying = clipInfo.Length > 0;
         _reloadProcess = false;
+        
+        await UniTask.WaitUntil(() => !isReloading);
     }
 
     private async UniTask SmoothBulletsReverseAsync(float duration, float angleOffset = 0)

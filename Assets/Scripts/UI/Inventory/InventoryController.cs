@@ -380,16 +380,10 @@ namespace UI.Inventory
         {
             if (_lastMovedItem)
             {
-                if (_lastMovedItem.rotated != _lastMovedItemRotated)
-                {
-                    _lastMovedItem.Rotate(_tileSize);
-                    _lastMovedItem.SetPivotToDefault();
-                }
-
-                if (_inventoryItemGrid.TryReplaceItem(_lastMovedItem, _lastMovedItemGridPos))
-                {
+                bool rotate = _lastMovedItem.rotated != _lastMovedItemRotated;
+                
+                if (_inventoryItemGrid.TryReplaceItem(_lastMovedItem, _lastMovedItemGridPos, rotate))
                     TryPutSelectedItemToInventory();
-                }
             }
             else
             {

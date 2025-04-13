@@ -374,20 +374,22 @@ namespace UI.Inventory
             return total;
         }
 
-        public bool TryReplaceItem(InventoryItem inventoryItem, Vector2Int newPosition)
+        public bool TryReplaceItem(InventoryItem inventoryItem, Vector2Int newPosition, bool rotate = false)
         {
-            Debug.Log($"Item: {inventoryItem.inventoryItemSO.name}, Pos: {newPosition}");
-            Debug.Log($"Contains?: {Contains(inventoryItem)} Overlap?: {IsOverlapping(newPosition, inventoryItem)}");
-            
             if (Contains(inventoryItem) && !IsOverlapping(newPosition, inventoryItem))
             {
-                Debug.Log("DO!");
                 ForgetItem(inventoryItem);
+
+                if (rotate)
+                {
+                    inventoryItem.Rotate(tileSize);
+                    inventoryItem.SetPivotToDefault();
+                }
+                
                 SetInventoryItemSlot(inventoryItem, newPosition);
 
                 inventoryItem.gridPosition = newPosition;
                 inventoryItem.transform.localPosition = GetPositionOnGrid(newPosition);
-                Debug.Log($"send: {newPosition} get: {GetPositionOnGrid(newPosition)}");
                 
                 return true;
             }

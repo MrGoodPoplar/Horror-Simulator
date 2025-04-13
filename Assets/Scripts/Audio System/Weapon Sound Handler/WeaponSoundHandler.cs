@@ -30,7 +30,7 @@ namespace Audio_System
         {
             _shooterController.OnFire += OnFirePerformed;
             _shooterController.OnDryFire += OnDryFirePerformed;
-            _shooterController.OnReload += OnReloadStartPerformed;
+            _shooterController.OnReloadStart += OnReloadStartStartPerformed;
             _shooterController.OnReloadEnd += OnReloadEndPerformed;
         }
 
@@ -38,7 +38,7 @@ namespace Audio_System
         {
             _shooterController.OnFire -= OnFirePerformed;
             _shooterController.OnDryFire -= OnDryFirePerformed;
-            _shooterController.OnReload -= OnReloadStartPerformed;
+            _shooterController.OnReloadStart -= OnReloadStartStartPerformed;
             _shooterController.OnReloadEnd -= OnReloadEndPerformed;
         }
 
@@ -46,7 +46,7 @@ namespace Audio_System
         
         protected virtual void OnDryFirePerformed() => PlaySoundOnWeapon(_soundsData.dryFireSounds);
 
-        protected virtual void OnReloadStartPerformed(int bullets) => PlaySoundOnWeapon(_soundsData.reloadStartSounds);
+        protected virtual void OnReloadStartStartPerformed(int bullets) => PlaySoundOnWeapon(_soundsData.reloadStartSounds);
 
         protected virtual void OnReloadEndPerformed() => PlaySoundOnWeapon(_soundsData.reloadEndSounds);
         

@@ -9,7 +9,7 @@ public class ShooterController : MonoBehaviour
 {
     public event Action OnFire;
     public event Action OnDryFire;
-    public event Action<int> OnReload;
+    public event Action<int> OnReloadStart;
     public event Action OnReloadEnd;
     
     public bool canAim { get; set; } = true;
@@ -115,17 +115,31 @@ public class ShooterController : MonoBehaviour
         }
     }
     
-    private void OnReloadPerformed()
+    private async void OnReloadPerformed()
     {
         if (!_currentWeapon)
             return;
         
         int availableAmmoCount = GetAvailableAmmoCount();
-        int totalToReloadCount = _currentWeapon.clipSize - _currentWeapon.bulletsInClip;
-        int totalToReload = Mathf.Clamp(availableAmmoCount, 0, totalToReloadCount);
+        int maxToReload = _currentWeapon.clipSize - _currentWeapon.bulletsInClip;
+        int toReload = Mathf.Clamp(availableAmmoCount, 0, maxToReload);
 
-        if (canReload && totalToReload > 0)
-            OnReload?.Invoke(totalToReload);
+        if (canReload && toReload > 0)
+            await HandleReload(toReload);
+    }
+
+    private async UniTask HandleReload(int toReload)
+    {
+        ToggleWeaponInteraction(false);
+
+        OnReloadStart?.Invoke(toReload);
+            
+        await _currentWeapon.reloadHandler.ReloadAsync(toReload);
+        
+        RetrieveReserve();
+        ToggleWeaponInteraction(!Player.Instance.HUDController.isHUDView);
+        
+        OnReloadEnd?.Invoke();
     }
 
     private int GetAvailableAmmoCount()
@@ -186,12 +200,7 @@ public class ShooterController : MonoBehaviour
         canReload = toggle;
         canFire = toggle && !isReloading;
     }
-
-    public void ReloadEnd()
-    {
-        OnReloadEnd?.Invoke();
-    }
-
+    
     public void DryFire()
     {
         OnDryFire?.Invoke();
