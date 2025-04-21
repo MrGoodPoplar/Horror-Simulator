@@ -10714,7 +10714,7 @@ PrefabInstance:
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 449.3421
+      value: 449.03986
       objectReference: {fileID: 0}
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
@@ -11653,7 +11653,7 @@ PrefabInstance:
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 556.71204
+      value: 556.4098
       objectReference: {fileID: 0}
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
@@ -12895,6 +12895,8 @@ MonoBehaviour:
   _swaySpeed: 5
   _aimSwayAmount: 0.01
   _aimSwaySpeed: 7.5
+  _idleBobAmount: 0.005
+  _idleBobSpeed: 1
   _bobAmount: 0.01
   _bobSpeed: 10
   _aimBobAmount: 0.001
@@ -12905,7 +12907,7 @@ MonoBehaviour:
   _aimJumpReducer: 0.3
   _aimRecoilReducer: 0.15
   _hidePosition: {x: 0.25, y: -0.25, z: 0.15}
-  _itemIdlePositionThreshold: 0.1
+  _fadeDuration: 0.2
 --- !u!114 &2044637791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13868,7 +13870,7 @@ PrefabInstance:
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 629.61206
+      value: 629.3098
       objectReference: {fileID: 0}
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
@@ -14899,7 +14901,7 @@ PrefabInstance:
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 279.4271
+      value: 279.12485
       objectReference: {fileID: 0}
     - target: {fileID: 1429895590477098877, guid: ac3d831291c506442b6350e10285584c,
         type: 3}

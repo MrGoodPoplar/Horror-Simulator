@@ -18,10 +18,12 @@ public class HoldingItemMovement : MonoBehaviour
     [SerializeField] private float _aimSwaySpeed = 5f;
 
     [Header("Bobbing Settings")]
-    [SerializeField, Range(0, 1)] private float _bobAmount = 0.05f;
-    [SerializeField] private float _bobSpeed = 1f;
-    [SerializeField, Range(0, 1)] private float _aimBobAmount = 0.02f;
-    [SerializeField] private float _aimBobSpeed = 0.5f;
+    [SerializeField, Range(0, 1)] private float _idleBobAmount;
+    [SerializeField] private float _idleBobSpeed;
+    [SerializeField, Range(0, 1)] private float _bobAmount;
+    [SerializeField] private float _bobSpeed;
+    [SerializeField, Range(0, 1)] private float _aimBobAmount;
+    [SerializeField] private float _aimBobSpeed;
 
     [Header("Jump Sway Settings")]
     [SerializeField, Range(0, 1)] private float _jumpSwayAmount = 0.3f;
@@ -52,6 +54,7 @@ public class HoldingItemMovement : MonoBehaviour
     private float _recoilDuration;
     private float _recoilForce;
     private bool _isAirborne;
+    private bool _isFade;
 
     private void Start()
     {
@@ -79,6 +82,9 @@ public class HoldingItemMovement : MonoBehaviour
 
     private void Update()
     {
+        if (_isFade)
+            return;
+        
         HandleSway();
 
         if (_moveable.isGrounded)
@@ -89,23 +95,37 @@ public class HoldingItemMovement : MonoBehaviour
         HandleOverlap();
     }
 
-    private void HoldingItemOnTakePerformed(HoldableItem holdable)
+    private async void HoldingItemOnTakePerformed(HoldableItem holdable)
     {
         _idlePosition = _initialPosition;
+        await FadeAsync();
     }
     
     private async UniTask HoldingItemOnHideBeforePerformed(HoldableItem holdable)
     {
+        _idlePosition = _hidePosition;
+        await FadeAsync();
+    }
+
+    private async UniTask FadeAsync()
+    {
+        _isFade = true;
         float timer = 0f;
-    
+        Vector3 startPos = transform.localPosition;
+
         while (timer < _fadeDuration)
         {
-            _idlePosition = _hidePosition;
+            float t = timer / _fadeDuration;
+            transform.localPosition = Vector3.Lerp(startPos, _idlePosition, t);
+
             timer += Time.deltaTime;
-            
             await UniTask.Yield();
         }
+
+        transform.localPosition = _idlePosition;
+        _isFade = false;
     }
+
     
     private void HandleOverlap()
     {
@@ -155,21 +175,32 @@ public class HoldingItemMovement : MonoBehaviour
 
     private void HandleBobbing()
     {
-        float bobAmount = _shooterController.isAiming ? _aimBobAmount : _bobAmount;
-        float bobSpeed = _shooterController.isAiming ? _aimBobSpeed : _bobSpeed;
-
         if (_playerInput.move.magnitude > 0)
         {
-            float currentSpeed = bobSpeed * _moveable.speed;
-            _timer += Time.deltaTime * currentSpeed;
-            float bobOffsetY = Mathf.Sin(_timer) * bobAmount;
-            Vector3 bobOffset = new Vector3(0, bobOffsetY, 0);
-            transform.localPosition = Vector3.Lerp(transform.localPosition, _idlePosition + bobOffset, Time.deltaTime * currentSpeed);
+            float bobAmount = _shooterController.isAiming ? _aimBobAmount : _bobAmount;
+            float bobSpeed = _shooterController.isAiming ? _aimBobSpeed : _bobSpeed;
+            
+            Bob(bobAmount, bobSpeed);
+        }
+        else if (!_shooterController.isAiming)
+        {
+            float bobSpeed = Vector3.Distance(transform.localPosition, _idlePosition) < _idleBobAmount ? _idleBobSpeed : _bobSpeed;
+            
+            Bob(_idleBobAmount, bobSpeed);
         }
         else
         {
-            transform.localPosition = Vector3.Lerp(transform.localPosition, _idlePosition, Time.deltaTime * bobSpeed);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, _idlePosition, Time.deltaTime * _bobSpeed);
         }
+    }
+
+    private void Bob(float amount, float speed)
+    {
+        _timer += Time.deltaTime * speed;
+        float bobOffsetY = Mathf.Sin(_timer) * amount;
+        Vector3 bobOffset = new Vector3(0, bobOffsetY, 0);
+        
+        transform.localPosition = Vector3.Lerp(transform.localPosition, _idlePosition + bobOffset, Time.deltaTime * speed);
     }
 
     private void HandleRecoil()
