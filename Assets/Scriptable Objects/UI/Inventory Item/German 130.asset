@@ -28,6 +28,11 @@ MonoBehaviour:
   <maxQuantity>k__BackingField: 1
   <prefab>k__BackingField: {fileID: 3372880397999312697, guid: a0db881418e593e4eb23d2871d41b506,
     type: 3}
+  <previewData>k__BackingField:
+    <prefab>k__BackingField: {fileID: 919132149155446097, guid: befeec2e6508be9418b6111b6a14a4ff,
+      type: 3}
+    <scale>k__BackingField: {x: 250, y: 250, z: 250}
+    <rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
   _actions:
   - {fileID: 11400000, guid: 44adbe13946395348b2f1a52b2d4bb80, type: 2}
   <guid>k__BackingField: 152c7f28-252b-4027-a682-e05f294cb9ca

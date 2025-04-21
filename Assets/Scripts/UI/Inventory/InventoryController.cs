@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UI.Inventory.Inventory_Item;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -10,6 +11,7 @@ namespace UI.Inventory
     public class InventoryController : MonoBehaviour
     {
         [Header("Constraints")]
+        [SerializeField] private Canvas _canvas;
         [SerializeField] private PlayerInput _playerInput;
         [SerializeField] private List<InventoryItemSO> _inventoryItemSOs;
         [SerializeField] private InventoryItemBinder _inventoryItemBinder;
@@ -17,9 +19,12 @@ namespace UI.Inventory
         [SerializeField] private ItemGrid _inventoryItemGrid;
         [SerializeField] private GrabOnlyItemGrid _tempInventoryItemGrid;
         [SerializeField] private Transform _itemDragParent;
-    
+
+        public InventoryItem selectedItem => _selectedItem;
         public InventoryItem onHoverInventoryItem { get; private set; }
-        
+
+        private RectTransform _canvasRect;
+        private Camera _uiCamera;
         private ItemGrid _currentItemGrid;
         private InventoryItem _selectedItem;
         private InventoryItem _overlappedItem;
@@ -41,6 +46,9 @@ namespace UI.Inventory
             _tempInventoryItemGrid.OnItemInteract += OnItemInteractPerformed;
             Player.Instance.HUDController.OnHUDStateChanged += OnHUDStateChangedPerformed;
             InventoryItemFactory.Initialize(_inventoryItemBinder);
+
+            _uiCamera = _canvas.worldCamera;
+            _canvasRect = _canvas.GetComponent<RectTransform>();
         }
 
         private void OnDestroy()
@@ -182,7 +190,16 @@ namespace UI.Inventory
             if (!_selectedItem)
                 return;
         
-            _selectedItem.transform.position = Input.mousePosition;
+            Vector2 pointerPosition = Input.mousePosition;
+
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                _canvasRect,
+                pointerPosition,
+                _uiCamera,
+                out Vector2 localPointerPosition
+            );
+            
+            _selectedItem.transform.localPosition  = localPointerPosition;
         }
 
         private void HandleItemHighlight()
@@ -267,16 +284,22 @@ namespace UI.Inventory
 
         private Vector2Int GetTileGridPosition()
         {
-            // TODO: add gamepad accessibility
             Vector2 pointerPosition = Input.mousePosition;
-        
+
             if (_selectedItem)
             {
-                pointerPosition.x -= _selectedItem.GetActualSize().x * (float)_currentItemGrid.tileSize.x / 2;
-                pointerPosition.y += _selectedItem.GetActualSize().y * (float)_currentItemGrid.tileSize.y / 2;
+                pointerPosition.x -= _selectedItem.GetActualSize().x * _currentItemGrid.tileSize.x / 2f;
+                pointerPosition.y += _selectedItem.GetActualSize().y * _currentItemGrid.tileSize.y / 2f;
             }
             
-            return _currentItemGrid.GetTileGridPosition(pointerPosition);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                _currentItemGrid.rectTransform,
+                pointerPosition,
+                _uiCamera,
+                out Vector2 localPoint
+            );
+            
+            return _currentItemGrid.GetTileGridPosition(localPoint);
         }
 
         private void PlaceSelectedItem(Vector2Int positionOnGrid)

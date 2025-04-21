@@ -21,12 +21,18 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
+  <type>k__BackingField: 0
   <size>k__BackingField: {x: 1, y: 2}
   <icon>k__BackingField: {fileID: -345946058, guid: a55a80415dc11084aadd8b7aab26a4cc,
     type: 3}
   <maxQuantity>k__BackingField: 4
   <prefab>k__BackingField: {fileID: 4289896495447536440, guid: f211501582ddc7d40a4e4d315919155a,
     type: 3}
+  <previewData>k__BackingField:
+    <prefab>k__BackingField: {fileID: 919132149155446097, guid: cef8128df378dad4ca6d2339952468db,
+      type: 3}
+    <scale>k__BackingField: {x: 80, y: 80, z: 80}
+    <rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
   _actions:
   - {fileID: 11400000, guid: e9dab7b9c6c3a8740a53df7d81581ea5, type: 2}
   <guid>k__BackingField: 4a6ee6da-c363-4e7b-93f6-e731b3c83ee9

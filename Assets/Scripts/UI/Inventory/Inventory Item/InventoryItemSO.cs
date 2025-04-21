@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UI.Inventory.Actions;
+using UI.Inventory.Item_Preview;
 using UnityEngine;
 using UnityEngine.Localization;
 
@@ -15,6 +16,7 @@ namespace UI.Inventory.Inventory_Item
         [field: SerializeField] public Sprite icon { get; private set; }
         [field: SerializeField] public int maxQuantity { get; private set; } = 1;
         [field: SerializeField] public GameObject prefab { get; private set; }
+        [field: SerializeField] public ItemPreviewData previewData { get; private set; }
         [field: SerializeField] private List<InventoryItemAction> _actions;
         [field: SerializeField, HideInInspector] public string guid { get; private set; }
 

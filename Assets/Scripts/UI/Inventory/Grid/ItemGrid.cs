@@ -86,15 +86,15 @@ namespace UI.Inventory
             background.localPosition = new(-sizeDifference.x / 2, sizeDifference.y / 2);
         }
     
-        public Vector2Int GetTileGridPosition(Vector2 mousePosition)
+        public Vector2Int GetTileGridPosition(Vector2 localScreenPosition)
         {
-            _onGridPosition.x = mousePosition.x - _rectTransform.position.x;
-            _onGridPosition.y = _rectTransform.position.y - mousePosition.y;
+            float localX = localScreenPosition.x;
+            float localY = -localScreenPosition.y;
+            
+            int gridX = (int)(localX / tileSize.x);
+            int gridY = (int)(localY / tileSize.y);
 
-            _tileGridPosition.x = (int)(_onGridPosition.x / (tileSize.x * _scale.x));
-            _tileGridPosition.y = (int)(_onGridPosition.y / (tileSize.y * _scale.y));
-
-            return _tileGridPosition;
+            return new Vector2Int(gridX, gridY);
         }
         
         public virtual bool PlaceItem(InventoryItem inventoryItem, Vector2Int position, ref InventoryItem overlappedItem)

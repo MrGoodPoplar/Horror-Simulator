@@ -23,8 +23,8 @@ namespace UI.Hotkey_Prompts
         
         private InventoryController _inventoryController;
         private AutoLayoutContents _autoLayout;
-        private List<InventoryItemAction> _currentActions = new();
-        private List<HotkeyPrompt> _currentHotkeyPrompts = new();
+        private readonly List<InventoryItemAction> _currentActions = new();
+        private readonly List<HotkeyPrompt> _currentHotkeyPrompts = new();
         private bool _refreshPromptLayoutInProcess;
 
 
