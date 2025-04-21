@@ -34,8 +34,8 @@ public class HoldingItemMovement : MonoBehaviour
 
     [Header("Fade Settings")]
     [SerializeField] private Vector3 _hidePosition;
-    [SerializeField] private float _itemIdlePositionThreshold = 0.1f;
-    
+    [SerializeField] private float _fadeDuration = 0.2f;
+
     private Quaternion _initialRotation;
     private Vector3 _initialPosition;
     private Vector3 _idlePosition;
@@ -96,8 +96,15 @@ public class HoldingItemMovement : MonoBehaviour
     
     private async UniTask HoldingItemOnHideBeforePerformed(HoldableItem holdable)
     {
-        _idlePosition = _hidePosition;
-        await UniTask.WaitUntil(() => Vector3.Distance(transform.localPosition, _idlePosition) <= _itemIdlePositionThreshold);
+        float timer = 0f;
+    
+        while (timer < _fadeDuration)
+        {
+            _idlePosition = _hidePosition;
+            timer += Time.deltaTime;
+            
+            await UniTask.Yield();
+        }
     }
     
     private void HandleOverlap()
