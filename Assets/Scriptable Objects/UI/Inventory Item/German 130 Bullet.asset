@@ -31,7 +31,7 @@ MonoBehaviour:
   <previewData>k__BackingField:
     <prefab>k__BackingField: {fileID: 7925573599362833614, guid: 7b1f663f4e724de45ba805d4f99f9aee,
       type: 3}
-    <scale>k__BackingField: {x: 2200, y: 2200, z: 2200}
+    <scale>k__BackingField: {x: 1500, y: 1500, z: 1500}
     <rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
   _actions: []
   <guid>k__BackingField: 9191cf41-babf-410e-bc17-19094ca1c120

@@ -284,6 +284,11 @@ PrefabInstance:
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8333586505812881831, guid: befeec2e6508be9418b6111b6a14a4ff,
+        type: 3}
+      propertyPath: m_UpdateWhenOffscreen
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -8187554043414285939, guid: befeec2e6508be9418b6111b6a14a4ff,
         type: 3}
       propertyPath: m_Layer
@@ -354,6 +359,11 @@ PrefabInstance:
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6596552385196874183, guid: befeec2e6508be9418b6111b6a14a4ff,
+        type: 3}
+      propertyPath: m_UpdateWhenOffscreen
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -6128198026536400830, guid: befeec2e6508be9418b6111b6a14a4ff,
         type: 3}
       propertyPath: m_Layer
@@ -377,6 +387,11 @@ PrefabInstance:
     - target: {fileID: -4645130302107541368, guid: befeec2e6508be9418b6111b6a14a4ff,
         type: 3}
       propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4645130302107541368, guid: befeec2e6508be9418b6111b6a14a4ff,
+        type: 3}
+      propertyPath: m_UpdateWhenOffscreen
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4531114325114327742, guid: befeec2e6508be9418b6111b6a14a4ff,
@@ -414,6 +429,11 @@ PrefabInstance:
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3184476853758195804, guid: befeec2e6508be9418b6111b6a14a4ff,
+        type: 3}
+      propertyPath: m_UpdateWhenOffscreen
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -3184410136208612132, guid: befeec2e6508be9418b6111b6a14a4ff,
         type: 3}
       propertyPath: m_Layer
@@ -433,6 +453,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_CastShadows
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2586672244282670457, guid: befeec2e6508be9418b6111b6a14a4ff,
+        type: 3}
+      propertyPath: m_UpdateWhenOffscreen
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -2500008735544576093, guid: befeec2e6508be9418b6111b6a14a4ff,
         type: 3}
@@ -519,6 +544,11 @@ PrefabInstance:
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -828653068567265139, guid: befeec2e6508be9418b6111b6a14a4ff,
+        type: 3}
+      propertyPath: m_UpdateWhenOffscreen
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -815349453553635666, guid: befeec2e6508be9418b6111b6a14a4ff,
         type: 3}
       propertyPath: m_Layer
@@ -568,6 +598,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_CastShadows
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 277224111090538348, guid: befeec2e6508be9418b6111b6a14a4ff,
+        type: 3}
+      propertyPath: m_UpdateWhenOffscreen
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 633553967556771127, guid: befeec2e6508be9418b6111b6a14a4ff,
         type: 3}
@@ -619,6 +654,11 @@ PrefabInstance:
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3564931222872559475, guid: befeec2e6508be9418b6111b6a14a4ff,
+        type: 3}
+      propertyPath: m_UpdateWhenOffscreen
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3621795729499102600, guid: befeec2e6508be9418b6111b6a14a4ff,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -638,6 +678,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_CastShadows
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4275268524636431754, guid: befeec2e6508be9418b6111b6a14a4ff,
+        type: 3}
+      propertyPath: m_UpdateWhenOffscreen
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4521384482088585638, guid: befeec2e6508be9418b6111b6a14a4ff,
         type: 3}
@@ -774,9 +819,19 @@ PrefabInstance:
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6370690992541906000, guid: befeec2e6508be9418b6111b6a14a4ff,
+        type: 3}
+      propertyPath: m_UpdateWhenOffscreen
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6587099212417057334, guid: befeec2e6508be9418b6111b6a14a4ff,
         type: 3}
       propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6587099212417057334, guid: befeec2e6508be9418b6111b6a14a4ff,
+        type: 3}
+      propertyPath: m_UpdateWhenOffscreen
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6635818429673127881, guid: befeec2e6508be9418b6111b6a14a4ff,
@@ -859,6 +914,11 @@ PrefabInstance:
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8200288909476266154, guid: befeec2e6508be9418b6111b6a14a4ff,
+        type: 3}
+      propertyPath: m_UpdateWhenOffscreen
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8386849440276478087, guid: befeec2e6508be9418b6111b6a14a4ff,
         type: 3}
       propertyPath: m_Layer
@@ -867,6 +927,11 @@ PrefabInstance:
     - target: {fileID: 8821200507473441427, guid: befeec2e6508be9418b6111b6a14a4ff,
         type: 3}
       propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8821200507473441427, guid: befeec2e6508be9418b6111b6a14a4ff,
+        type: 3}
+      propertyPath: m_UpdateWhenOffscreen
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8950497868210473799, guid: befeec2e6508be9418b6111b6a14a4ff,

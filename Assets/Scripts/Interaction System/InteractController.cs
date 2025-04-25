@@ -150,7 +150,7 @@ public class InteractController : MonoBehaviour
             yield return null;
         }
 
-        if (holdTime >= duration)
+        if (_interactable != null && holdTime >= duration)
             Interact(_interactable);
 
         _holdCoroutine = null;
