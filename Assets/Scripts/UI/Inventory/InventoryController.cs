@@ -19,6 +19,7 @@ namespace UI.Inventory
         [SerializeField] private ItemGrid _inventoryItemGrid;
         [SerializeField] private GrabOnlyItemGrid _tempInventoryItemGrid;
         [SerializeField] private Transform _itemDragParent;
+        [SerializeField] private InventoryItemAlertSO _itemAlertSO;
 
         public InventoryItem selectedItem => _selectedItem;
         public InventoryItem onHoverInventoryItem { get; private set; }
@@ -28,15 +29,11 @@ namespace UI.Inventory
         private ItemGrid _currentItemGrid;
         private InventoryItem _selectedItem;
         private InventoryItem _overlappedItem;
-        private InventoryItem _addedItemFromTempInventory;
-        private InventoryItem _lastMovedItem;
         
         private Vector2Int _positionOnGrid;
         private Vector2Int _tileSize;
-        private Vector2Int _lastMovedItemGridPos;
-        private bool _itemStateUpdated;
-        private bool _lastMovedItemRotated;
-
+        private bool _selectedItemPosUpdated;
+        
         private void Start()
         {
             _playerInput.OnClick += OnClickPerformed;
@@ -177,9 +174,6 @@ namespace UI.Inventory
                 inventoryItem.SetParent(_itemDragParent, itemGrid.scale);
                 return;
             }
-
-            if (itemGrid == _inventoryItemGrid && _tempInventoryItemGrid.IsRelativeItem(inventoryItem))
-                _addedItemFromTempInventory = inventoryItem;
             
             inventoryItem.SetPivotToDefault();
             inventoryItem.SetParent(itemGrid.rectTransform);
@@ -207,19 +201,19 @@ namespace UI.Inventory
             if (!_currentItemGrid)
             {
                 _itemHighlight.Hide();
-                _itemStateUpdated = true;
+                _selectedItemPosUpdated = true;
                 onHoverInventoryItem = null;
                 return;
             }
         
             Vector2Int newPositionOnGrid = GetTileGridPosition();
 
-            if (_positionOnGrid == newPositionOnGrid && !_itemStateUpdated)
+            if (_positionOnGrid == newPositionOnGrid && !_selectedItemPosUpdated)
                 return;
 
             _positionOnGrid = newPositionOnGrid;
             onHoverInventoryItem = null;
-            _itemStateUpdated = false;
+            _selectedItemPosUpdated = false;
             
             if (!_selectedItem)
             {
@@ -306,20 +300,8 @@ namespace UI.Inventory
         {
             if (_currentItemGrid.PlaceItem(_selectedItem, positionOnGrid, ref _overlappedItem))
             {
-                _selectedItem = null;
-                _itemStateUpdated = true;
-
-                if (_overlappedItem)
-                {
-                    _selectedItem = _overlappedItem;
-                    _overlappedItem = null;
-                
-                    _selectedItem.GetRectTransform().SetAsLastSibling();
-                    _selectedItem.SetPivotCenter();
-                    
-                    if (_currentItemGrid == _tempInventoryItemGrid)
-                        _addedItemFromTempInventory = _selectedItem;
-                }
+                SetSelectedItem(_overlappedItem, true);
+                _overlappedItem = null;
             }
             else if (_overlappedItem)
             {
@@ -332,21 +314,21 @@ namespace UI.Inventory
 
         private void PickUpItem(Vector2Int positionOnGrid)
         {
-            _selectedItem = _currentItemGrid.PickUpItem(positionOnGrid);
+            SetSelectedItem(_currentItemGrid.PickUpItem(positionOnGrid), true);
+        }
 
+        private void SetSelectedItem(InventoryItem inventoryItem, bool posUpdated = false)
+        {
+            _selectedItem?.HideAlert();
+
+            _selectedItem = inventoryItem;
+            _selectedItemPosUpdated = posUpdated;
+            
             if (_selectedItem)
             {
-                _itemStateUpdated = true;
                 _selectedItem.GetRectTransform().SetAsLastSibling();
                 _selectedItem.SetPivotCenter();
-                
-                _lastMovedItemGridPos = _selectedItem.gridPosition;
-                _lastMovedItem = _selectedItem;
-                _lastMovedItemRotated = _selectedItem.rotated;
             }
-
-            if (_currentItemGrid == _tempInventoryItemGrid)
-                _addedItemFromTempInventory = _selectedItem;
         }
         
         private void OnRotatePerformed()
@@ -354,7 +336,7 @@ namespace UI.Inventory
             if (!_selectedItem || _selectedItem.inventoryItemSO.isSymmetrical)
                 return;
 
-            _itemStateUpdated = true;
+            _selectedItemPosUpdated = true;
             _selectedItem.Rotate(_tileSize);
         }
 
@@ -369,91 +351,14 @@ namespace UI.Inventory
             return itemGrid.CountItem(inventoryItemSO.guid);
         }
         
-        private void OnHUDStateChangedPerformed(bool state)
+        private bool OnHUDStateChangedPerformed(bool state)
         {
-            if (!state)
-                HandleSelectedItemReturn();
-        }
+            if (state || _selectedItem.IsUnityNull())
+                return true;
 
-        private void HandleSelectedItemReturn()
-        {
-            if (_addedItemFromTempInventory && !_selectedItem)
-                _tempInventoryItemGrid.RemoveRelativeItem(_addedItemFromTempInventory);
-
-            if (!_selectedItem)
-                return;
-
-            bool putSucceed = false;
+            _selectedItem.Alert(_itemAlertSO);
             
-            if (_selectedItem != _addedItemFromTempInventory)
-                putSucceed = TryPutSelectedItemToInventory();
-
-            if (!putSucceed)
-            {
-                if (_addedItemFromTempInventory)
-                    HandleSelectedItemReturnAsTemp();
-                else
-                    HandleSelectedItemReturnAsMain();
-            }
-            
-            _tempInventoryItemGrid.ClearRelatives();
-        }
-
-        private void HandleSelectedItemReturnAsMain()
-        {
-            if (_lastMovedItem)
-            {
-                bool rotate = _lastMovedItem.rotated != _lastMovedItemRotated;
-                
-                if (_inventoryItemGrid.TryReplaceItem(_lastMovedItem, _lastMovedItemGridPos, rotate))
-                    TryPutSelectedItemToInventory();
-            }
-            else
-            {
-                Debug.LogError("Couldn't fit selected item back to main inventory!");
-            }
-        }
-        
-        private void HandleSelectedItemReturnAsTemp()
-        {
-            if (_selectedItem == _addedItemFromTempInventory)
-            {
-                PutItemInInventory(_addedItemFromTempInventory, _selectedItem.gridPosition, true);
-            }
-            else
-            {
-                Vector2Int? freeSlot = _tempInventoryItemGrid.FindFreeSlotForItem(_selectedItem.GetActualSize());
-                
-                if (freeSlot.HasValue)
-                {
-                    _inventoryItemGrid.ForgetItem(_addedItemFromTempInventory);
-                    PutItemInInventory(_addedItemFromTempInventory, freeSlot.Value, true);
-                    TryPutSelectedItemToInventory();
-                }
-                else
-                {
-                    Debug.LogWarning("Couldn't find free slot for item in the temporary inventory!");
-                }
-            }
-        }
-        
-        private bool TryPutSelectedItemToInventory()
-        {
-            Vector2Int? freeSlot = _inventoryItemGrid.FindFreeSlotForItem(_selectedItem.GetActualSize());
-
-            if (!freeSlot.HasValue && !_selectedItem.inventoryItemSO.isSymmetrical)
-            {
-                _selectedItem.Rotate(_tileSize);
-                freeSlot = _inventoryItemGrid.FindFreeSlotForItem(_selectedItem.GetActualSize());
-            }
-            
-            if (freeSlot.HasValue)
-            {
-                PutItemInInventory(_selectedItem, freeSlot.Value);
-                _selectedItem = null;
-            }
-
-            return freeSlot.HasValue;
+            return false;
         }
 
         public bool IsOnHoverGridMain()

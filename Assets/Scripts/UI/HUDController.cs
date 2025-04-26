@@ -1,9 +1,10 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 public class HUDController : MonoBehaviour
 {
-    public event Action<bool> OnHUDStateChanged;
+    public event Predicate<bool> OnHUDStateChanged;
 
     public bool isHUDView { get; private set; }
     
@@ -33,24 +34,31 @@ public class HUDController : MonoBehaviour
     
     private void OnOpenHUDPerformed()
     {
-        isHUDView = !isHUDView;
-        ToggleHUDView(isHUDView);
+        ToggleHUDView(!isHUDView);
     }
 
     public void ToggleHUDView(bool toggle)
     {
         if (gameObject.activeSelf == toggle)
             return;
+     
+        bool allApproved = OnHUDStateChanged?.GetInvocationList()
+            .Cast<Predicate<bool>>()
+            .Select(d => d.Invoke(toggle))
+            .All(result => result) ?? true;
+
+        if (!allApproved)
+            return;
         
         ToggleCursor(toggle);
 
         isHUDView = toggle;
         gameObject.SetActive(toggle);
+        
         _player.firstPersonController.canMove = !toggle;
         _player.firstPersonController.canJump = !toggle;
         _player.hotbarController.canInteract = !toggle;
         _player.shooterController.ToggleWeaponInteraction(!toggle);
         
-        OnHUDStateChanged?.Invoke(toggle);
     }
 }

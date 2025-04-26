@@ -102,12 +102,12 @@ namespace Interaction_System.Grab_Item
             return new(null, true);
         }
     
-        private void OnHUDStateChangedPerformed(bool state)
+        private bool OnHUDStateChangedPerformed(bool state)
         {
-            if (state)
-                return;
-        
-            Forget();
+            if (!state)
+                Forget();
+
+            return true;
         }
 
         private InventoryItem HandleInventoryItemInteraction()

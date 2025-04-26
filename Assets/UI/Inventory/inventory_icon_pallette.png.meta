@@ -180,6 +180,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Inventory Item Warning
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 60
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 055cf513d3f12024a81c1c3f91c0c904
+      internalID: -271531522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -194,6 +215,7 @@ TextureImporter:
       Grab Icon: -33441350
       Inventory Item Highlight: -973561186
       Inventory Item Quantity: -232087225
+      Inventory Item Warning: -271531522
       inventory item Slot #1: 1873673993
       inventory item Slot #2: -2001839438
   mipmapLimitGroupName: 

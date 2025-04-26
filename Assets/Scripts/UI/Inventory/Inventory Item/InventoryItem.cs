@@ -1,3 +1,5 @@
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,31 +15,38 @@ namespace UI.Inventory.Inventory_Item
         [Header("Constraints")]
         [SerializeField] private TextMeshProUGUI _quantityText;
         [SerializeField] private Image _quantityBackground;
-
+        [SerializeField] private Image _alertLabel;
+        
         public Vector2Int gridPosition { get; set; }
         public InventoryItemSO inventoryItemSO { get; protected set; }
         public bool rotated { get; private set; }
         public int quantity { get; private set; }
 
         protected GameObject item;
-        
         private RectTransform _rectTransform;
         private Vector2 _defaultPivot;
         private Vector3 _defaultScale;
-
         private Vector3 _defaultQuantityAnchoredPosition;
+        private CancellationTokenSource _alertCts;
 
         public RectTransform GetRectTransform()
         {
             if (_rectTransform)
                 return _rectTransform;
         
+            Init();
+        
+            return _rectTransform;
+        }
+
+        private void Init()
+        {
+            HideAlert();
+            
             _rectTransform = GetComponent<RectTransform>();
             _defaultPivot = _rectTransform.pivot;
             _defaultScale = _rectTransform.localScale;
             _defaultQuantityAnchoredPosition = _quantityBackground.rectTransform.anchoredPosition;
-        
-            return _rectTransform;
         }
 
         public void SetParent(Transform parent, Vector3 scale = default)
@@ -131,7 +140,10 @@ namespace UI.Inventory.Inventory_Item
         public void Rotate(Vector2Int tileSize)
         {
             rotated = !rotated;
+            
             _rectTransform.rotation = Quaternion.Euler(0, 0, rotated ?  90.0f : 0);
+            
+            _alertLabel.rectTransform.localRotation = Quaternion.Euler(0, 0, rotated ?  -90.0f : 0);
             _quantityBackground.rectTransform.localRotation = Quaternion.Euler(0, 0, rotated ? -90.0f : 0);
             _quantityBackground.rectTransform.anchoredPosition = rotated
                 ? Vector3.left * (tileSize.x * inventoryItemSO.size.x)
@@ -155,10 +167,54 @@ namespace UI.Inventory.Inventory_Item
         {
             return item ? item : item = Instantiate(inventoryItemSO.prefab, Vector3.zero, Quaternion.identity);
         }
-        
-        public void RefreshVisual()
+
+        public void Alert(InventoryItemAlertSO itemAlertSO)
         {
-            UpdateQuantityText(quantity);
+            _alertCts?.Cancel();
+            _alertCts?.Dispose();
+    
+            _alertCts = new CancellationTokenSource();
+            
+            _alertLabel.enabled = true;
+            _alertLabel.sprite = itemAlertSO.sprite;
+                
+            AlertFlashAsync(itemAlertSO.fadeSpeed, itemAlertSO.duration, _alertCts.Token).Forget();
+        }
+
+        public void HideAlert()
+        {
+            _alertLabel.enabled = false;
+        }
+        
+        private async UniTaskVoid AlertFlashAsync(float fadeSpeed, float duration, CancellationToken ct)
+        {
+            if (!_alertLabel)
+                return;
+
+            float halfFadeSpeed = fadeSpeed * 0.5f;
+
+            await FadeAlpha(0f, 1f, halfFadeSpeed, ct);
+            await UniTask.WaitForSeconds(duration, cancellationToken: ct);
+            await FadeAlpha(1f, 0f, halfFadeSpeed, ct);
+        }
+
+        private async UniTask FadeAlpha(float from, float to, float time, CancellationToken ct)
+        {
+            if (ct.IsCancellationRequested)
+                return;
+
+            float t = 0f;
+            var baseColor = _alertLabel.color;
+
+            while (t < time)
+            {
+                t += Time.deltaTime;
+                float alpha = Mathf.Lerp(from, to, t / time);
+                _alertLabel.color = new Color(baseColor.r, baseColor.g, baseColor.b, alpha);
+                await UniTask.Yield(ct);
+            }
+
+            _alertLabel.color = new Color(baseColor.r, baseColor.g, baseColor.b, to);
         }
     }
 }

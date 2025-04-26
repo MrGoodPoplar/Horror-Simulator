@@ -48,13 +48,15 @@ namespace UI.Hotkey_Prompts
             Player.Instance.HUDController.OnHUDStateChanged -= OnHUDStateChangedPerformed;
         }
 
-        private void OnHUDStateChangedPerformed(bool state)
+        private bool OnHUDStateChangedPerformed(bool state)
         {
             if (!state)
             {
                 ForgetActions();
                 RefreshPromptLayout().Forget();
             }
+
+            return true;
         }
 
         private async void Update()
