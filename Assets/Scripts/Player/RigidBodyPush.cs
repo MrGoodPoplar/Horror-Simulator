@@ -9,6 +9,8 @@ public class RigidBodyPush : MonoBehaviour
     
     private FirstPersonController _firstPersonController;
     private CapsuleCollider _capsuleCollider;
+    private float _heightOffset;
+    private Vector3 _centerOffset;
     
     private void Awake()
     {
@@ -18,12 +20,15 @@ public class RigidBodyPush : MonoBehaviour
     private void Start()
     {
         _firstPersonController = Player.Instance.firstPersonController;
+        
+        _heightOffset = _capsuleCollider.height - _firstPersonController.height;
+        _centerOffset = _capsuleCollider.center - _firstPersonController.center;
     }
 
     private void Update()
     {
-        _capsuleCollider.height = _firstPersonController.height;
-        _capsuleCollider.center = _firstPersonController.characterControllerCenter;
+        _capsuleCollider.height = _firstPersonController.height + _heightOffset;
+        _capsuleCollider.center = _firstPersonController.characterControllerCenter + _centerOffset;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -41,9 +46,12 @@ public class RigidBodyPush : MonoBehaviour
         if (body == null || body.isKinematic)
             return false;
 
-        Vector3 moveDirection = new Vector3(_firstPersonController.moveDirection.x, 0.0f, _firstPersonController.moveDirection.z).normalized;
+        Vector3 moveInput = new Vector3(_firstPersonController.moveDirection.x, 0, _firstPersonController.moveDirection.z);
+        Vector3 pushDirection = moveInput.sqrMagnitude > 0.1f 
+            ? moveInput.normalized 
+            : new Vector3(transform.forward.x, 0, transform.forward.z).normalized;
 
-        body.AddForce(moveDirection * strength, ForceMode.Impulse);
+        body.AddForce(pushDirection * strength, ForceMode.Impulse);
 
         return true;
     }

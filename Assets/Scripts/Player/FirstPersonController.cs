@@ -22,6 +22,7 @@ public class FirstPersonController : MonoBehaviour, IMoveable
     public float speedHorizontal => GetSpeed(new Vector3(_characterController.velocity.x, 0, _characterController.velocity.z));
     public float speedVertical => GetSpeed(new Vector3(0, _characterController.velocity.y, 0));
     public float height => _characterController.height;
+    public Vector3 center => _characterController.center;
     public Vector3 characterControllerCenter => _characterController.center;
     public Vector3 moveDirection => _moveDirection;
 
