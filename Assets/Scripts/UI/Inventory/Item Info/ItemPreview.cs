@@ -1,32 +1,30 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
-using UI.Inventory;
 using UI.Inventory.Inventory_Item;
 using UI.Inventory.Item_Preview;
 using UnityEngine;
 
-namespace UI
+namespace UI.Inventory.Item_Info
 {
     public class ItemPreview : MonoBehaviour
     {
+        [SerializeField] private ItemPreviewData _defaultPreviewData;
         [SerializeField] private Vector3 _rotationSpeed = new (0f, 30f, 0f);
         [SerializeField] private LayerMask _uiLayer;
         
-        private InventoryItem _currentItem;
-        private InventoryController _inventoryController;
         private GameObject _currentPreviewObj;
-        private Dictionary<InventoryItemSO, GameObject> _previewDataCache;
+        private Dictionary<ItemPreviewData, GameObject> _previewDataCache;
 
         private void Start()
         {
-            _inventoryController = Player.Instance.inventoryController;
             _previewDataCache = new();
+            
+            _currentPreviewObj = CreateNewPreviewObj(_defaultPreviewData);
         }
         
         private void Update()
         {
-            HandleRotation();
-            HandleRefreshment();
+            if (_currentPreviewObj)
+                HandleRotation();
         }
 
         private void HandleRotation()
@@ -34,47 +32,35 @@ namespace UI
             transform.Rotate(_rotationSpeed * Time.deltaTime);
         }
 
-        private void HandleRefreshment()
-        {
-            if (GetCurrentItem() != _currentItem)
-            {
-                _currentItem = GetCurrentItem();
-                RefreshInfoPanel();
-            }
-        }
-
-        [CanBeNull]
-        private InventoryItem GetCurrentItem()
-        {
-            return _inventoryController.selectedItem ?? _inventoryController.onHoverInventoryItem;
-        }
-
-        private void RefreshInfoPanel()
+        public void RefreshInfoPanel(InventoryItem inventoryItem = null)
         {
             _currentPreviewObj?.SetActive(false);
-            _currentPreviewObj = null;
-            
-            if (_currentItem)
+
+            if (inventoryItem)
             {
-                if (!_previewDataCache.TryGetValue(_currentItem.inventoryItemSO, out GameObject previewObj))
-                    previewObj = CreateNewPreviewObj(_currentItem.inventoryItemSO);
+                if (!_previewDataCache.TryGetValue(inventoryItem.inventoryItemSO.previewData, out GameObject previewObj))
+                    previewObj = CreateNewPreviewObj(inventoryItem.inventoryItemSO.previewData);
 
                 _currentPreviewObj = previewObj;
-                _currentPreviewObj.SetActive(true);
             }
+            else
+            {
+                _currentPreviewObj = _previewDataCache[_defaultPreviewData];
+            }
+            
+            _currentPreviewObj.SetActive(true);
         }
 
-        private GameObject CreateNewPreviewObj(InventoryItemSO inventoryItemSO)
+        private GameObject CreateNewPreviewObj(ItemPreviewData previewData)
         {
-            ItemPreviewData previewData = inventoryItemSO.previewData;
             GameObject previewObj = Instantiate(previewData.prefab, transform);
             
             previewObj.transform.localScale = previewData.scale;
-            previewObj.transform.localRotation = previewData.rotation;
+            previewObj.transform.localRotation = Quaternion.Euler(previewData.rotation);
             
             SetLayerRecursively(previewObj, Mathf.RoundToInt(Mathf.Log(_uiLayer.value, 2)));
             
-            _previewDataCache.Add(inventoryItemSO, previewObj);
+            _previewDataCache.Add(previewData, previewObj);
             
             return previewObj;
         }

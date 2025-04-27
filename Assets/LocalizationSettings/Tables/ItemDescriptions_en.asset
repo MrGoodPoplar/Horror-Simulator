@@ -10,32 +10,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
-  m_Name: ItemNames_en
+  m_Name: ItemDescriptions_en
   m_EditorClassIdentifier: 
   m_LocaleId:
     m_Code: en
-  m_SharedData: {fileID: 11400000, guid: 5ec60af363f68624abb221b4be7de683, type: 2}
+  m_SharedData: {fileID: 11400000, guid: dd453d859063c864eb7967643ab276cf, type: 2}
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 310314807296
-    m_Localized: Revolver
+  - m_Id: 228883406848
+    m_Localized: Just an italian bread.
     m_Metadata:
       m_Items: []
-  - m_Id: 340455075840
-    m_Localized: .357 mag round
+  - m_Id: 231404183552
+    m_Localized: Just a honey oat bread.
     m_Metadata:
       m_Items: []
-  - m_Id: 58609239878508544
-    m_Localized: Parmesan oregano
+  - m_Id: 233841074176
+    m_Localized: Just a parmesan oregano bread.
     m_Metadata:
       m_Items: []
-  - m_Id: 58609237517115392
-    m_Localized: Honey oat
+  - m_Id: 172738453504
+    m_Localized: A fancy bullet!
     m_Metadata:
       m_Items: []
-  - m_Id: 58609235260579840
-    m_Localized: Italian
+  - m_Id: 13539450880
+    m_Localized: Hits hard.
     m_Metadata:
       m_Items: []
   references:
