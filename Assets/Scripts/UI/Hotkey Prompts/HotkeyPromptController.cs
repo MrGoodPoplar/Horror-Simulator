@@ -111,7 +111,7 @@ namespace UI.Hotkey_Prompts
 
                 if (!spritePreference.IsUnityNull())
                 {
-                    HotkeyPrompt hotkeyPrompt = Instantiate(_hotkeyPromptPrefab, transform, true);
+                    HotkeyPrompt hotkeyPrompt = Instantiate(_hotkeyPromptPrefab, transform);
                     hotkeyPrompt.SetPreferences(spritePreference.sprite, spritePreference.scale, itemAction.actionName);
                     itemAction.Activate();
                     
