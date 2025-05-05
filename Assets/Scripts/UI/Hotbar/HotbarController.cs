@@ -30,16 +30,21 @@ namespace UI.Hotbar
             _holdingItemController = Player.Instance.holdingItemController;
             
             Player.Instance.interactController.OnInteract += InteractControllerOnInteractPerformed;
+            Player.Instance.inventoryController.OnStateChanged += InventoryControllerOnStateChanged;
         }
 
         private void OnDestroy()
         {
             UnsubscribeFromHotkeys();
+            
+            Player.Instance.interactController.OnInteract -= InteractControllerOnInteractPerformed;
+            Player.Instance.inventoryController.OnStateChanged -= InventoryControllerOnStateChanged;
         }
 
         private void OnEnable()
         {
-            SubscribeToHotkeys();
+            if (Player.Instance.inventoryController.state)
+                SubscribeToHotkeys();
         }
 
         private void OnDisable()
@@ -149,6 +154,20 @@ namespace UI.Hotbar
                         _holdingItemController.TakeAsync(holdable).Forget();
                     }
                 }
+            }
+        }
+        
+        private void InventoryControllerOnStateChanged(bool state)
+        {
+            Debug.Log($"Toggle: {state}");
+            if (!state)
+            {
+                _holdingItemController.HideAsync().Forget();
+                UnsubscribeFromHotkeys();
+            }
+            else
+            {
+                SubscribeToHotkeys();
             }
         }
     }

@@ -159,6 +159,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: '[interact] Change Clothes'
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 55
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: -0.00078174047, y: 1.2010956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62c0fc92b4eec064aaac0a71a1b88768
+      internalID: -2050890155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -171,6 +192,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       '[Interact] Grab': -32446750
+      '[interact] Change Clothes': -2050890155
       '[interact] Circle': 1636686989
       '[interact] Open Box': 779982464
       '[interact] Open Door': -1953799632

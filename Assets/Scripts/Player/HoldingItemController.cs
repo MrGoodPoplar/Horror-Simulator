@@ -36,7 +36,7 @@ public class HoldingItemController : MonoBehaviour
     
     public async UniTask HideAsync()
     {
-        if (_inProcess)
+        if (_inProcess || !currentHoldable)
             return;
 
         _inProcess = true;

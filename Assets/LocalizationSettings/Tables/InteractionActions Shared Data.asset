@@ -27,6 +27,10 @@ MonoBehaviour:
     m_Key: grab
     m_Metadata:
       m_Items: []
+  - m_Id: 84661518607818752
+    m_Key: change_clothes
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

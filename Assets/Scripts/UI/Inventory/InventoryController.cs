@@ -1,10 +1,9 @@
+using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UI.Inventory.Inventory_Item;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
-using Random = UnityEngine.Random;
 
 namespace UI.Inventory
 {
@@ -18,22 +17,26 @@ namespace UI.Inventory
         [SerializeField] private InventoryItemHighlight _itemHighlight;
         [SerializeField] private ItemGrid _inventoryItemGrid;
         [SerializeField] private GrabOnlyItemGrid _tempInventoryItemGrid;
-        [SerializeField] private Transform _itemDragParent;
         [SerializeField] private InventoryItemAlertSO _itemAlertSO;
+        [SerializeField] private Transform _itemDragParent;
+        [SerializeField] private Transform _inventoryContainer;
 
+        public event Action<bool> OnStateChanged;
+        
         public InventoryItem selectedItem => _selectedItem;
         public InventoryItem onHoverInventoryItem { get; private set; }
+        public bool state { get; private set; }
 
         private RectTransform _canvasRect;
         private Camera _uiCamera;
         private ItemGrid _currentItemGrid;
         private InventoryItem _selectedItem;
         private InventoryItem _overlappedItem;
-        
+
         private Vector2Int _positionOnGrid;
         private Vector2Int _tileSize;
         private bool _selectedItemPosUpdated;
-        
+
         private void Start()
         {
             _playerInput.OnClick += OnClickPerformed;
@@ -46,6 +49,8 @@ namespace UI.Inventory
 
             _uiCamera = _canvas.worldCamera;
             _canvasRect = _canvas.GetComponent<RectTransform>();
+            
+            ToggleInventory(state);
         }
 
         private void OnDestroy()
@@ -61,6 +66,11 @@ namespace UI.Inventory
         {
             HandleItemHighlight();
             HandleItemDrag();
+
+            if (Input.GetKeyDown(KeyCode.Y))
+            {
+                ToggleInventory(!state);
+            }
         }
 
         public InventoryItem TryStackItem(string guid, ItemGrid itemGrid, ref int quantity)
@@ -110,8 +120,12 @@ namespace UI.Inventory
             return itemGrid.RemoveInventoryItem(inventoryItemSO.guid, quantity);
         }
         
+        [CanBeNull]
         private InventoryItem InsertItemToInventory(InventoryItemSO inventoryItemSO, int quantity, bool isTempInventory = false)
         {
+            if (!state)
+                return null;
+            
             var itemGrid = isTempInventory ? _tempInventoryItemGrid : _inventoryItemGrid;
             Vector2Int? freeSlot = itemGrid.FindFreeSlotForItem(inventoryItemSO.size);
             bool rotated = false;
@@ -347,6 +361,9 @@ namespace UI.Inventory
 
         public int GetItemCountInInventory(InventoryItemSO inventoryItemSO, bool isTempInventory = false)
         {
+            if (!state)
+                return 0;
+            
             ItemGrid itemGrid = isTempInventory ? _tempInventoryItemGrid : _inventoryItemGrid;
             return itemGrid.CountItem(inventoryItemSO.guid);
         }
@@ -364,6 +381,17 @@ namespace UI.Inventory
         public bool IsOnHoverGridMain()
         {
             return _currentItemGrid == _inventoryItemGrid;
+        }
+
+        public void ToggleInventory(bool toggle)
+        {
+            if (Player.Instance.HUDController.isHUDView)
+                return;
+            
+            OnStateChanged?.Invoke(toggle);
+            
+            state = toggle;
+            _inventoryContainer.gameObject.SetActive(toggle);
         }
     }
 }
