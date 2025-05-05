@@ -15,6 +15,10 @@ MonoBehaviour:
   <textureSounds>k__BackingField:
   - texture: {fileID: 2800000, guid: 3a16702fb9855d349848ca2d89b8279e, type: 3}
     ignoreStepSound: 0
+  - texture: {fileID: 2800000, guid: c1e31f06e1b1af846b89de284d596cac, type: 3}
+    ignoreStepSound: 0
+  - texture: {fileID: 2800000, guid: b63b9e4bfa55c384ca835bfd92806a07, type: 3}
+    ignoreStepSound: 0
   <surfaceImpactSound>k__BackingField:
     bulletImpactSounds:
       spatialBlend: 1
