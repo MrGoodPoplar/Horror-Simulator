@@ -17,6 +17,7 @@ public class HUDController : MonoBehaviour
         _playerInput = _player.playerInput;
         
         _playerInput.OnOpenHUD += OnOpenHUDPerformed;
+        _playerInput.OnCancel += OnCancelPerformed;
         
         ToggleHUDView(isHUDView);
     }
@@ -35,6 +36,11 @@ public class HUDController : MonoBehaviour
     private void OnOpenHUDPerformed()
     {
         ToggleHUDView(!isHUDView);
+    }
+
+    private void OnCancelPerformed()
+    {
+        ToggleHUDView(false);
     }
 
     public void ToggleHUDView(bool toggle)

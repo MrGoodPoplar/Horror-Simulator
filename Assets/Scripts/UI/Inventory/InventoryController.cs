@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UI.Inventory.Inventory_Item;
+using UI.Inventory.Item_Info;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -17,15 +18,15 @@ namespace UI.Inventory
         [SerializeField] private InventoryItemHighlight _itemHighlight;
         [SerializeField] private ItemGrid _inventoryItemGrid;
         [SerializeField] private GrabOnlyItemGrid _tempInventoryItemGrid;
-        [SerializeField] private InventoryItemAlertSO _itemAlertSO;
         [SerializeField] private Transform _itemDragParent;
         [SerializeField] private Transform _inventoryContainer;
+        [SerializeField] private Alert _inventoryItemWarning;
 
         public event Action<bool> OnStateChanged;
         
         public InventoryItem selectedItem => _selectedItem;
         public InventoryItem onHoverInventoryItem { get; private set; }
-        public bool state { get; private set; }
+        public bool state { get; private set; } = true; // Debug true
 
         private RectTransform _canvasRect;
         private Camera _uiCamera;
@@ -49,6 +50,7 @@ namespace UI.Inventory
 
             _uiCamera = _canvas.worldCamera;
             _canvasRect = _canvas.GetComponent<RectTransform>();
+            _inventoryItemWarning = Instantiate(_inventoryItemWarning);
             
             ToggleInventory(state);
         }
@@ -67,10 +69,9 @@ namespace UI.Inventory
             HandleItemHighlight();
             HandleItemDrag();
 
+            // Debug
             if (Input.GetKeyDown(KeyCode.Y))
-            {
                 ToggleInventory(!state);
-            }
         }
 
         public InventoryItem TryStackItem(string guid, ItemGrid itemGrid, ref int quantity)
@@ -333,7 +334,7 @@ namespace UI.Inventory
 
         private void SetSelectedItem(InventoryItem inventoryItem, bool posUpdated = false)
         {
-            _selectedItem?.HideAlert();
+            _inventoryItemWarning.Hide();
 
             _selectedItem = inventoryItem;
             _selectedItemPosUpdated = posUpdated;
@@ -352,6 +353,8 @@ namespace UI.Inventory
 
             _selectedItemPosUpdated = true;
             _selectedItem.Rotate(_tileSize);
+            
+            _inventoryItemWarning.Rotate(Quaternion.Euler(0, 0, _selectedItem.rotated ?  -90.0f : 0));
         }
 
         public bool ItemExistsInTempInventory(InventoryItemSO inventoryItemSO)
@@ -373,7 +376,7 @@ namespace UI.Inventory
             if (state || _selectedItem.IsUnityNull())
                 return true;
 
-            _selectedItem.Alert(_itemAlertSO);
+            _inventoryItemWarning.Perform(_selectedItem.transform, Quaternion.Euler(0, 0, _selectedItem.rotated ?  -90.0f : 0));
             
             return false;
         }

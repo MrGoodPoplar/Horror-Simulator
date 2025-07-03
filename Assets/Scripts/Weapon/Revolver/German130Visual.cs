@@ -82,7 +82,7 @@ public class German130Visual : MonoBehaviour, IReloadHandler
         _shooterController.OnFire += OnFirePerformed;
         _shooterController.OnDryFire += OnDryFirePerformed;
         
-        _playerInput.OnOpenHUD += OnOpenHudPerformed;
+        Player.Instance.HUDController.OnHUDStateChanged += OnOpenHudPerformed;
         
         Player.Instance.playerInput.OnFire += OnInputFirePerformed;
         
@@ -98,8 +98,8 @@ public class German130Visual : MonoBehaviour, IReloadHandler
         _shooterController.OnFire -= OnFirePerformed;
         _shooterController.OnDryFire -= OnDryFirePerformed;
 
-        _playerInput.OnOpenHUD -= OnOpenHudPerformed;
-        
+        Player.Instance.HUDController.OnHUDStateChanged -= OnOpenHudPerformed;
+
         Player.Instance.playerInput.OnFire -= OnInputFirePerformed;
         
         _german130.OnHide -= InterruptReloadAnimationAsync;
@@ -338,7 +338,11 @@ public class German130Visual : MonoBehaviour, IReloadHandler
     
     private void OnInputFirePerformed() => InterruptReloadAnimation();
 
-    private void OnOpenHudPerformed() => InterruptReloadAnimation();
+    private bool OnOpenHudPerformed(bool toggle)
+    {
+        InterruptReloadAnimation();
+        return true;
+    }
 
     private void InterruptReloadAnimation() => _reloadingInterrupted = true;
     

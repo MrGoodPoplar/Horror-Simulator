@@ -620,9 +620,10 @@ MonoBehaviour:
   _itemHighlight: {fileID: 1327131422}
   _inventoryItemGrid: {fileID: 1437946902}
   _tempInventoryItemGrid: {fileID: 1812078134}
-  _itemAlertSO: {fileID: 11400000, guid: 514b543fde278924d8e46beeab772b2a, type: 2}
   _itemDragParent: {fileID: 1157878299}
   _inventoryContainer: {fileID: 1358043304}
+  _inventoryItemWarning: {fileID: -669101353004629520, guid: b52e1f6eb09b888439ade8220aab08b3,
+    type: 3}
 --- !u!1 &99193196 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: cef8128df378dad4ca6d2339952468db,
@@ -1552,7 +1553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61ca1ccf7d335eb4397f7ac9eadeac2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <holdDuration>k__BackingField: 0
+  <holdDuration>k__BackingField: 0.5
   <spriteAlignment>k__BackingField: 0
   _interactableVisualSO: {fileID: 11400000, guid: d44589a2d9e25f94d986e85ce7fbea32,
     type: 2}

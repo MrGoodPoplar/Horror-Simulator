@@ -9,16 +9,15 @@ public class InventoryTogglerInteractable : MonoBehaviour, IInteractable
     [SerializeField] private InteractableVisualSO _interactableVisualSO;
 
     private InventoryController _inventoryController;
-    private bool _inventoryToggle = true;
     
     private void Start()
     {
         _inventoryController = Player.Instance.inventoryController;
     }
-
+    
     public InteractionResponse Interact()
     {
-        _inventoryController.ToggleInventory(!_inventoryToggle);
+        _inventoryController.ToggleInventory(!_inventoryController.state);
         return new();
     }
 

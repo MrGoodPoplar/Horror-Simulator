@@ -18,6 +18,7 @@ public class PlayerInput : MonoBehaviour
     public event Action OnClick;
     public event Action OnRotate;
     public event Action OnOpenHUD;
+    public event Action OnCancel;
     
     private PlayerInputActions _playerInputActions;
     
@@ -35,7 +36,9 @@ public class PlayerInput : MonoBehaviour
         _playerInputActions.Player.Interact.canceled += OnInteractCanceledPerfomed;
         _playerInputActions.Player.Click.performed += OnClickPerformed;
         _playerInputActions.Player.Rotate.performed += OnRotatePerformed;
-        _playerInputActions.Player.OpenHUD.performed += OnOpenHUDPerfmormed;
+        _playerInputActions.Player.OpenHUD.performed += OnOpenHUDPerformed;
+        
+        _playerInputActions.UI.Cancel.performed += OnCancelPerformed;
         
         _playerInputActions.Enable();
     }
@@ -49,8 +52,10 @@ public class PlayerInput : MonoBehaviour
         _playerInputActions.Player.Interact.canceled += OnInteractCanceledPerfomed;
         _playerInputActions.Player.Click.performed -= OnClickPerformed;
         _playerInputActions.Player.Rotate.performed -= OnRotatePerformed;
-        _playerInputActions.Player.OpenHUD.performed -= OnOpenHUDPerfmormed;
-
+        _playerInputActions.Player.OpenHUD.performed -= OnOpenHUDPerformed;
+        
+        _playerInputActions.UI.Cancel.performed -= OnCancelPerformed;
+        
         _playerInputActions.Disable();
     }
 
@@ -104,8 +109,13 @@ public class PlayerInput : MonoBehaviour
         OnRotate?.Invoke();
     }
     
-    private void OnOpenHUDPerfmormed(InputAction.CallbackContext obj)
+    private void OnOpenHUDPerformed(InputAction.CallbackContext obj)
     {
         OnOpenHUD?.Invoke();
+    }
+    
+    private void OnCancelPerformed(InputAction.CallbackContext obj)
+    {
+        OnCancel?.Invoke();
     }
 }
